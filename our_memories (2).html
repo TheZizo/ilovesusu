@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Memories</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Adding FontAwesome for our icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .serif-font { font-family: 'Playfair Display', serif; }
+        .glass-panel { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.5); }
+        .polaroid { 
+            background: white; 
+            padding: 1rem 1rem 3.5rem 1rem; 
+            border-radius: 0.5rem; 
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); 
+            transition: transform 0.3s ease; 
+        }
+    </style>
+</head>
+<body class="bg-rose-50 text-gray-800 antialiased selection:bg-rose-200 selection:text-rose-900 relative">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-40 p-4 transition-all duration-300" id="navbar">
+        <div class="max-w-5xl mx-auto glass-panel rounded-full px-6 py-3 flex justify-between items-center shadow-sm">
+            <span class="serif-font font-bold text-xl text-rose-900">Z & S</span>
+            <div class="space-x-4 md:space-x-8 text-sm font-medium text-rose-800 hidden md:block">
+                <a href="#countdown-section" class="hover:text-rose-500 transition">The Countdown</a>
+                <a href="#gallery-section" class="hover:text-rose-500 transition">Memories</a>
+                <a href="#letters-section" class="hover:text-rose-500 transition">Open When</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="countdown-section" class="min-h-screen flex flex-col items-center justify-center text-center px-4 relative pt-20">
+        <h1 class="text-5xl md:text-7xl font-semibold text-rose-950 mb-6 serif-font">Distance is temporary.</h1>
+        <p class="text-xl md:text-2xl text-rose-800/80 max-w-2xl font-light mb-12">
+            No matter how many miles are between us, these moments keep us together.
+        </p>
+        
+        <!-- Countdown Timer -->
+        <div class="glass-panel p-8 rounded-3xl shadow-sm w-full max-w-2xl">
+            <h3 class="text-sm uppercase tracking-widest text-rose-500 font-semibold mb-6 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-plane-arrival"></i> Time until I see you next
+            </h3>
+            <div id="countdown" class="flex gap-4 sm:gap-8 text-center justify-center">
+                <div class="flex flex-col"><span class="text-5xl md:text-6xl font-semibold text-rose-950" id="days">00</span><span class="text-xs text-rose-600/70 uppercase mt-2 font-medium tracking-wider">Days</span></div>
+                <span class="text-4xl md:text-5xl font-semibold text-rose-950/30 mt-1">:</span>
+                <div class="flex flex-col"><span class="text-5xl md:text-6xl font-semibold text-rose-950" id="hours">00</span><span class="text-xs text-rose-600/70 uppercase mt-2 font-medium tracking-wider">Hours</span></div>
+                <span class="text-4xl md:text-5xl font-semibold text-rose-950/30 mt-1">:</span>
+                <div class="flex flex-col"><span class="text-5xl md:text-6xl font-semibold text-rose-950" id="minutes">00</span><span class="text-xs text-rose-600/70 uppercase mt-2 font-medium tracking-wider">Mins</span></div>
+            </div>
+        </div>
+
+        <!-- Dual Timezone Sync -->
+        <div class="mt-12 flex flex-wrap justify-center gap-6">
+            <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-3 shadow-sm">
+                <i class="fa-regular fa-clock text-rose-500"></i>
+                <div>
+                    <p class="text-xs text-rose-800/70 uppercase tracking-wide">My Time (Home)</p>
+                    <p class="font-semibold text-rose-950" id="time-home">--:--</p>
+                </div>
+            </div>
+            <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-3 shadow-sm">
+                <i class="fa-solid fa-location-dot text-rose-500"></i>
+                <div>
+                    <p class="text-xs text-rose-800/70 uppercase tracking-wide">Her Time (Maine)</p>
+                    <p class="font-semibold text-rose-950" id="time-away">--:--</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Memory Gallery -->
+    <section id="gallery-section" class="max-w-6xl mx-auto px-4 py-24">
+        <h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-16 serif-font">Our Favorite Chapters</h2>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8 px-4 md:px-10">
+            
+            <!-- Memory 1 -->
+            <div class="polaroid transform rotate-[-3deg] cursor-pointer" onclick="cycleMemory1()" title="Tap to flip through photos!">
+                <div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group relative">
+                    <!-- Icon indicating multiple photos -->
+                    <div class="absolute top-3 right-3 bg-white/70 backdrop-blur-md rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-sm transition group-hover:scale-110">
+                        <i class="fa-solid fa-layer-group text-rose-600 text-sm"></i>
+                    </div>
+                    <!-- Photo Image tag -->
+                    <img id="memory-1-img" src="WhatsApp Image 2026-06-01 at 10.20.23 PM (1).jpeg" onerror="this.src='https://placehold.co/600x750/fdf2f8/9f1239?text=Tap+to+cycle'" alt="Memory 1" class="w-full h-full object-cover transition-all duration-300 group-hover:scale-110">
+                </div>
+                <div class="absolute bottom-4 w-full left-0 px-4 text-center">
+                    <p class="serif-font text-xl text-gray-800 font-semibold">The Day It All Started</p>
+                    <p class="text-xs text-gray-500 mt-1">not bad for a morrisson's hookup hehe</p>
+                </div>
+            </div>
+
+            <!-- Memory 2 -->
+            <div class="polaroid transform rotate-[2deg] mt-8 lg:mt-12">
+                <div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
+                    <img src="photo2.jpg" onerror="this.src='https://placehold.co/600x750/fff1f2/9f1239?text=Save+photo2.jpg+here'" alt="Memory 2" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                </div>
+                <div class="absolute bottom-4 w-full left-0 px-4 text-center">
+                    <p class="serif-font text-xl text-gray-800 font-semibold">Summer Getaway</p>
+                    <p class="text-xs text-gray-500 mt-1">Getting lost in the city</p>
+                </div>
+            </div>
+
+            <!-- Memory 3 -->
+            <div class="polaroid transform rotate-[-1deg]">
+                <div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
+                    <img src="photo3.jpg" onerror="this.src='https://placehold.co/600x750/ffe4e6/9f1239?text=Save+photo3.jpg+here'" alt="Memory 3" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                </div>
+                <div class="absolute bottom-4 w-full left-0 px-4 text-center">
+                    <p class="serif-font text-xl text-gray-800 font-semibold">Co-op Champions</p>
+                    <p class="text-xs text-gray-500 mt-1">Beating our high score</p>
+                </div>
+            </div>
+
+            <!-- Memory 4 -->
+            <div class="polaroid transform rotate-[3deg] sm:mt-12 lg:mt-0">
+                <div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
+                    <img src="photo4.jpg" onerror="this.src='https://placehold.co/600x750/fce7f3/9f1239?text=Save+photo4.jpg+here'" alt="Memory 4" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                </div>
+                <div class="absolute bottom-4 w-full left-0 px-4 text-center">
+                    <p class="serif-font text-xl text-gray-800 font-semibold">Anniversary Dinner</p>
+                    <p class="text-xs text-gray-500 mt-1">Our favorite spot</p>
+                </div>
+            </div>
+
+            <!-- Memory 5 -->
+            <div class="polaroid transform rotate-[-2deg] mt-8 lg:mt-12">
+                <div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
+                    <img src="photo5.jpg" onerror="this.src='https://placehold.co/600x750/fbcfe8/9f1239?text=Save+photo5.jpg+here'" alt="Memory 5" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                </div>
+                <div class="absolute bottom-4 w-full left-0 px-4 text-center">
+                    <p class="serif-font text-xl text-gray-800 font-semibold">Lazy Sunday</p>
+                    <p class="text-xs text-gray-500 mt-1">Doing absolutely nothing</p>
+                </div>
+            </div>
+
+            <!-- Memory 6 -->
+            <div class="polaroid transform rotate-[1deg] mt-4 lg:-mt-4">
+                <div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
+                    <img src="photo6.jpg" onerror="this.src='https://placehold.co/600x750/f8bbd0/9f1239?text=Save+photo6.jpg+here'" alt="Memory 6" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                </div>
+                <div class="absolute bottom-4 w-full left-0 px-4 text-center">
+                    <p class="serif-font text-xl text-gray-800 font-semibold">The Long Goodbye</p>
+                    <p class="text-xs text-gray-500 mt-1">See you soon</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Open When Letters Section -->
+    <section id="letters-section" class="max-w-4xl mx-auto px-4 py-24 border-t border-rose-100">
+        <h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-4 serif-font">Open When...</h2>
+        <p class="text-center text-rose-800/80 mb-12 font-light">Little reminders for when I can't be right there with you.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <!-- Letter 1 -->
+            <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group" onclick="openLetter('miss-me')">
+                <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
+                <h3 class="font-semibold text-rose-900">...you miss me</h3>
+            </div>
+            <!-- Letter 2 -->
+            <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group" onclick="openLetter('bad-day')">
+                <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
+                <h3 class="font-semibold text-rose-900">...you're having a bad day</h3>
+            </div>
+            <!-- Letter 3 -->
+            <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group" onclick="openLetter('cant-sleep')">
+                <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
+                <h3 class="font-semibold text-rose-900">...you can't sleep</h3>
+            </div>
+            <!-- Letter 4 -->
+            <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group" onclick="openLetter('proud')">
+                <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
+                <h3 class="font-semibold text-rose-900">...you need to know how proud I am</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for Letters -->
+    <div id="letter-modal" class="fixed inset-0 bg-rose-950/40 backdrop-blur-sm z-50 hidden flex-col items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white p-8 md:p-12 rounded-2xl shadow-2xl max-w-lg w-full relative transform scale-95 transition-transform duration-300" id="letter-content">
+            <button onclick="closeLetter()" class="absolute top-4 right-4 text-gray-400 hover:text-rose-600 transition">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <h3 id="modal-title" class="serif-font text-2xl text-rose-900 mb-4 font-semibold border-b border-rose-100 pb-4">Title</h3>
+            <div id="modal-body" class="text-gray-700 leading-relaxed font-light whitespace-pre-line">
+                Message goes here...
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer message -->
+    <footer class="text-center py-12 text-rose-900/50">
+        <p>Built with ❤️</p>
+    </footer>
+
+    <!-- All Logic -->
+    <script>
+        // --- 1. CONFIGURATION ---
+        const reunionDate = new Date(2026, 7, 4, 12, 0, 0).getTime(); 
+        const homeTimezone = 'Europe/Budapest';
+        const awayTimezone = 'America/New_York';
+
+        // --- 2. COUNTDOWN LOGIC ---
+        const timer = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = reunionDate - now;
+
+            if (distance < 0) {
+                clearInterval(timer);
+                const cdElement = document.getElementById("countdown");
+                if(cdElement) cdElement.innerHTML = "I'm right here.";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+            const daysEl = document.getElementById("days");
+            const hoursEl = document.getElementById("hours");
+            const minsEl = document.getElementById("minutes");
+
+            if(daysEl) daysEl.innerText = days.toString().padStart(2, '0');
+            if(hoursEl) hoursEl.innerText = hours.toString().padStart(2, '0');
+            if(minsEl) minsEl.innerText = minutes.toString().padStart(2, '0');
+        }, 1000);
+
+        // --- 3. TIMEZONE LOGIC ---
+        function updateTimes() {
+            const now = new Date();
+            const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
+            
+            const homeStr = new Intl.DateTimeFormat('en-US', { ...timeOptions, timeZone: homeTimezone }).format(now);
+            const awayStr = new Intl.DateTimeFormat('en-US', { ...timeOptions, timeZone: awayTimezone }).format(now);
+            
+            const homeEl = document.getElementById('time-home');
+            const awayEl = document.getElementById('time-away');
+
+            if(homeEl) homeEl.innerText = homeStr;
+            if(awayEl) awayEl.innerText = awayStr;
+        }
+        setInterval(updateTimes, 1000);
+        updateTimes();
+
+        // --- 4. PHOTO STACK LOGIC ---
+        const stackedPhotos = [
+            "WhatsApp Image 2026-06-01 at 10.20.23 PM (1).jpeg",
+            "WhatsApp Image 2026-06-01 at 10.20.23 PM (2).jpeg",
+            "WhatsApp Image 2026-06-01 at 10.20.23 PM.jpeg"
+        ];
+        let currentPhotoIndex = 0;
+
+        window.cycleMemory1 = function() {
+            const imgElement = document.getElementById('memory-1-img');
+            if (!imgElement) return;
+            
+            currentPhotoIndex = (currentPhotoIndex + 1) % stackedPhotos.length;
+            
+            imgElement.style.opacity = 0.5;
+            setTimeout(() => {
+                imgElement.src = stackedPhotos[currentPhotoIndex];
+                imgElement.style.opacity = 1;
+            }, 150);
+        };
+
+        // --- 5. OPEN WHEN LETTERS LOGIC ---
+        const letterMessages = {
+            'miss-me': {
+                title: "Open when you miss me",
+                body: "I miss you too. More than words can say. But look at the countdown up top—every single second that ticks by is one second closer to me holding you again. Close your eyes, think of our favorite memory together, and know I'm thinking of you too."
+            },
+            'bad-day': {
+                title: "Open when you're having a bad day",
+                body: "Take a deep breath. You are incredibly strong, and this day doesn't define you. Whatever is stressing you out, we will figure it out together. Go get a sweet treat, put on some comfortable clothes, and remember I love you so much."
+            },
+            'cant-sleep': {
+                title: "Open when you can't sleep",
+                body: "I know it's late there in Maine and your mind is probably racing. Try to relax your shoulders and take a sip of water. I'm probably awake here in Debrecen starting my day, so send me a text! If I don't reply right away, just imagine my arms wrapped around you."
+            },
+            'proud': {
+                title: "Open when you need to know how proud I am",
+                body: "You are doing amazing things. Doing long distance isn't easy, but you handle it with such grace. I brag about you all the time. Keep going, my love. You've got this."
+            }
+        };
+
+        window.openLetter = function(id) {
+            const modal = document.getElementById('letter-modal');
+            const content = document.getElementById('letter-content');
+            
+            document.getElementById('modal-title').innerText = letterMessages[id].title;
+            document.getElementById('modal-body').innerText = letterMessages[id].body;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Small delay for smooth animation
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 10);
+        };
+
+        window.closeLetter = function() {
+            const modal = document.getElementById('letter-modal');
+            const content = document.getElementById('letter-content');
+            
+            modal.classList.add('opacity-0');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        };
+    </script>
+</body>
+</html>
