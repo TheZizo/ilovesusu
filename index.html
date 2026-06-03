@@ -10,15 +10,22 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         .serif-font { font-family: 'Playfair Display', serif; }
-        .glass-panel { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.5); }
-        .polaroid { 
-            background: white; 
-            padding: 1rem 1rem 3.5rem 1rem; 
-            border-radius: 0.5rem; 
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); 
-            transition: transform 0.3s ease; 
+        .glass-panel { background: rgba(255,255,255,0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.5); }
+
+        /* Polaroid */
+        .polaroid {
+            background: white;
+            padding: 1rem 1rem 3.5rem 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .polaroid:hover {
+            box-shadow: 0 20px 40px -8px rgba(0,0,0,0.18);
         }
 
+        /* Floating hearts */
         .heart-field {
             position: fixed;
             inset: 0;
@@ -26,56 +33,92 @@
             overflow: hidden;
             z-index: 0;
         }
-
         .floating-heart {
             position: absolute;
             bottom: -40px;
-            color: rgba(244, 63, 94, 0.18);
+            color: rgba(244, 63, 94, 0.2);
             animation: floatUp linear forwards;
             user-select: none;
         }
-
         @keyframes floatUp {
-            0% {
-                transform: translateY(0) scale(0.8) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-110vh) scale(1.2) rotate(20deg);
-                opacity: 0;
-            }
+            0%   { transform: translateY(0) scale(0.8) rotate(-5deg); opacity: 0; }
+            8%   { opacity: 1; }
+            100% { transform: translateY(-115vh) scale(1.15) rotate(15deg); opacity: 0; }
         }
 
-        .content-layer {
-            position: relative;
-            z-index: 1;
-        }
+        /* Content sits above hearts */
+        .content-layer { position: relative; z-index: 1; }
 
-        .mood-btn {
-            transition: all 0.25s ease;
+        /* Lightbox */
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(28, 8, 12, 0.75);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
-
-        .mood-btn:hover {
-            transform: translateY(-3px) scale(1.02);
+        #lightbox.open {
+            opacity: 1;
+            pointer-events: all;
         }
+        #lightbox-img {
+            max-width: 90vw;
+            max-height: 85vh;
+            border-radius: 0.75rem;
+            object-fit: contain;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        #lightbox.open #lightbox-img {
+            transform: scale(1);
+        }
+        #lightbox-close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        #lightbox-close:hover { background: rgba(255,255,255,0.3); }
 
-        .mood-btn.active {
-            background: rgba(251, 207, 232, 0.95);
-            border-color: rgba(244, 63, 94, 0.45);
-            box-shadow: 0 10px 20px rgba(244, 63, 94, 0.12);
-            transform: translateY(-2px);
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body class="bg-rose-50 text-gray-800 antialiased selection:bg-rose-200 selection:text-rose-900 relative">
 
-    <!-- Floating hearts background -->
+    <!-- Floating hearts -->
     <div class="heart-field" id="heart-field"></div>
 
     <div class="content-layer">
+
+        <!-- Nav -->
         <nav class="fixed top-0 w-full z-40 p-4 transition-all duration-300" id="navbar">
             <div class="max-w-5xl mx-auto glass-panel rounded-full px-6 py-3 flex justify-between items-center shadow-sm">
                 <span class="serif-font font-bold text-xl text-rose-900">Z & S</span>
@@ -87,14 +130,15 @@
             </div>
         </nav>
 
+        <!-- Hero / Countdown -->
         <header id="countdown-section" class="min-h-screen flex flex-col items-center justify-center text-center px-4 relative pt-20">
-            <h1 class="text-5xl md:text-7xl font-semibold text-rose-950 mb-6 serif-font">Distance is temporary.</h1>
-            <p class="text-xl md:text-2xl text-rose-800/80 max-w-2xl font-light mb-12">
+            <h1 class="text-5xl md:text-7xl font-semibold text-rose-950 mb-6 serif-font reveal">Distance is temporary.</h1>
+            <p class="text-xl md:text-2xl text-rose-800/80 max-w-2xl font-light mb-12 reveal" style="transition-delay:0.1s">
                 No matter how many miles are between us, these moments keep us together.
             </p>
             
             <!-- Countdown Timer -->
-            <div class="glass-panel p-6 md:p-8 rounded-3xl shadow-sm w-full max-w-3xl">
+            <div class="glass-panel p-6 md:p-8 rounded-3xl shadow-sm w-full max-w-3xl reveal" style="transition-delay:0.2s">
                 <h3 class="text-sm uppercase tracking-widest text-rose-500 font-semibold mb-6 flex items-center justify-center gap-2">
                     <i class="fa-solid fa-plane-arrival"></i> Time until I see you next
                 </h3>
@@ -109,19 +153,8 @@
                 </div>
             </div>
 
-            <!-- Days together -->
-            <div class="mt-6 glass-panel p-6 rounded-3xl shadow-sm w-full max-w-xl">
-                <h3 class="text-sm uppercase tracking-widest text-rose-500 font-semibold mb-4 flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-heart"></i> Days we've been together
-                </h3>
-                <div class="flex flex-col items-center justify-center">
-                    <span id="days-together" class="text-5xl md:text-6xl font-semibold text-rose-950">000</span>
-                    <span class="text-sm text-rose-700/80 mt-2">Since February 26, 2026</span>
-                </div>
-            </div>
-
-            <!-- Dual Timezone Sync -->
-            <div class="mt-12 flex flex-wrap justify-center gap-6">
+            <!-- Dual Timezone -->
+            <div class="mt-12 flex flex-wrap justify-center gap-6 reveal" style="transition-delay:0.3s">
                 <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-3 shadow-sm">
                     <i class="fa-regular fa-clock text-rose-500"></i>
                     <div>
@@ -137,49 +170,27 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Mood check-in -->
-            <div class="mt-8 glass-panel p-6 md:p-8 rounded-3xl shadow-sm w-full max-w-3xl">
-                <h3 class="text-sm uppercase tracking-widest text-rose-500 font-semibold mb-3 flex items-center justify-center gap-2">
-                    <i class="fa-regular fa-face-smile"></i> Mood check-in
-                </h3>
-                <p class="text-rose-800/80 mb-6 font-light">How are you feeling right now, baby?</p>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <button class="mood-btn glass-panel rounded-2xl p-4 text-center border border-transparent" onclick="selectMood('happy', 'Happy and thinking of you 💗', this)">
-                        <div class="text-3xl mb-2">😊</div>
-                        <div class="text-sm font-medium text-rose-900">Happy</div>
-                    </button>
-                    <button class="mood-btn glass-panel rounded-2xl p-4 text-center border border-transparent" onclick="selectMood('miss-you', 'Missing you extra hard 🥺', this)">
-                        <div class="text-3xl mb-2">🥺</div>
-                        <div class="text-sm font-medium text-rose-900">Miss you</div>
-                    </button>
-                    <button class="mood-btn glass-panel rounded-2xl p-4 text-center border border-transparent" onclick="selectMood('tired', 'A little tired, need love and cuddles 🤍', this)">
-                        <div class="text-3xl mb-2">😴</div>
-                        <div class="text-sm font-medium text-rose-900">Tired</div>
-                    </button>
-                    <button class="mood-btn glass-panel rounded-2xl p-4 text-center border border-transparent" onclick="selectMood('stressed', 'Feeling stressed, need my person 💌', this)">
-                        <div class="text-3xl mb-2">😣</div>
-                        <div class="text-sm font-medium text-rose-900">Stressed</div>
-                    </button>
-                </div>
-                <p id="mood-response" class="mt-5 text-rose-900 font-medium min-h-[24px]"></p>
-                <p class="text-xs text-rose-700/70 mt-3">
-                    Right now this only updates on her screen. If you want, I can turn this into a version that sends the mood to your email or stores it online.
-                </p>
-            </div>
         </header>
 
+        <!-- Memory Gallery -->
         <section id="gallery-section" class="max-w-6xl mx-auto px-4 py-24">
-            <h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-16 serif-font">Our Favorite Chapters</h2>
+            <h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-16 serif-font reveal">Our Favorite Chapters</h2>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8 px-4 md:px-10">
                 
-                <div class="polaroid transform rotate-[-3deg] cursor-pointer" onclick="cycleMemory1()" title="Tap to flip through photos!">
+                <!-- Memory 1 — cycling stack -->
+                <div class="polaroid transform rotate-[-3deg] reveal" style="transition-delay:0.05s"
+                     onclick="openLightbox('memory-1-img')"
+                     title="Click to view!">
                     <div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group relative">
                         <div class="absolute top-3 right-3 bg-white/70 backdrop-blur-md rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-sm transition group-hover:scale-110">
                             <i class="fa-solid fa-layer-group text-rose-600 text-sm"></i>
                         </div>
-                        <img id="memory-1-img" src="WhatsApp Image 2026-06-01 at 10.20.23 PM (1).jpeg" onerror="this.src='https://placehold.co/600x750/fdf2f8/9f1239?text=Tap+to+cycle'" alt="Memory 1" class="w-full h-full object-cover transition-all duration-300 group-hover:scale-110">
+                        <img id="memory-1-img"
+                             src="WhatsApp Image 2026-06-01 at 10.20.23 PM (1).jpeg"
+                             onerror="this.src='https://placehold.co/600x750/fdf2f8/9f1239?text=Tap+to+cycle'"
+                             alt="Memory 1"
+                             class="w-full h-full object-cover transition-all duration-300 group-hover:scale-110">
                     </div>
                     <div class="absolute bottom-4 w-full left-0 px-4 text-center">
                         <p class="serif-font text-xl text-gray-800 font-semibold">The Day It All Started</p>
@@ -187,9 +198,15 @@
                     </div>
                 </div>
 
-                <div class="polaroid transform rotate-[2deg] mt-8 lg:mt-12">
+                <!-- Memory 2 -->
+                <div class="polaroid transform rotate-[2deg] mt-8 lg:mt-12 reveal" style="transition-delay:0.1s"
+                     onclick="openLightbox('memory-2-img')">
                     <div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
-                        <img src="photo2.jpg" onerror="this.src='https://placehold.co/600x750/fff1f2/9f1239?text=Save+photo2.jpg+here'" alt="Memory 2" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <img id="memory-2-img"
+                             src="photo2.jpg"
+                             onerror="this.src='https://placehold.co/600x750/fff1f2/9f1239?text=photo2.jpg'"
+                             alt="Memory 2"
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                     </div>
                     <div class="absolute bottom-4 w-full left-0 px-4 text-center">
                         <p class="serif-font text-xl text-gray-800 font-semibold">The Math Homework</p>
@@ -197,9 +214,15 @@
                     </div>
                 </div>
 
-                <div class="polaroid transform rotate-[-1deg]">
+                <!-- Memory 3 -->
+                <div class="polaroid transform rotate-[-1deg] reveal" style="transition-delay:0.15s"
+                     onclick="openLightbox('memory-3-img')">
                     <div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
-                        <img src="photo3.jpeg" onerror="this.src='https://placehold.co/600x750/ffe4e6/9f1239?text=Save+photo3.jpeg+here'" alt="Memory 3" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <img id="memory-3-img"
+                             src="photo3.jpeg"
+                             onerror="this.src='https://placehold.co/600x750/ffe4e6/9f1239?text=photo3.jpeg'"
+                             alt="Memory 3"
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                     </div>
                     <div class="absolute bottom-4 w-full left-0 px-4 text-center">
                         <p class="serif-font text-xl text-gray-800 font-semibold">First Video Call Together</p>
@@ -207,19 +230,29 @@
                     </div>
                 </div>
 
-                <div class="polaroid transform rotate-[3deg] sm:mt-12 lg:mt-12">
+                <!-- Memory 4 -->
+                <div class="polaroid transform rotate-[3deg] sm:mt-12 lg:mt-12 reveal" style="transition-delay:0.2s"
+                     onclick="openLightbox('memory-4-img')">
                     <div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
-                        <img src="photo4.jpg" onerror="this.src='https://placehold.co/600x750/fce7f3/9f1239?text=Save+photo4.jpg+here'" alt="Memory 4" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <img id="memory-4-img"
+                             src="photo4.jpg"
+                             onerror="this.src='https://placehold.co/600x750/fce7f3/9f1239?text=photo4.jpg'"
+                             alt="Memory 4"
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                     </div>
                     <div class="absolute bottom-4 w-full left-0 px-4 text-center">
                         <p class="serif-font text-xl text-gray-800 font-semibold">My First Among Equals</p>
                         <p class="text-xs text-gray-500 mt-1">I love all your photos, but this one really stands out to me</p>
                     </div>
                 </div>
+
             </div>
 
-            <div class="mt-16 flex justify-center px-4">
-                <a href="https://photos.google.com/share/AF1QipPadUiELdGCeHs3ID9ZLcJHwK7pIcyUVaV6nIZYuODB0REOB0Mj47hOj92Fyfw_lw" target="_blank" rel="noopener noreferrer" class="glass-panel px-8 py-4 rounded-full text-rose-900 font-semibold hover:bg-white/80 transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-3 group border border-rose-200">
+            <!-- Google Photos Link -->
+            <div class="mt-16 flex justify-center px-4 reveal">
+                <a href="https://photos.google.com/share/AF1QipPadUiELdGCeHs3ID9ZLcJHwK7pIcyUVaV6nIZYuODB0REOB0Mj47hOj92Fyfw_lw"
+                   target="_blank" rel="noopener noreferrer"
+                   class="glass-panel px-8 py-4 rounded-full text-rose-900 font-semibold hover:bg-white/80 transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-3 group border border-rose-200">
                     <i class="fa-regular fa-images text-rose-500 text-xl group-hover:scale-110 transition-transform"></i>
                     <span>View our full Google Album</span>
                     <i class="fa-solid fa-arrow-right text-rose-400 text-sm ml-2 group-hover:translate-x-1 transition-transform"></i>
@@ -227,30 +260,32 @@
             </div>
         </section>
 
+        <!-- Open When Letters -->
         <section id="letters-section" class="max-w-4xl mx-auto px-4 py-24 border-t border-rose-100">
-            <h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-4 serif-font">Open When...</h2>
-            <p class="text-center text-rose-800/80 mb-12 font-light">No matter the distance, I am always by your side, my precious litle baby.</p>
+            <h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-4 serif-font reveal">Open When...</h2>
+            <p class="text-center text-rose-800/80 mb-12 font-light reveal" style="transition-delay:0.1s">No matter the distance, I am always by your side, my precious litle baby.</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group" onclick="openLetter('miss-me')">
+                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" style="transition-delay:0.05s" onclick="openLetter('miss-me')">
                     <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
                     <h3 class="font-semibold text-rose-900">...you miss me</h3>
                 </div>
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group" onclick="openLetter('bad-day')">
+                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" style="transition-delay:0.1s" onclick="openLetter('bad-day')">
                     <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
                     <h3 class="font-semibold text-rose-900">...you're having a bad day</h3>
                 </div>
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group" onclick="openLetter('cant-sleep')">
+                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" style="transition-delay:0.15s" onclick="openLetter('cant-sleep')">
                     <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
                     <h3 class="font-semibold text-rose-900">...you can't sleep</h3>
                 </div>
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group" onclick="openLetter('proud')">
+                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" style="transition-delay:0.2s" onclick="openLetter('proud')">
                     <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
                     <h3 class="font-semibold text-rose-900">...you need to know how proud I am</h3>
                 </div>
             </div>
         </section>
 
+        <!-- Letter Modal -->
         <div id="letter-modal" class="fixed inset-0 bg-rose-950/40 backdrop-blur-sm z-50 hidden flex-col items-center justify-center p-4 opacity-0 transition-opacity duration-300">
             <div class="bg-white p-8 md:p-12 rounded-2xl shadow-2xl max-w-lg w-full relative transform scale-95 transition-transform duration-300" id="letter-content">
                 <button onclick="closeLetter()" class="absolute top-4 right-4 text-gray-400 hover:text-rose-600 transition">
@@ -263,17 +298,26 @@
             </div>
         </div>
 
+        <!-- Lightbox -->
+        <div id="lightbox" onclick="closeLightbox()">
+            <button id="lightbox-close" onclick="closeLightbox()" aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img id="lightbox-img" src="" alt="Full size memory" onclick="event.stopPropagation()">
+        </div>
+
         <footer class="text-center py-12 text-rose-900/50">
             <p>Built with love, for my love.</p>
         </footer>
     </div>
 
     <script>
-        const reunionDate = new Date(2026, 7, 4, 12, 0, 0).getTime(); 
-        const relationshipStartDate = new Date(2026, 1, 26);
+        // --- CONFIG ---
+        const reunionDate = new Date(2026, 7, 4, 12, 0, 0).getTime();
         const homeTimezone = 'Europe/Budapest';
         const awayTimezone = 'America/New_York';
 
+        // --- COUNTDOWN ---
         const timer = setInterval(function() {
             const now = new Date().getTime();
             const distance = reunionDate - now;
@@ -281,55 +325,34 @@
             if (distance < 0) {
                 clearInterval(timer);
                 const cdElement = document.getElementById("countdown");
-                if (cdElement) cdElement.innerHTML = "I'm right here.";
+                if (cdElement) cdElement.innerHTML = "<span class='text-2xl serif-font text-rose-900'>I'm right here. ♡</span>";
                 return;
             }
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             const daysEl = document.getElementById("days");
             const hoursEl = document.getElementById("hours");
             const minsEl = document.getElementById("minutes");
             const secsEl = document.getElementById("seconds");
 
-            if (daysEl) daysEl.innerText = days.toString().padStart(2, '0');
-            if (hoursEl) hoursEl.innerText = hours.toString().padStart(2, '0');
-            if (minsEl) minsEl.innerText = minutes.toString().padStart(2, '0');
-            if (secsEl) secsEl.innerText = seconds.toString().padStart(2, '0');
+            if (daysEl) daysEl.innerText = Math.floor(distance / 86400000).toString().padStart(2, '0');
+            if (hoursEl) hoursEl.innerText = Math.floor((distance % 86400000) / 3600000).toString().padStart(2, '0');
+            if (minsEl) minsEl.innerText = Math.floor((distance % 3600000) / 60000).toString().padStart(2, '0');
+            if (secsEl) secsEl.innerText = Math.floor((distance % 60000) / 1000).toString().padStart(2, '0');
         }, 1000);
 
-        function updateDaysTogether() {
-            const now = new Date();
-            const msPerDay = 1000 * 60 * 60 * 24;
-            const diff = now - relationshipStartDate;
-            const togetherDays = Math.floor(diff / msPerDay) + 1; // include Feb 26 as day 1
-            const daysTogetherEl = document.getElementById('days-together');
-            if (daysTogetherEl) {
-                daysTogetherEl.innerText = togetherDays;
-            }
-        }
-
+        // --- TIMEZONES ---
         function updateTimes() {
             const now = new Date();
-            const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
-            
-            const homeStr = new Intl.DateTimeFormat('en-US', { ...timeOptions, timeZone: homeTimezone }).format(now);
-            const awayStr = new Intl.DateTimeFormat('en-US', { ...timeOptions, timeZone: awayTimezone }).format(now);
-            
+            const opts = { hour: '2-digit', minute: '2-digit', hour12: true };
             const homeEl = document.getElementById('time-home');
             const awayEl = document.getElementById('time-away');
-
-            if (homeEl) homeEl.innerText = homeStr;
-            if (awayEl) awayEl.innerText = awayStr;
+            if (homeEl) homeEl.innerText = new Intl.DateTimeFormat('en-US', { ...opts, timeZone: homeTimezone }).format(now);
+            if (awayEl) awayEl.innerText = new Intl.DateTimeFormat('en-US', { ...opts, timeZone: awayTimezone }).format(now);
         }
-
         setInterval(updateTimes, 1000);
         updateTimes();
-        updateDaysTogether();
 
+        // --- PHOTO STACK (memory 1 cycles on each lightbox open) ---
         const stackedPhotos = [
             "WhatsApp Image 2026-06-01 at 10.20.23 PM (1).jpeg",
             "WhatsApp Image 2026-06-01 at 10.20.23 PM (2).jpeg",
@@ -337,19 +360,35 @@
         ];
         let currentPhotoIndex = 0;
 
-        window.cycleMemory1 = function() {
-            const imgElement = document.getElementById('memory-1-img');
-            if (!imgElement) return;
-            
-            currentPhotoIndex = (currentPhotoIndex + 1) % stackedPhotos.length;
-            
-            imgElement.style.opacity = 0.5;
-            setTimeout(() => {
-                imgElement.src = stackedPhotos[currentPhotoIndex];
-                imgElement.style.opacity = 1;
-            }, 150);
+        // --- LIGHTBOX ---
+        window.openLightbox = function(imgId) {
+            const src = document.getElementById(imgId).src;
+            const lb = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lightbox-img');
+            lbImg.src = src;
+            lb.classList.add('open');
+            document.body.style.overflow = 'hidden';
+
+            // Cycle memory 1 photos on each open
+            if (imgId === 'memory-1-img') {
+                currentPhotoIndex = (currentPhotoIndex + 1) % stackedPhotos.length;
+                setTimeout(() => {
+                    const m1 = document.getElementById('memory-1-img');
+                    if (m1) m1.src = stackedPhotos[currentPhotoIndex];
+                }, 400);
+            }
         };
 
+        window.closeLightbox = function() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = '';
+        };
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        // --- LETTERS ---
         const letterMessages = {
             'miss-me': {
                 title: "Open when you miss me",
@@ -372,13 +411,10 @@
         window.openLetter = function(id) {
             const modal = document.getElementById('letter-modal');
             const content = document.getElementById('letter-content');
-            
             document.getElementById('modal-title').innerText = letterMessages[id].title;
             document.getElementById('modal-body').innerText = letterMessages[id].body;
-            
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
                 content.classList.remove('scale-95');
@@ -389,53 +425,43 @@
         window.closeLetter = function() {
             const modal = document.getElementById('letter-modal');
             const content = document.getElementById('letter-content');
-            
             modal.classList.add('opacity-0');
             content.classList.remove('scale-100');
             content.classList.add('scale-95');
-            
             setTimeout(() => {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
             }, 300);
         };
 
-        window.selectMood = function(moodKey, message, buttonEl) {
-            document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('active'));
-            buttonEl.classList.add('active');
-
-            const responseEl = document.getElementById('mood-response');
-            responseEl.innerText = message;
-
-            // Right now this is local only.
-            // To actually see her mood, send this moodKey to:
-            // 1. Formspree
-            // 2. Google Forms
-            // 3. Firebase / Supabase
-            console.log('Selected mood:', moodKey);
-        };
-
-        function createFloatingHeart() {
+        // --- FLOATING HEARTS ---
+        function createHeart() {
             const field = document.getElementById('heart-field');
             if (!field) return;
-
             const heart = document.createElement('i');
             heart.className = 'fa-solid fa-heart floating-heart';
-
-            const size = Math.random() * 16 + 10;
-            heart.style.left = Math.random() * 100 + 'vw';
+            const size = Math.random() * 14 + 9;
+            heart.style.left = (Math.random() * 100) + 'vw';
             heart.style.fontSize = size + 'px';
-            heart.style.animationDuration = (Math.random() * 5 + 6) + 's';
-            heart.style.opacity = (Math.random() * 0.25 + 0.08).toString();
-
+            const duration = Math.random() * 6 + 7;
+            heart.style.animationDuration = duration + 's';
+            heart.style.color = `rgba(244, 63, 94, ${(Math.random() * 0.18 + 0.07).toFixed(2)})`;
             field.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 12000);
+            setTimeout(() => heart.remove(), (duration + 1) * 1000);
         }
+        setInterval(createHeart, 800);
 
-        setInterval(createFloatingHeart, 900);
+        // --- SCROLL REVEAL ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
