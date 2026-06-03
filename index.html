@@ -102,7 +102,6 @@
         .progress-fill  { height: 100%; border-radius: 9999px; background: linear-gradient(90deg,#fb7185,#f43f5e); transition: width 1s linear; }
 
         #milestone-msg { min-height: 1.5rem; font-size: 0.85rem; color: rgba(159,18,57,0.75); font-style: italic; margin-top: 0.75rem; }
-        #sleeps-line   { font-size: 0.8rem; color: rgba(159,18,57,0.6); margin-top: 0.35rem; }
 
         /* Card glow */
         @keyframes cardGlow {
@@ -138,6 +137,7 @@
                 <div class="space-x-4 md:space-x-8 text-sm font-medium text-rose-800 hidden md:block">
                     <a href="#countdown-section" class="hover:text-rose-500 transition">The Countdown</a>
                     <a href="#gallery-section"   class="hover:text-rose-500 transition">Memories</a>
+                    <a href="#reasons-section" class="hover:text-rose-500 transition">Reasons</a>
                     <a href="#letters-section"   class="hover:text-rose-500 transition">Open When</a>
                 </div>
             </div>
@@ -202,7 +202,6 @@
                     </div>
                 </div>
 
-                <p id="sleeps-line"></p>
                 <p id="milestone-msg"></p>
                 <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
                 <p class="text-xs text-rose-600/50 mt-2" id="progress-label"></p>
@@ -285,12 +284,26 @@
             </div>
         </section>
 
-        <!-- Letters -->
+        <!-- Reasons I Love You -->
+        <section id="reasons-section" class="max-w-3xl mx-auto px-4 py-24 border-t border-rose-100">
+            <h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-4 serif-font reveal">Reasons I Love You</h2>
+            <p class="text-center text-rose-800/80 mb-12 font-light reveal" style="transition-delay:.1s">A new one every time you tap the card.</p>
+            <div class="flex flex-col items-center gap-6">
+                <div id="reason-card" class="glass-panel w-full rounded-3xl p-10 text-center cursor-pointer group reveal" style="transition-delay:.2s; min-height:160px; display:flex; align-items:center; justify-content:center;" onclick="shuffleReason()">
+                    <p id="reason-text" class="serif-font text-2xl md:text-3xl text-rose-950 leading-snug" style="transition: opacity 0.35s ease;"></p>
+                </div>
+                <button onclick="shuffleReason()" class="glass-panel px-8 py-3 rounded-full text-rose-900 font-semibold hover:bg-white/80 transition-all duration-300 shadow-sm border border-rose-200 flex items-center gap-2 group">
+                    <i class="fa-solid fa-shuffle text-rose-400 group-hover:scale-110 transition-transform"></i>
+                    Another reason
+                </button>
+            </div>
+        </section>
+
         <section id="letters-section" class="max-w-4xl mx-auto px-4 py-24 border-t border-rose-100">
             <h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-4 serif-font reveal">Open When...</h2>
             <p class="text-center text-rose-800/80 mb-12 font-light reveal" style="transition-delay:.1s">No matter the distance, I am always by your side, my precious litle baby.</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" style="transition-delay:.05s" onclick="openLetter('miss-me')">
+                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg:white/80 transition-all duration-300 text-center group reveal" style="transition-delay:.05s" onclick="openLetter('miss-me')">
                     <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
                     <h3 class="font-semibold text-rose-900">...you miss me</h3>
                 </div>
@@ -330,22 +343,20 @@
     <script>
     // ── CONFIG ──
     const reunionDate   = new Date(2026, 7, 4, 12, 0, 0);
-    const startDate     = new Date(2026, 0, 1);
+    const startDate     = new Date(2026, 5, 3);
     const homeTimezone  = 'Europe/Budapest';
     const awayTimezone  = 'America/New_York';
     const totalDuration = reunionDate - startDate;
 
     // ── FLIP LOGIC ──
-    // Each unit tracks: what value is on the front, and whether a flip is in progress.
-    // A flip = load new value on back → rotate inner 180° → once done, swap faces back to rest state.
     const units = ['days','hours','mins','secs'];
     const state = {};
     units.forEach(u => { state[u] = { shown: null, busy: false, flipped: false }; });
 
     function flip(unit, newStr) {
         const s = state[unit];
-        if (s.shown === newStr) return;   // value unchanged — do nothing
-        if (s.busy) return;               // already mid-flip — skip this tick
+        if (s.shown === newStr) return;
+        if (s.busy) return;
 
         const inner = document.getElementById('inner-' + unit);
         const front = document.getElementById('front-' + unit);
@@ -354,14 +365,11 @@
         s.busy = true;
 
         if (!s.flipped) {
-            // Currently showing front face → load new value on back, flip down
             back.textContent = newStr;
             inner.style.transition = 'transform 0.38s cubic-bezier(0.4,0,0.2,1)';
             inner.style.transform  = 'rotateX(-180deg)';
             setTimeout(() => {
-                // After animation: freeze the view, reset without a visible snap
                 inner.style.transition = 'none';
-                // Now back is facing us. Put new value on front too, un-rotate instantly.
                 front.textContent = newStr;
                 inner.style.transform = 'rotateX(0deg)';
                 s.shown   = newStr;
@@ -383,7 +391,7 @@
         return "";
     }
 
-    // ── MAIN TICK — runs once per second ──
+    // ── MAIN TICK ──
     let confettiFired = false;
 
     function tick() {
@@ -393,7 +401,6 @@
         if (distance <= 0) {
             document.getElementById('countdown-display').innerHTML =
                 "<span class='text-2xl serif-font text-rose-900' style='padding:1rem'>I'm right here. ♡</span>";
-            document.getElementById('sleeps-line').textContent    = '';
             document.getElementById('milestone-msg').textContent  = '';
             document.getElementById('progress-fill').style.width  = '100%';
             document.getElementById('progress-label').textContent = '100% of the wait is over 🎉';
@@ -410,11 +417,6 @@
         flip('hours', h.toString().padStart(2,'0'));
         flip('mins',  m.toString().padStart(2,'0'));
         flip('secs',  s.toString().padStart(2,'0'));
-
-        document.getElementById('sleeps-line').textContent =
-            d === 0 ? "Less than a day to go 🌙"
-          : d === 1 ? "Just 1 sleep away 🌙"
-          : `That's ${d} sleeps away 🌙`;
 
         document.getElementById('milestone-msg').textContent = getMilestone(d);
 
@@ -532,6 +534,42 @@
         draw();
         setTimeout(()=>{cancelAnimationFrame(frame);ctx.clearRect(0,0,canvas.width,canvas.height);},6000);
     }
+
+    // ── REASONS I LOVE YOU ──
+    const reasons = [
+        "The way you make me feel like home, no matter the distance",
+        "Your laugh -- it's genuinely my favorite sound in the world",
+        "How smart and curious you are about everything",
+        "The way you care so deeply about the people you love",
+        "You make even the most ordinary moments feel special",
+        "How brave you are -- moving across the world takes guts",
+        "The way you look at me like I'm the only person in the room",
+        "You challenge me to be a better version of myself",
+        "How you can make me smile even on my hardest days",
+        "The little things you do that you don't even notice",
+        "Your kindness -- it radiates out of you naturally",
+        "The way you say my name",
+        "How you love so fully and without holding back",
+        "You are the most beautiful person in the whole world",
+        "The future I get to imagine when I think of you",
+        "Your feet",
+        "Your boobs",
+        "Your ass",
+        "Your smile"
+    ];
+    let lastReasonIndex = -1;
+    window.shuffleReason = function() {
+        const text = document.getElementById("reason-text");
+        text.style.opacity = "0";
+        setTimeout(() => {
+            let idx;
+            do { idx = Math.floor(Math.random() * reasons.length); } while (idx === lastReasonIndex);
+            lastReasonIndex = idx;
+            text.textContent = reasons[idx];
+            text.style.opacity = "1";
+        }, 350);
+    };
+    shuffleReason();
 
     // ── SCROLL REVEAL ──
     const observer = new IntersectionObserver(entries => {
