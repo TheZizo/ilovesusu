@@ -1,641 +1,898 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Memories</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .serif-font { font-family: 'Playfair Display', serif; }
-        .glass-panel { background: rgba(255,255,255,0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.5); }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Memories</title>
+<meta name="description" content="A little corner of the internet for us — counting down the days until I see you again.">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Our Memories">
+<meta property="og:description" content="Distance is temporary. These moments keep us together.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💗</text></svg>">
+<link rel="stylesheet" href="styles.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#fb7185">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Us">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Inter', sans-serif; }
+.serif-font { font-family: 'Playfair Display', serif; }
+.glass-panel { background: rgba(255,255,255,0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.5); }
 
-        .polaroid {
-            background: white;
-            padding: 1rem 1rem 3.5rem 1rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-        .polaroid:hover { box-shadow: 0 20px 40px -8px rgba(0,0,0,0.18); }
+.polaroid {
+position: relative;
+background: white;
+padding: 1rem 1rem 3.5rem 1rem;
+border-radius: 0.5rem;
+box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+cursor: pointer;
+border: none;
+text-align: inherit;
+width: 100%;
+font: inherit;
+color: inherit;
+}
+.polaroid:hover { box-shadow: 0 20px 40px -8px rgba(0,0,0,0.18); }
+.polaroid:focus-visible { outline: 3px solid #f43f5e; outline-offset: 4px; }
 
-        .heart-field { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
-        .floating-heart { position: absolute; bottom: -40px; animation: floatUp linear forwards; user-select: none; }
-        @keyframes floatUp {
-            0%   { transform: translateY(0) scale(0.8) rotate(-5deg); opacity: 0; }
-            8%   { opacity: 1; }
-            100% { transform: translateY(-115vh) scale(1.15) rotate(15deg); opacity: 0; }
-        }
+.heart-field { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+.floating-heart { position: absolute; bottom: -40px; animation: floatUp linear forwards; user-select: none; }
+@keyframes floatUp {
+0%   { transform: translateY(0) scale(0.8) rotate(-5deg); opacity: 0; }
+8%   { opacity: 1; }
+100% { transform: translateY(-115vh) scale(1.15) rotate(15deg); opacity: 0; }
+}
 
-        .content-layer { position: relative; z-index: 1; }
+.content-layer { position: relative; z-index: 1; }
 
-        .flip-unit { display: flex; flex-direction: column; align-items: center; }
-        .flip-card {
-            width: clamp(60px, 12vw, 90px);
-            height: clamp(72px, 14vw, 108px);
-            position: relative;
-            perspective: 500px;
-        }
-        .flip-face {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0.6rem;
-            font-size: clamp(1.8rem, 5vw, 3.25rem);
-            font-weight: 600;
-            color: #4c0519;
-            background: rgba(255,255,255,0.80);
-            box-shadow: 0 4px 16px rgba(159,18,57,0.10);
-            backface-visibility: hidden;
-        }
-        .flip-face.back {
-            transform: rotateX(180deg);
-            background: rgba(255,255,255,0.80);
-        }
-        .flip-inner {
-            width: 100%; height: 100%;
-            transform-style: preserve-3d;
-        }
-        .flip-inner.do-flip {
-            transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: rotateX(-180deg);
-        }
-        .flip-label {
-            margin-top: 0.5rem;
-            font-size: clamp(0.6rem, 1.5vw, 0.7rem);
-            text-transform: uppercase; letter-spacing: 0.1em;
-            font-weight: 500; color: rgba(159,18,57,0.65);
-        }
-        .flip-separator {
-            font-size: clamp(1.6rem, 4vw, 3rem); font-weight: 600;
-            color: rgba(76,5,25,0.25);
-            margin: 0 clamp(4px,1vw,12px);
-            padding-bottom: 1.5rem; align-self: center;
-        }
+.flip-unit { display: flex; flex-direction: column; align-items: center; }
+.flip-card {
+width: clamp(60px, 12vw, 90px);
+height: clamp(72px, 14vw, 108px);
+position: relative;
+perspective: 500px;
+}
+.flip-inner {
+width: 100%; height: 100%;
+position: relative;
+transform-style: preserve-3d;
+}
+.flip-face {
+position: absolute;
+inset: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 0.6rem;
+font-size: clamp(1.8rem, 5vw, 3.25rem);
+font-weight: 600;
+color: #4c0519;
+background: rgba(255,255,255,0.80);
+box-shadow: 0 4px 16px rgba(159,18,57,0.10);
+backface-visibility: hidden;
+-webkit-backface-visibility: hidden;
+}
+.flip-face.back { transform: rotateX(180deg); }
+.flip-label {
+margin-top: 0.5rem;
+font-size: clamp(0.6rem, 1.5vw, 0.7rem);
+text-transform: uppercase; letter-spacing: 0.1em;
+font-weight: 500; color: rgba(159,18,57,0.65);
+}
+.flip-separator {
+font-size: clamp(1.6rem, 4vw, 3rem); font-weight: 600;
+color: rgba(76,5,25,0.25);
+margin: 0 clamp(4px,1vw,12px);
+padding-bottom: 1.5rem; align-self: center;
+}
 
-        @keyframes heartbeat {
-            0%,100% { transform: scale(1); }
-            14%     { transform: scale(1.22); }
-            28%     { transform: scale(1); }
-            42%     { transform: scale(1.18); }
-            56%     { transform: scale(1); }
-        }
-        .heartbeat { animation: heartbeat 1s ease-in-out infinite; display: inline-block; }
+@keyframes heartbeat {
+0%,100% { transform: scale(1); }
+14%     { transform: scale(1.22); }
+28%     { transform: scale(1); }
+42%     { transform: scale(1.18); }
+56%     { transform: scale(1); }
+}
+.heartbeat { animation: heartbeat 1s ease-in-out infinite; display: inline-block; }
 
-        .progress-track { width: 100%; height: 6px; background: rgba(244,63,94,0.12); border-radius: 9999px; overflow: hidden; margin-top: 1.5rem; }
-        .progress-fill  { height: 100%; border-radius: 9999px; background: linear-gradient(90deg,#fb7185,#f43f5e); transition: width 1s linear; }
+.progress-track { width: 100%; height: 6px; background: rgba(244,63,94,0.12); border-radius: 9999px; overflow: hidden; margin-top: 1.5rem; }
+.progress-fill  { height: 100%; border-radius: 9999px; background: linear-gradient(90deg,#fb7185,#f43f5e); transition: width 1s linear; }
 
-        #milestone-msg { min-height: 1.5rem; font-size: 0.85rem; color: rgba(159,18,57,0.75); font-style: italic; margin-top: 0.75rem; }
+#milestone-msg { min-height: 1.5rem; font-size: 0.85rem; color: rgba(159,18,57,0.75); font-style: italic; margin-top: 0.75rem; }
 
-        @keyframes cardGlow {
-            0%,100% { box-shadow: 0 0 0px 0px rgba(244,63,94,0),   0 4px 24px rgba(244,63,94,0.06); }
-            50%     { box-shadow: 0 0 32px 10px rgba(244,63,94,0.22), 0 4px 32px rgba(244,63,94,0.14); }
-        }
-        #countdown-card { animation: cardGlow 2s ease-in-out infinite; }
+@keyframes cardGlow {
+0%,100% { box-shadow: 0 0 0px 0px rgba(244,63,94,0),   0 4px 24px rgba(244,63,94,0.06); }
+50%     { box-shadow: 0 0 32px 10px rgba(244,63,94,0.22), 0 4px 32px rgba(244,63,94,0.14); }
+}
+#countdown-card { animation: cardGlow 2s ease-in-out infinite; }
 
-        #lightbox { position:fixed; inset:0; background:rgba(28,8,12,0.75); backdrop-filter:blur(10px); z-index:100; display:flex; align-items:center; justify-content:center; padding:1.5rem; opacity:0; pointer-events:none; transition:opacity 0.3s ease; }
-        #lightbox.open { opacity:1; pointer-events:all; }
-        #lightbox-img  { max-width:90vw; max-height:85vh; border-radius:0.75rem; object-fit:contain; box-shadow:0 30px 80px rgba(0,0,0,0.5); transform:scale(0.95); transition:transform 0.3s ease; }
-        #lightbox.open #lightbox-img { transform:scale(1); }
-        #lightbox-close { position:absolute; top:1.25rem; right:1.25rem; background:rgba(255,255,255,0.15); border:none; color:white; width:2.5rem; height:2.5rem; border-radius:9999px; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.2s; }
-        #lightbox-close:hover { background:rgba(255,255,255,0.3); }
+#lightbox { position:fixed; inset:0; background:rgba(28,8,12,0.75); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); z-index:100; display:flex; align-items:center; justify-content:center; padding:1.5rem; opacity:0; pointer-events:none; transition:opacity 0.3s ease; }
+#lightbox.open { opacity:1; pointer-events:all; }
+#lightbox-img  { max-width:90vw; max-height:85vh; border-radius:0.75rem; object-fit:contain; box-shadow:0 30px 80px rgba(0,0,0,0.5); transform:scale(0.95); transition:transform 0.3s ease; }
+#lightbox.open #lightbox-img { transform:scale(1); }
+.lightbox-btn { position:absolute; background:rgba(255,255,255,0.15); border:none; color:white; width:2.75rem; height:2.75rem; border-radius:9999px; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.2s; }
+.lightbox-btn:hover { background:rgba(255,255,255,0.3); }
+.lightbox-btn:focus-visible { outline:2px solid #fff; outline-offset:2px; }
+#lightbox-close { top:1.25rem; right:1.25rem; }
+#lightbox-prev  { left:1.25rem; top:50%; transform:translateY(-50%); }
+#lightbox-next  { right:1.25rem; top:50%; transform:translateY(-50%); }
+#lightbox-counter { position:absolute; bottom:1.25rem; left:50%; transform:translateX(-50%); color:rgba(255,255,255,0.8); font-size:0.8rem; letter-spacing:0.05em; }
 
-        #confetti-canvas { position:fixed; inset:0; pointer-events:none; z-index:200; }
+#confetti-canvas { position:fixed; inset:0; pointer-events:none; z-index:200; }
 
-        .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.65s ease,transform 0.65s ease; }
-        .reveal.visible { opacity:1; transform:translateY(0); }
-    </style>
+.reveal { opacity:0; transform:translateY(28px); transition:opacity 0.65s ease,transform 0.65s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* Guestbook */
+.gb-form { display:flex; flex-direction:column; gap:0.75rem; max-width:36rem; margin:0 auto 3rem; }
+.gb-input, .gb-textarea { width:100%; border:1px solid rgba(159,18,57,0.18); background:rgba(255,255,255,0.6); border-radius:1rem; padding:0.85rem 1rem; font:inherit; color:#4c0519; transition:border-color .2s, box-shadow .2s; }
+.gb-textarea { resize:vertical; min-height:90px; }
+.gb-input:focus, .gb-textarea:focus { outline:none; border-color:#fb7185; box-shadow:0 0 0 3px rgba(251,113,133,0.2); }
+.gb-row { display:flex; gap:0.75rem; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+.gb-count { font-size:0.75rem; color:rgba(159,18,57,0.55); }
+.gb-submit { background:linear-gradient(90deg,#fb7185,#f43f5e); color:#fff; border:none; border-radius:9999px; padding:0.75rem 2rem; font-weight:600; cursor:pointer; transition:transform .2s, box-shadow .2s; box-shadow:0 6px 18px rgba(244,63,94,0.25); }
+.gb-submit:hover { transform:translateY(-1px); box-shadow:0 10px 24px rgba(244,63,94,0.32); }
+.gb-submit:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+.gb-note { break-inside:avoid; background:rgba(255,255,255,0.7); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.6); border-radius:1.25rem; padding:1.2rem 1.4rem; margin:0 0 1.25rem; box-shadow:0 8px 22px rgba(159,18,57,0.07); }
+.gb-note-msg { color:#4c0519; line-height:1.6; white-space:pre-line; word-break:break-word; }
+.gb-note-meta { margin-top:0.75rem; font-size:0.78rem; color:rgba(159,18,57,0.6); display:flex; justify-content:space-between; gap:0.5rem; }
+.gb-note-name { font-weight:600; }
+.gb-empty { text-align:center; color:rgba(159,18,57,0.5); font-style:italic; padding:1.5rem 0; }
+.gb-notice { text-align:center; font-size:0.8rem; color:rgba(159,18,57,0.7); background:rgba(255,228,230,0.55); border:1px solid rgba(251,113,133,0.3); border-radius:1rem; padding:0.75rem 1rem; margin:0 auto 1.5rem; max-width:36rem; }
+@media (min-width:640px) { .gb-wall { column-count:2; column-gap:1.25rem; } }
+.letter-tile, .reason-card-btn { border:none; font:inherit; width:100%; cursor:pointer; }
+.letter-tile:focus-visible, .reason-card-btn:focus-visible, .nav-link:focus-visible, #menu-toggle:focus-visible { outline:3px solid #f43f5e; outline-offset:3px; border-radius:0.5rem; }
+
+/* Mobile menu */
+#mobile-menu { max-height:0; overflow:hidden; transition:max-height 0.35s ease; }
+#mobile-menu.open { max-height:320px; }
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+*, *::before, *::after {
+animation-duration: 0.001ms !important;
+animation-iteration-count: 1 !important;
+transition-duration: 0.001ms !important;
+scroll-behavior: auto !important;
+}
+.reveal { opacity:1 !important; transform:none !important; }
+.heart-field { display:none; }
+#countdown-card { animation:none; }
+}
+</style>
 </head>
-<body class="bg-rose-50 text-gray-800 antialiased selection:bg-rose-200 selection:text-rose-900 relative">
+<body class="bg-rose-50 text-gray-800 antialiased selection:bg-rose-200 selection:text-rose-900 relative" style="scroll-behavior:smooth">
 
-    <canvas id="confetti-canvas"></canvas>
-    <div class="heart-field" id="heart-field"></div>
+<a href="#countdown-section" class="sr-only focus:not-sr-only focus:absolute focus:z-[300] focus:top-3 focus:left-3 focus:bg-white focus:text-rose-700 focus:px-4 focus:py-2 focus:rounded-full focus:shadow">Skip to content</a>
 
-    <div class="content-layer">
+<canvas id="confetti-canvas" aria-hidden="true"></canvas>
+<div class="heart-field" id="heart-field" aria-hidden="true"></div>
 
-        <nav class="fixed top-0 w-full z-40 p-4">
-            <div class="max-w-5xl mx-auto glass-panel rounded-full px-6 py-3 flex justify-between items-center shadow-sm">
-                <span class="serif-font font-bold text-xl text-rose-900">Z & S</span>
-                <div class="space-x-4 md:space-x-8 text-sm font-medium text-rose-800 hidden md:block">
-                    <a href="#countdown-section" class="hover:text-rose-500 transition">The Countdown</a>
-                    <a href="#gallery-section"   class="hover:text-rose-500 transition">Memories</a>
-                    <a href="#reasons-section"   class="hover:text-rose-500 transition">Reasons</a>
-                    <a href="#letters-section"   class="hover:text-rose-500 transition">Open When</a>
-                </div>
-            </div>
-        </nav>
+<div class="content-layer">
 
-        <!-- Countdown -->
-        <header id="countdown-section" class="min-h-screen flex flex-col items-center justify-center text-center px-4 relative pt-20">
-            <h1 class="text-5xl md:text-7xl font-semibold text-rose-950 mb-6 serif-font reveal">Distance is temporary.</h1>
-            <p class="text-xl md:text-2xl text-rose-800/80 max-w-2xl font-light mb-12 reveal" style="transition-delay:.1s">
-                No matter how many miles are between us, these moments keep us together.
-            </p>
+<nav class="fixed top-0 w-full z-40 p-4">
+<div class="max-w-5xl mx-auto glass-panel rounded-3xl px-6 py-3 shadow-sm">
+<div class="flex justify-between items-center">
+<span class="serif-font font-bold text-xl text-rose-900">Z &amp; S</span>
+<div class="space-x-4 md:space-x-8 text-sm font-medium text-rose-800 hidden md:block">
+<a href="#countdown-section" class="nav-link hover:text-rose-500 transition">The Countdown</a>
+<a href="#gallery-section"   class="nav-link hover:text-rose-500 transition">Memories</a>
+<a href="#reasons-section"   class="nav-link hover:text-rose-500 transition">Reasons</a>
+<a href="#letters-section"   class="nav-link hover:text-rose-500 transition">Open When</a>
+<a href="#guestbook-section" class="nav-link hover:text-rose-500 transition">Notes</a>
+</div>
+<button id="menu-toggle" class="md:hidden text-rose-800 text-xl w-9 h-9 flex items-center justify-center" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+<i class="fa-solid fa-bars" id="menu-icon"></i>
+</button>
+</div>
+<div id="mobile-menu" class="md:hidden">
+<div class="flex flex-col gap-1 pt-3 text-sm font-medium text-rose-800">
+<a href="#countdown-section" class="nav-link py-2 px-2 rounded-lg hover:bg-white/60 transition">The Countdown</a>
+<a href="#gallery-section"   class="nav-link py-2 px-2 rounded-lg hover:bg-white/60 transition">Memories</a>
+<a href="#reasons-section"   class="nav-link py-2 px-2 rounded-lg hover:bg-white/60 transition">Reasons</a>
+<a href="#letters-section"   class="nav-link py-2 px-2 rounded-lg hover:bg-white/60 transition">Open When</a>
+<a href="#guestbook-section" class="nav-link py-2 px-2 rounded-lg hover:bg-white/60 transition">Notes</a>
+</div>
+</div>
+</div>
+</nav>
 
-            <div id="countdown-card" class="glass-panel p-6 md:p-8 rounded-3xl w-full max-w-3xl reveal" style="transition-delay:.2s">
-                <h3 class="text-sm uppercase tracking-widest text-rose-500 font-semibold mb-6 flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-heart text-rose-400 heartbeat"></i>
-                    Time until I see you next
-                    <i class="fa-solid fa-plane-arrival text-rose-400"></i>
-                </h3>
-                <div id="countdown-display" class="flex items-center justify-center flex-wrap gap-1 sm:gap-2">
-                    <div class="flip-unit">
-                        <div class="flip-card" id="card-days">
-                            <div class="flip-inner" id="inner-days">
-                                <div class="flip-face front" id="front-days">00</div>
-                                <div class="flip-face back"  id="back-days">00</div>
-                            </div>
-                        </div>
-                        <span class="flip-label">Days</span>
-                    </div>
-                    <span class="flip-separator">:</span>
-                    <div class="flip-unit">
-                        <div class="flip-card" id="card-hours">
-                            <div class="flip-inner" id="inner-hours">
-                                <div class="flip-face front" id="front-hours">00</div>
-                                <div class="flip-face back"  id="back-hours">00</div>
-                            </div>
-                        </div>
-                        <span class="flip-label">Hours</span>
-                    </div>
-                    <span class="flip-separator">:</span>
-                    <div class="flip-unit">
-                        <div class="flip-card" id="card-mins">
-                            <div class="flip-inner" id="inner-mins">
-                                <div class="flip-face front" id="front-mins">00</div>
-                                <div class="flip-face back"  id="back-mins">00</div>
-                            </div>
-                        </div>
-                        <span class="flip-label">Mins</span>
-                    </div>
-                    <span class="flip-separator">:</span>
-                    <div class="flip-unit">
-                        <div class="flip-card" id="card-secs">
-                            <div class="flip-inner" id="inner-secs">
-                                <div class="flip-face front" id="front-secs">00</div>
-                                <div class="flip-face back"  id="back-secs">00</div>
-                            </div>
-                        </div>
-                        <span class="flip-label">Secs</span>
-                    </div>
-                </div>
-                <p id="milestone-msg"></p>
-                <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-                <p class="text-xs text-rose-600/50 mt-2" id="progress-label"></p>
-            </div>
+<!-- Countdown -->
+<header id="countdown-section" class="min-h-screen flex flex-col items-center justify-center text-center px-4 relative pt-20">
+<h1 class="text-5xl md:text-7xl font-semibold text-rose-950 mb-6 serif-font reveal">Distance is temporary.</h1>
+<p class="text-xl md:text-2xl text-rose-800/80 max-w-2xl font-light mb-12 reveal" style="transition-delay:.1s">
+No matter how many miles are between us, these moments keep us together.
+</p>
 
-            <div class="mt-12 flex flex-wrap justify-center gap-6 reveal" style="transition-delay:.3s">
-                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-3 shadow-sm">
-                    <i class="fa-regular fa-clock text-rose-500"></i>
-                    <div>
-                        <p class="text-xs text-rose-800/70 uppercase tracking-wide">My Time (Home)</p>
-                        <p class="font-semibold text-rose-950" id="time-home">--:--</p>
-                    </div>
-                </div>
-                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-3 shadow-sm">
-                    <i class="fa-solid fa-location-dot text-rose-500"></i>
-                    <div>
-                        <p class="text-xs text-rose-800/70 uppercase tracking-wide">Her Time (Maine)</p>
-                        <p class="font-semibold text-rose-950" id="time-away">--:--</p>
-                    </div>
-                </div>
-            </div>
-        </header>
+<div id="countdown-card" class="glass-panel p-6 md:p-8 rounded-3xl w-full max-w-3xl reveal" style="transition-delay:.2s">
+<h3 class="text-sm uppercase tracking-widest text-rose-500 font-semibold mb-6 flex items-center justify-center gap-2">
+<i class="fa-solid fa-heart text-rose-400 heartbeat" aria-hidden="true"></i>
+Time until I see you next
+<i class="fa-solid fa-plane-arrival text-rose-400" aria-hidden="true"></i>
+</h3>
+<div id="countdown-display" class="flex items-center justify-center flex-wrap gap-1 sm:gap-2" role="timer" aria-live="off" aria-label="Countdown to reunion">
+<div class="flip-unit">
+<div class="flip-card" id="card-days">
+<div class="flip-inner" id="inner-days">
+<div class="flip-face front" id="front-days">00</div>
+<div class="flip-face back"  id="back-days">00</div>
+</div>
+</div>
+<span class="flip-label">Days</span>
+</div>
+<span class="flip-separator" aria-hidden="true">:</span>
+<div class="flip-unit">
+<div class="flip-card" id="card-hours">
+<div class="flip-inner" id="inner-hours">
+<div class="flip-face front" id="front-hours">00</div>
+<div class="flip-face back"  id="back-hours">00</div>
+</div>
+</div>
+<span class="flip-label">Hours</span>
+</div>
+<span class="flip-separator" aria-hidden="true">:</span>
+<div class="flip-unit">
+<div class="flip-card" id="card-mins">
+<div class="flip-inner" id="inner-mins">
+<div class="flip-face front" id="front-mins">00</div>
+<div class="flip-face back"  id="back-mins">00</div>
+</div>
+</div>
+<span class="flip-label">Mins</span>
+</div>
+<span class="flip-separator" aria-hidden="true">:</span>
+<div class="flip-unit">
+<div class="flip-card" id="card-secs">
+<div class="flip-inner" id="inner-secs">
+<div class="flip-face front" id="front-secs">00</div>
+<div class="flip-face back"  id="back-secs">00</div>
+</div>
+</div>
+<span class="flip-label">Secs</span>
+</div>
+</div>
+<p id="milestone-msg"></p>
+<div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+<p class="text-xs text-rose-600/50 mt-2" id="progress-label"></p>
+</div>
 
-        <!-- Gallery -->
-        <section id="gallery-section" class="max-w-6xl mx-auto px-4 py-24">
-            <h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-16 serif-font reveal">Our Favorite Chapters</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8 px-4 md:px-10">
+<div class="mt-12 flex flex-wrap justify-center gap-6 reveal" style="transition-delay:.3s">
+<div class="glass-panel px-6 py-3 rounded-full flex items-center gap-3 shadow-sm">
+<i class="fa-regular fa-clock text-rose-500" aria-hidden="true"></i>
+<div>
+<p class="text-xs text-rose-800/70 uppercase tracking-wide">My Time (Home)</p>
+<p class="font-semibold text-rose-950" id="time-home">--:--</p>
+</div>
+</div>
+<div class="glass-panel px-6 py-3 rounded-full flex items-center gap-3 shadow-sm">
+<i class="fa-solid fa-location-dot text-rose-500" aria-hidden="true"></i>
+<div>
+<p class="text-xs text-rose-800/70 uppercase tracking-wide">Her Time (Maine)</p>
+<p class="font-semibold text-rose-950" id="time-away">--:--</p>
+</div>
+</div>
+</div>
+</header>
 
-                <div class="polaroid transform rotate-[-3deg] reveal" style="transition-delay:.05s" onclick="openLightbox('memory-1-img')">
-                    <div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group relative">
-                        <div class="absolute top-3 right-3 bg-white/70 backdrop-blur-md rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-sm transition group-hover:scale-110">
-                            <i class="fa-solid fa-layer-group text-rose-600 text-sm"></i>
-                        </div>
-                        <img id="memory-1-img" src="WhatsApp Image 2026-06-01 at 10.20.23 PM (1).jpeg" onerror="this.src='https://placehold.co/600x750/fdf2f8/9f1239?text=Tap+to+cycle'" alt="Memory 1" class="w-full h-full object-cover transition-all duration-300 group-hover:scale-110">
-                    </div>
-                    <div class="absolute bottom-4 w-full left-0 px-4 text-center">
-                        <p class="serif-font text-xl text-gray-800 font-semibold">The Day It All Started</p>
-                        <p class="text-xs text-gray-500 mt-1">not bad for a morrisson's hookup hehe</p>
-                    </div>
-                </div>
+<!-- Gallery -->
+<section id="gallery-section" class="max-w-6xl mx-auto px-4 py-24">
+<h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-16 serif-font reveal">Our Favorite Chapters</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8 px-4 md:px-10">
 
-                <div class="polaroid transform rotate-[2deg] mt-8 lg:mt-12 reveal" style="transition-delay:.1s" onclick="openLightbox('memory-2-img')">
-                    <div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
-                        <img id="memory-2-img" src="photo2.jpg" onerror="this.src='https://placehold.co/600x750/fff1f2/9f1239?text=photo2.jpg'" alt="Memory 2" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                    </div>
-                    <div class="absolute bottom-4 w-full left-0 px-4 text-center">
-                        <p class="serif-font text-xl text-gray-800 font-semibold">The Math Homework</p>
-                        <p class="text-xs text-gray-500 mt-1">gemini is the best wingman ever istg</p>
-                    </div>
-                </div>
+<button type="button" class="polaroid transform rotate-[-3deg] reveal" style="transition-delay:.05s" onclick="openLightbox('memory-1-img', true)" aria-label="Open photo: The Day It All Started">
+<div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group relative">
+<div class="absolute top-3 right-3 bg-white/70 backdrop-blur-md rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-sm transition group-hover:scale-110">
+<i class="fa-solid fa-layer-group text-rose-600 text-sm" aria-hidden="true"></i>
+</div>
+<img id="memory-1-img" loading="lazy" src="WhatsApp Image 2026-06-01 at 10.20.23 PM (1).jpeg" onerror="this.onerror=null;this.src='https://placehold.co/600x750/fdf2f8/9f1239?text=Tap+to+cycle'" alt="The day it all started" class="w-full h-full object-cover transition-all duration-300 group-hover:scale-110">
+</div>
+<div class="absolute bottom-4 w-full left-0 px-4 text-center">
+<p class="serif-font text-xl text-gray-800 font-semibold">The Day It All Started</p>
+<p class="text-xs text-gray-500 mt-1">not bad for a morrisson's hookup hehe</p>
+</div>
+</button>
 
-                <div class="polaroid transform rotate-[-1deg] reveal" style="transition-delay:.15s" onclick="openLightbox('memory-3-img')">
-                    <div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
-                        <img id="memory-3-img" src="photo3.jpeg" onerror="this.src='https://placehold.co/600x750/ffe4e6/9f1239?text=photo3.jpeg'" alt="Memory 3" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                    </div>
-                    <div class="absolute bottom-4 w-full left-0 px-4 text-center">
-                        <p class="serif-font text-xl text-gray-800 font-semibold">First Video Call Together</p>
-                        <p class="text-xs text-gray-500 mt-1">not really but its the first screenshot i have lmao, from literally like 3 days after we met</p>
-                    </div>
-                </div>
+<button type="button" class="polaroid transform rotate-[2deg] mt-8 lg:mt-12 reveal" style="transition-delay:.1s" onclick="openLightbox('memory-2-img')" aria-label="Open photo: The Math Homework">
+<div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
+<img id="memory-2-img" loading="lazy" src="photo2.jpg" onerror="this.onerror=null;this.src='https://placehold.co/600x750/fff1f2/9f1239?text=photo2.jpg'" alt="The math homework" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+</div>
+<div class="absolute bottom-4 w-full left-0 px-4 text-center">
+<p class="serif-font text-xl text-gray-800 font-semibold">The Math Homework</p>
+<p class="text-xs text-gray-500 mt-1">gemini is the best wingman ever istg</p>
+</div>
+</button>
 
-                <div class="polaroid transform rotate-[3deg] sm:mt-12 lg:mt-12 reveal" style="transition-delay:.2s" onclick="openLightbox('memory-4-img')">
-                    <div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
-                        <img id="memory-4-img" src="photo4.jpg" onerror="this.src='https://placehold.co/600x750/fce7f3/9f1239?text=photo4.jpg'" alt="Memory 4" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                    </div>
-                    <div class="absolute bottom-4 w-full left-0 px-4 text-center">
-                        <p class="serif-font text-xl text-gray-800 font-semibold">My First Among Equals</p>
-                        <p class="text-xs text-gray-500 mt-1">I love all your photos, but this one really stands out to me</p>
-                    </div>
-                </div>
-            </div>
+<button type="button" class="polaroid transform rotate-[-1deg] reveal" style="transition-delay:.15s" onclick="openLightbox('memory-3-img')" aria-label="Open photo: First Video Call Together">
+<div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
+<img id="memory-3-img" loading="lazy" src="photo3.jpeg" onerror="this.onerror=null;this.src='https://placehold.co/600x750/ffe4e6/9f1239?text=photo3.jpeg'" alt="First video call together" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+</div>
+<div class="absolute bottom-4 w-full left-0 px-4 text-center">
+<p class="serif-font text-xl text-gray-800 font-semibold">First Video Call Together</p>
+<p class="text-xs text-gray-500 mt-1">not really but its the first screenshot i have lmao, from literally like 3 days after we met</p>
+</div>
+</button>
 
-            <div class="mt-16 flex justify-center px-4 reveal">
-                <a href="https://photos.google.com/share/AF1QipPadUiELdGCeHs3ID9ZLcJHwK7pIcyUVaV6nIZYuODB0REOB0Mj47hOj92Fyfw_lw" target="_blank" rel="noopener noreferrer"
-                   class="glass-panel px-8 py-4 rounded-full text-rose-900 font-semibold hover:bg-white/80 transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-3 group border border-rose-200">
-                    <i class="fa-regular fa-images text-rose-500 text-xl group-hover:scale-110 transition-transform"></i>
-                    <span>View our full Google Album</span>
-                    <i class="fa-solid fa-arrow-right text-rose-400 text-sm ml-2 group-hover:translate-x-1 transition-transform"></i>
-                </a>
-            </div>
-        </section>
+<button type="button" class="polaroid transform rotate-[3deg] sm:mt-12 lg:mt-12 reveal" style="transition-delay:.2s" onclick="openLightbox('memory-4-img')" aria-label="Open photo: My First Among Equals">
+<div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
+<img id="memory-4-img" loading="lazy" src="photo4.jpg" onerror="this.onerror=null;this.src='https://placehold.co/600x750/fce7f3/9f1239?text=photo4.jpg'" alt="My first among equals" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+</div>
+<div class="absolute bottom-4 w-full left-0 px-4 text-center">
+<p class="serif-font text-xl text-gray-800 font-semibold">My First Among Equals</p>
+<p class="text-xs text-gray-500 mt-1">I love all your photos, but this one really stands out to me</p>
+</div>
+</button>
+</div>
 
-        <!-- Reasons I Love You -->
-        <section id="reasons-section" class="max-w-3xl mx-auto px-4 py-24 border-t border-rose-100">
-            <h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-4 serif-font reveal">Reasons I Love You</h2>
-            <p class="text-center text-rose-800/80 mb-12 font-light reveal" style="transition-delay:.1s">A new one every time you tap the card.</p>
-            <div class="flex flex-col items-center gap-6">
-                <div id="reason-card" class="glass-panel w-full rounded-3xl p-10 text-center cursor-pointer group reveal" style="transition-delay:.2s; min-height:160px; display:flex; align-items:center; justify-content:center;" onclick="shuffleReason()">
-                    <p id="reason-text" class="serif-font text-2xl md:text-3xl text-rose-950 leading-snug" style="transition: opacity 0.35s ease;"></p>
-                </div>
-                <button onclick="shuffleReason()" class="glass-panel px-8 py-3 rounded-full text-rose-900 font-semibold hover:bg-white/80 transition-all duration-300 shadow-sm border border-rose-200 flex items-center gap-2 group">
-                    <i class="fa-solid fa-shuffle text-rose-400 group-hover:scale-110 transition-transform"></i>
-                    Another reason
-                </button>
-            </div>
-        </section>
+<div class="mt-16 flex justify-center px-4 reveal">
+<a href="https://photos.google.com/share/AF1QipPadUiELdGCeHs3ID9ZLcJHwK7pIcyUVaV6nIZYuODB0REOB0Mj47hOj92Fyfw_lw" target="_blank" rel="noopener noreferrer"
+class="glass-panel px-8 py-4 rounded-full text-rose-900 font-semibold hover:bg-white/80 transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-3 group border border-rose-200">
+<i class="fa-regular fa-images text-rose-500 text-xl group-hover:scale-110 transition-transform" aria-hidden="true"></i>
+<span>View our full Google Album</span>
+<i class="fa-solid fa-arrow-right text-rose-400 text-sm ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"></i>
+</a>
+</div>
+</section>
 
-        <!-- Open When -->
-        <section id="letters-section" class="max-w-4xl mx-auto px-4 py-24 border-t border-rose-100">
-            <h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-4 serif-font reveal">Open When...</h2>
-            <p class="text-center text-rose-800/80 mb-12 font-light reveal" style="transition-delay:.1s">No matter the distance, I am always by your side, my precious litle baby.</p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<!-- Reasons I Love You -->
+<section id="reasons-section" class="max-w-3xl mx-auto px-4 py-24 border-t border-rose-100">
+<h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-4 serif-font reveal">Reasons I Love You</h2>
+<p class="text-center text-rose-800/80 mb-12 font-light reveal" style="transition-delay:.1s">A new one every time you tap the card.</p>
+<div class="flex flex-col items-center gap-6">
+<button type="button" id="reason-card" class="reason-card-btn glass-panel w-full rounded-3xl p-10 text-center group reveal" style="transition-delay:.2s; min-height:160px; display:flex; align-items:center; justify-content:center;" onclick="shuffleReason()" aria-label="Show another reason I love you">
+<p id="reason-text" class="serif-font text-2xl md:text-3xl text-rose-950 leading-snug" style="transition: opacity 0.35s ease;"></p>
+</button>
+<button type="button" onclick="shuffleReason()" class="glass-panel px-8 py-3 rounded-full text-rose-900 font-semibold hover:bg-white/80 transition-all duration-300 shadow-sm border border-rose-200 flex items-center gap-2 group">
+<i class="fa-solid fa-shuffle text-rose-400 group-hover:scale-110 transition-transform" aria-hidden="true"></i>
+Another reason
+</button>
+</div>
+</section>
 
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" style="transition-delay:.05s" onclick="openLetter('miss-me')">
-                    <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-semibold text-rose-900">...you miss me</h3>
-                </div>
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" style="transition-delay:.1s" onclick="openLetter('bad-day')">
-                    <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-semibold text-rose-900">...you're having a bad day</h3>
-                </div>
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" style="transition-delay:.15s" onclick="openLetter('cant-sleep')">
-                    <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-semibold text-rose-900">...you can't sleep</h3>
-                </div>
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" style="transition-delay:.2s" onclick="openLetter('proud')">
-                    <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-semibold text-rose-900">...you need to know how proud I am</h3>
-                </div>
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('distance-too-much')">
-                    <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-semibold text-rose-900">...the distance feels like too much</h3>
-                </div>
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('argument')">
-                    <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-semibold text-rose-900">...we just had an argument</h3>
-                </div>
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('need-smile')">
-                    <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-semibold text-rose-900">...you need a smile</h3>
-                </div>
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('stressed-overwhelmed')">
-                    <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-semibold text-rose-900">...you're stressed and overwhelmed</h3>
-                </div>
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('bored')">
-                    <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-semibold text-rose-900">...you're bored out of your mind</h3>
-                </div>
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('good-news')">
-                    <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-semibold text-rose-900">...you just got some good news</h3>
-                </div>
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('feeling-beautiful')">
-                    <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-semibold text-rose-900">...you feel absolutely beautiful today</h3>
-                </div>
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('eating-good')">
-                    <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-semibold text-rose-900">...you are eating something really good</h3>
-                </div>
-                <div class="glass-panel p-6 rounded-2xl cursor-pointer hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('happy-us')">
-                    <i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-semibold text-rose-900">...you are just happy and thinking of us</h3>
-                </div>
+<!-- Open When -->
+<section id="letters-section" class="max-w-4xl mx-auto px-4 py-24 border-t border-rose-100">
+<h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-4 serif-font reveal">Open When...</h2>
+<p class="text-center text-rose-800/80 mb-12 font-light reveal" style="transition-delay:.1s">No matter the distance, I am always by your side, my precious litle baby.</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 
-            </div>
-        </section>
+<button type="button" class="letter-tile glass-panel p-6 rounded-2xl hover:bg-white/80 transition-all duration-300 text-center group reveal" style="transition-delay:.05s" onclick="openLetter('miss-me')">
+<i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition block" aria-hidden="true"></i>
+<h3 class="font-semibold text-rose-900">...you miss me</h3>
+</button>
+<button type="button" class="letter-tile glass-panel p-6 rounded-2xl hover:bg-white/80 transition-all duration-300 text-center group reveal" style="transition-delay:.1s" onclick="openLetter('bad-day')">
+<i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition block" aria-hidden="true"></i>
+<h3 class="font-semibold text-rose-900">...you're having a bad day</h3>
+</button>
+<button type="button" class="letter-tile glass-panel p-6 rounded-2xl hover:bg-white/80 transition-all duration-300 text-center group reveal" style="transition-delay:.15s" onclick="openLetter('cant-sleep')">
+<i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition block" aria-hidden="true"></i>
+<h3 class="font-semibold text-rose-900">...you can't sleep</h3>
+</button>
+<button type="button" class="letter-tile glass-panel p-6 rounded-2xl hover:bg-white/80 transition-all duration-300 text-center group reveal" style="transition-delay:.2s" onclick="openLetter('proud')">
+<i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition block" aria-hidden="true"></i>
+<h3 class="font-semibold text-rose-900">...you need to know how proud I am</h3>
+</button>
+<button type="button" class="letter-tile glass-panel p-6 rounded-2xl hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('distance-too-much')">
+<i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition block" aria-hidden="true"></i>
+<h3 class="font-semibold text-rose-900">...the distance feels like too much</h3>
+</button>
+<button type="button" class="letter-tile glass-panel p-6 rounded-2xl hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('argument')">
+<i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition block" aria-hidden="true"></i>
+<h3 class="font-semibold text-rose-900">...we just had an argument</h3>
+</button>
+<button type="button" class="letter-tile glass-panel p-6 rounded-2xl hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('need-smile')">
+<i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition block" aria-hidden="true"></i>
+<h3 class="font-semibold text-rose-900">...you need a smile</h3>
+</button>
+<button type="button" class="letter-tile glass-panel p-6 rounded-2xl hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('stressed-overwhelmed')">
+<i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition block" aria-hidden="true"></i>
+<h3 class="font-semibold text-rose-900">...you're stressed and overwhelmed</h3>
+</button>
+<button type="button" class="letter-tile glass-panel p-6 rounded-2xl hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('bored')">
+<i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition block" aria-hidden="true"></i>
+<h3 class="font-semibold text-rose-900">...you're bored out of your mind</h3>
+</button>
+<button type="button" class="letter-tile glass-panel p-6 rounded-2xl hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('good-news')">
+<i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition block" aria-hidden="true"></i>
+<h3 class="font-semibold text-rose-900">...you just got some good news</h3>
+</button>
+<button type="button" class="letter-tile glass-panel p-6 rounded-2xl hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('feeling-beautiful')">
+<i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition block" aria-hidden="true"></i>
+<h3 class="font-semibold text-rose-900">...you feel absolutely beautiful today</h3>
+</button>
+<button type="button" class="letter-tile glass-panel p-6 rounded-2xl hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('eating-good')">
+<i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition block" aria-hidden="true"></i>
+<h3 class="font-semibold text-rose-900">...you are eating something really good</h3>
+</button>
+<button type="button" class="letter-tile glass-panel p-6 rounded-2xl hover:bg-white/80 transition-all duration-300 text-center group reveal" onclick="openLetter('happy-us')">
+<i class="fa-regular fa-envelope text-3xl text-rose-400 mb-3 group-hover:scale-110 transition block" aria-hidden="true"></i>
+<h3 class="font-semibold text-rose-900">...you are just happy and thinking of us</h3>
+</button>
 
-        <!-- Letter modal -->
-        <div id="letter-modal" class="fixed inset-0 bg-rose-950/40 backdrop-blur-sm z-50 hidden flex-col items-center justify-center p-4 opacity-0 transition-opacity duration-300">
-            <div class="bg-white p-8 md:p-12 rounded-2xl shadow-2xl max-w-lg w-full relative transform scale-95 transition-transform duration-300" id="letter-content">
-                <button onclick="closeLetter()" class="absolute top-4 right-4 text-gray-400 hover:text-rose-600 transition"><i class="fa-solid fa-xmark text-xl"></i></button>
-                <h3 id="modal-title" class="serif-font text-2xl text-rose-900 mb-4 font-semibold border-b border-rose-100 pb-4"></h3>
-                <div id="modal-body" class="text-gray-700 leading-relaxed font-light whitespace-pre-line"></div>
-            </div>
-        </div>
+</div>
+</section>
 
-        <!-- Lightbox -->
-        <div id="lightbox" onclick="closeLightbox()">
-            <button id="lightbox-close" onclick="closeLightbox()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
-            <img id="lightbox-img" src="" alt="Full size memory" onclick="event.stopPropagation()">
-        </div>
+<!-- Letter modal -->
+<div id="letter-modal" class="fixed inset-0 bg-rose-950/40 backdrop-blur-sm z-50 hidden flex-col items-center justify-center p-4 opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+<div class="bg-white p-8 md:p-12 rounded-2xl shadow-2xl max-w-lg w-full relative transform scale-95 transition-transform duration-300" id="letter-content">
+<button onclick="closeLetter()" class="absolute top-4 right-4 text-gray-400 hover:text-rose-600 transition" aria-label="Close letter"><i class="fa-solid fa-xmark text-xl" aria-hidden="true"></i></button>
+<h3 id="modal-title" class="serif-font text-2xl text-rose-900 mb-4 font-semibold border-b border-rose-100 pb-4"></h3>
+<div id="modal-body" class="text-gray-700 leading-relaxed font-light whitespace-pre-line"></div>
+</div>
+</div>
 
-        <footer class="text-center py-12 text-rose-900/50"><p>Built with love, for my love.</p></footer>
-    </div>
+<!-- Lightbox -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+<button id="lightbox-close" class="lightbox-btn" onclick="closeLightbox()" aria-label="Close"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+<button id="lightbox-prev" class="lightbox-btn" onclick="event.stopPropagation(); stepPhoto(-1)" aria-label="Previous photo"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+<img id="lightbox-img" src="" alt="Full size memory" onclick="event.stopPropagation()">
+<button id="lightbox-next" class="lightbox-btn" onclick="event.stopPropagation(); stepPhoto(1)" aria-label="Next photo"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+<span id="lightbox-counter"></span>
+</div>
 
-    <script>
-    // ── CONFIG ──
-    const reunionDate   = new Date(2026, 7, 4, 12, 0, 0);
-    const startDate     = new Date(2026, 5, 3);
-    const homeTimezone  = 'Europe/Budapest';
-    const awayTimezone  = 'America/New_York';
-    const totalDuration = reunionDate - startDate;
+<!-- Guestbook -->
+<section id="guestbook-section" class="max-w-3xl mx-auto px-4 py-24 border-t border-rose-100">
+<h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-4 serif-font reveal">Leave Me a Note</h2>
+<p class="text-center text-rose-800/80 mb-12 font-light reveal" style="transition-delay:.1s">Whenever you think of me, write it here. I will read every single one. 💗</p>
+<div id="gb-notice" class="gb-notice reveal" style="display:none"></div>
+<form id="gb-form" class="gb-form reveal" style="transition-delay:.15s">
+<input id="gb-name" class="gb-input" type="text" maxlength="40" placeholder="Your name (optional)" autocomplete="name" aria-label="Your name">
+<textarea id="gb-message" class="gb-textarea" maxlength="500" placeholder="Write something sweet..." required aria-label="Your note"></textarea>
+<div class="gb-row">
+<span class="gb-count" id="gb-count">0 / 500</span>
+<button type="submit" class="gb-submit" id="gb-submit">Leave note 💌</button>
+</div>
+</form>
+<div id="gb-wall" class="gb-wall reveal" style="transition-delay:.2s"></div>
+</section>
 
-    // ── FLIP LOGIC ──
-    const units = ['days','hours','mins','secs'];
-    const state = {};
-    units.forEach(u => { state[u] = { shown: null, busy: false, flipped: false }; });
+<footer class="text-center py-12 text-rose-900/50"><p>Built with love, for my love.</p></footer>
+</div>
 
-    function flip(unit, newStr) {
-        const s = state[unit];
-        if (s.shown === newStr) return;
-        if (s.busy) return;
-        const inner = document.getElementById('inner-' + unit);
-        const front = document.getElementById('front-' + unit);
-        const back  = document.getElementById('back-'  + unit);
-        s.busy = true;
-        if (!s.flipped) {
-            back.textContent = newStr;
-            inner.style.transition = 'transform 0.38s cubic-bezier(0.4,0,0.2,1)';
-            inner.style.transform  = 'rotateX(-180deg)';
-            setTimeout(() => {
-                inner.style.transition = 'none';
-                front.textContent = newStr;
-                inner.style.transform = 'rotateX(0deg)';
-                s.shown   = newStr;
-                s.flipped = false;
-                s.busy    = false;
-            }, 400);
-        }
-    }
+<script>
+// ── CONFIG (edit these in one place) ──
+const CONFIG = {
+reunion:   { year: 2026, month: 8, day: 4, hour: 12, minute: 0 }, // month is 1-12
+start:     { year: 2026, month: 6, day: 3 },                       // when the wait began
+homeTimezone: 'Europe/Budapest',
+awayTimezone: 'America/New_York',
+homeLabel: 'My Time (Home)',
+awayLabel: 'Her Time (Maine)'
+};
+const reunionDate   = new Date(CONFIG.reunion.year, CONFIG.reunion.month - 1, CONFIG.reunion.day, CONFIG.reunion.hour, CONFIG.reunion.minute, 0);
+const startDate     = new Date(CONFIG.start.year, CONFIG.start.month - 1, CONFIG.start.day);
+const homeTimezone  = CONFIG.homeTimezone;
+const awayTimezone  = CONFIG.awayTimezone;
+const totalDuration = reunionDate - startDate;
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // ── MILESTONES ──
-    function getMilestone(days) {
-        if (days > 60)  return "Still a little while, but every second counts 💗";
-        if (days > 30)  return "Getting so close, baby 🌸";
-        if (days > 14)  return "Less than a month. I cannot wait to hold you.";
-        if (days > 7)   return "Two more weeks. Time is flying ✈️";
-        if (days > 1)   return "One more week. I can barely wait. 🥺";
-        if (days === 1) return "Tomorrow. TOMORROW. 🎉";
-        if (days === 0) return "Today is the day. I'm coming for you. ♡";
-        return "";
-    }
+// ── MOBILE MENU ──
+(function () {
+const toggle = document.getElementById('menu-toggle');
+const menu   = document.getElementById('mobile-menu');
+const icon   = document.getElementById('menu-icon');
+function setOpen(open) {
+menu.classList.toggle('open', open);
+toggle.setAttribute('aria-expanded', String(open));
+toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+icon.className = open ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+}
+toggle.addEventListener('click', () => setOpen(!menu.classList.contains('open')));
+menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+})();
 
-    // ── MAIN TICK ──
-    let confettiFired = false;
-    function tick() {
-        const now      = new Date();
-        const distance = reunionDate - now;
-        if (distance <= 0) {
-            document.getElementById('countdown-display').innerHTML =
-                "<span class='text-2xl serif-font text-rose-900' style='padding:1rem'>I'm right here. ♡</span>";
-            document.getElementById('milestone-msg').textContent  = '';
-            document.getElementById('progress-fill').style.width  = '100%';
-            document.getElementById('progress-label').textContent = '100% of the wait is over 🎉';
-            if (!confettiFired) { confettiFired = true; launchConfetti(); }
-            return;
-        }
-        const d = Math.floor(distance / 86400000);
-        const h = Math.floor((distance % 86400000) / 3600000);
-        const m = Math.floor((distance % 3600000)  / 60000);
-        const s = Math.floor((distance % 60000)    / 1000);
-        flip('days',  d.toString().padStart(2,'0'));
-        flip('hours', h.toString().padStart(2,'0'));
-        flip('mins',  m.toString().padStart(2,'0'));
-        flip('secs',  s.toString().padStart(2,'0'));
-        document.getElementById('milestone-msg').textContent = getMilestone(d);
-        const pct = Math.min(100, Math.max(0, ((now - startDate) / totalDuration) * 100));
-        document.getElementById('progress-fill').style.width  = pct.toFixed(1) + '%';
-        document.getElementById('progress-label').textContent = pct.toFixed(0) + '% of the way there 💗';
-    }
-    setInterval(tick, 1000);
-    tick();
+// ── FLIP LOGIC (true two-sided flip) ──
+const units = ['days','hours','mins','secs'];
+const state = {};
+units.forEach(u => { state[u] = { shown: null, flipped: false, busy: false }; });
 
-    // ── TIMEZONES ──
-    function updateTimes() {
-        const now  = new Date();
-        const opts = { hour:'2-digit', minute:'2-digit', hour12:true };
-        const h = document.getElementById('time-home');
-        const a = document.getElementById('time-away');
-        if (h) h.innerText = new Intl.DateTimeFormat('en-US',{...opts,timeZone:homeTimezone}).format(now);
-        if (a) a.innerText = new Intl.DateTimeFormat('en-US',{...opts,timeZone:awayTimezone}).format(now);
-    }
-    setInterval(updateTimes, 1000);
-    updateTimes();
+function setBoth(unit, str) {
+document.getElementById('front-' + unit).textContent = str;
+document.getElementById('back-'  + unit).textContent = str;
+}
 
-    // ── PHOTO STACK ──
-    const stackedPhotos = [
-        "WhatsApp Image 2026-06-01 at 10.20.23 PM (1).jpeg",
-        "WhatsApp Image 2026-06-01 at 10.20.23 PM (2).jpeg",
-        "WhatsApp Image 2026-06-01 at 10.20.23 PM.jpeg"
-    ];
-    let currentPhotoIndex = 0;
+function flip(unit, newStr) {
+const s = state[unit];
+if (s.shown === newStr) return;
+if (prefersReducedMotion) { // no animation, just swap text
+setBoth(unit, newStr); s.shown = newStr; return;
+}
+if (s.busy) return;
+const inner = document.getElementById('inner-' + unit);
+const front = document.getElementById('front-' + unit);
+const back  = document.getElementById('back-'  + unit);
+s.busy = true;
+if (!s.flipped) {
+back.textContent = newStr;
+inner.style.transition = 'transform 0.38s cubic-bezier(0.4,0,0.2,1)';
+inner.style.transform  = 'rotateX(-180deg)';
+} else {
+front.textContent = newStr;
+inner.style.transition = 'transform 0.38s cubic-bezier(0.4,0,0.2,1)';
+inner.style.transform  = 'rotateX(0deg)';
+}
+s.flipped = !s.flipped;
+s.shown = newStr;
+setTimeout(() => { s.busy = false; }, 400);
+}
 
-    // ── LIGHTBOX ──
-    window.openLightbox = function(imgId) {
-        const src = document.getElementById(imgId).src;
-        const lb  = document.getElementById('lightbox');
-        document.getElementById('lightbox-img').src = src;
-        lb.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        if (imgId === 'memory-1-img') {
-            currentPhotoIndex = (currentPhotoIndex + 1) % stackedPhotos.length;
-            setTimeout(() => {
-                const m1 = document.getElementById('memory-1-img');
-                if (m1) m1.src = stackedPhotos[currentPhotoIndex];
-            }, 400);
-        }
-    };
-    window.closeLightbox = function() {
-        document.getElementById('lightbox').classList.remove('open');
-        document.body.style.overflow = '';
-    };
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+// ── MILESTONES ──
+function getMilestone(days) {
+if (days > 60)  return "Still a little while, but every second counts 💗";
+if (days > 30)  return "Getting so close, baby 🌸";
+if (days > 14)  return "Less than a month. I cannot wait to hold you.";
+if (days > 7)   return "Two more weeks. Time is flying ✈️";
+if (days > 1)   return "One more week. I can barely wait. 🥺";
+if (days === 1) return "Tomorrow. TOMORROW. 🎉";
+if (days === 0) return "Today is the day. I'm coming for you. ♡";
+return "";
+}
 
-    // ── LETTERS ──
-    const letterMessages = {
-        'miss-me': {
-            title: "Open when you miss me",
-            body: "I miss you too. More than words can say. Look at the countdown up top, every single second that ticks by is one second closer to me holding you again. Close your eyes, think of our favorite memory together, and know I'm thinking of you too. One day, all this distance will be a fond memory of the past. I love you."
-        },
-        'bad-day': {
-            title: "Open when you're having a bad day",
-            body: "Take a deep breath. You are my incredibly strong baby, my love, my precious, my heart and soul. This day doesn't define you. Whatever is stressing you out, we will figure out together. Go get a sweet treat, put on some comfortable clothes, and remember I love you so much. I love you."
-        },
-        'cant-sleep': {
-            title: "Open when you can't sleep",
-            body: "I know it's late there in Maine and your mind is probably racing. Deep breath, relax your shoulders and take a sip of water. I'm probably awake here in Debrecen starting my day, so send me a text! If I don't reply right away, call me, and while you wait imagine my arms wrapped around you while I'm kissing your forehead. You're my love and you're always on my mind. I love you."
-        },
-        'proud': {
-            title: "Open when you need to know how proud I am",
-            body: "You are doing amazing things. Doing long distance isn't easy, but you handle it with such grace. And fuck that, everything you're doing is so magnificent I couldn't be prouder. Keep going, my love. You've got this. I love you."
-        },
-        'distance-too-much': {
-            title: "Open when the distance feels like too much",
-            body: "I know Maine feels a million miles away from Hungary right now, and sometimes the countdown timer feels like it's moving too slowly. But remember this: distance is just a test to see how far love can travel. Look out your window tonight, we are under the exact same sky. Go back and look at our photos, remember how my hand feels in yours, and know that every second that passes is a second closer to me coming home to you. I love you."
-        },
-        'argument': {
-            title: "Open when we just had an argument",
-            body: "Take a deep breath, my love. Being long-distance makes disagreements so much harder because I can't just pull you into a hug and kiss your forehead to make it better. But please know this; us being frustrated doesn't change a single thing about how much I love you. We are a team, always. And you are the love of my life. Read this, take a minute to breathe, and let's talk when we're both ready. I am always on your side. I love you."
-        },
-        'need-smile': {
-            title: "Open when you need a smile",
-            body: "Zeid: Tell me a joke.\nSarah: Your face."
-        },
-        'stressed-overwhelmed': {
-            title: "Open when you're stressed and overwhelmed",
-            body: "My smart, beautiful girl. You put so much pressure on yourself because you care so much, but please remember to take a break. Drink a glass of water, stretch your shoulders, and know that I believe in you 100%. I might seem so amazing, but you are the one doing all the incredible, hard work right now. I am so unconditionally proud of you. You've got this. I love you."
-        },
-        'bored': {
-            title: "Open when you're bored out of your mind",
-            body: "So, Maine is being completely boring today? Go look at our Google Photos album. Open up candle and play our games. Send me nudes; If I'm awake in Debrecen, I'll send one back. If I'm asleep, I'll wake up extremely happy. I love you, my beautiful weirdo."
-        },
-        'good-news': {
-            title: "Open when you just got some good news",
-            body: "YES! Whatever it is, I am cheering so loud for you right now. I always tell you how smart and capable you are, and this just proves it again. I wish I could spin you around and take you out for a celebratory sweet treat right now, but for now, just imagine me giving you the biggest, tightest hug. I am so unconditionally proud of you. You deserve this."
-        },
-        'feeling-beautiful': {
-            title: "Open when you feel absolutely beautiful today",
-            body: "Because you are. Honestly, you're the most gorgeous girl in the world every single day, whether you're dressed up or wearing sweatpants. Send me a selfie right now. I don't care what time it is or what I'm doing. I want to see my beautiful girl and show you off. I'm the luckiest guy ever. I love you."
-        },
-        'eating-good': {
-            title: "Open when you are eating something really good",
-            body: "Listen, long distance is hard enough, but you eating something delicious without me is the real tragedy here. Take a bite for me. Actually, take two. Enjoy every second of it, my precious girl, and remember we are going to have so many amazing dinners together when I see you in August. Save me a bite?"
-        },
-        'happy-us': {
-            title: "Open when you are just happy and thinking of us",
-            body: "I'm thinking of you too. Right this exact second, and every other second. These are my favorite moments, when nothing is wrong, the distance doesn't feel quite so heavy, and we just get to be happy that we found each other. You are my absolute heart and soul, Sarah. Keep smiling that beautiful smile. I love you."
-        }
-    };
+// ── MAIN TICK ──
+let confettiFired = false;
+function tick() {
+const now      = new Date();
+const distance = reunionDate - now;
+if (distance <= 0) {
+document.getElementById('countdown-display').innerHTML =
+"<span class='text-2xl serif-font text-rose-900' style='padding:1rem'>I'm right here. ♡</span>";
+document.getElementById('milestone-msg').textContent  = '';
+document.getElementById('progress-fill').style.width  = '100%';
+document.getElementById('progress-label').textContent = '100% of the wait is over 🎉';
+if (!confettiFired) { confettiFired = true; launchConfetti(); }
+return;
+}
+const d = Math.floor(distance / 86400000);
+const h = Math.floor((distance % 86400000) / 3600000);
+const m = Math.floor((distance % 3600000)  / 60000);
+const s = Math.floor((distance % 60000)    / 1000);
+flip('days',  d.toString().padStart(2,'0'));
+flip('hours', h.toString().padStart(2,'0'));
+flip('mins',  m.toString().padStart(2,'0'));
+flip('secs',  s.toString().padStart(2,'0'));
+document.getElementById('milestone-msg').textContent = getMilestone(d);
+const pct = Math.min(100, Math.max(0, ((now - startDate) / totalDuration) * 100));
+document.getElementById('progress-fill').style.width  = pct.toFixed(1) + '%';
+document.getElementById('progress-label').textContent = pct.toFixed(0) + '% of the way there 💗';
+}
+setInterval(tick, 1000);
+tick();
 
-    window.openLetter = function(id) {
-        const modal = document.getElementById('letter-modal');
-        const cont  = document.getElementById('letter-content');
-        document.getElementById('modal-title').innerText = letterMessages[id].title;
-        document.getElementById('modal-body').innerText  = letterMessages[id].body;
-        modal.classList.remove('hidden'); modal.classList.add('flex');
-        setTimeout(() => { modal.classList.remove('opacity-0'); cont.classList.remove('scale-95'); cont.classList.add('scale-100'); }, 10);
-    };
-    window.closeLetter = function() {
-        const modal = document.getElementById('letter-modal');
-        const cont  = document.getElementById('letter-content');
-        modal.classList.add('opacity-0'); cont.classList.remove('scale-100'); cont.classList.add('scale-95');
-        setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
-    };
+// ── TIMEZONES ──
+function updateTimes() {
+const now  = new Date();
+const opts = { hour:'2-digit', minute:'2-digit', hour12:true };
+const h = document.getElementById('time-home');
+const a = document.getElementById('time-away');
+if (h) h.innerText = new Intl.DateTimeFormat('en-US',{...opts,timeZone:homeTimezone}).format(now);
+if (a) a.innerText = new Intl.DateTimeFormat('en-US',{...opts,timeZone:awayTimezone}).format(now);
+}
+setInterval(updateTimes, 10000);
+updateTimes();
 
-    // ── FLOATING HEARTS ──
-    function createHeart() {
-        const field = document.getElementById('heart-field');
-        if (!field) return;
-        const heart     = document.createElement('i');
-        heart.className = 'fa-solid fa-heart floating-heart';
-        const duration  = Math.random() * 6 + 7;
-        heart.style.left              = (Math.random() * 100) + 'vw';
-        heart.style.fontSize          = (Math.random() * 14 + 9) + 'px';
-        heart.style.animationDuration = duration + 's';
-        heart.style.color             = `rgba(244,63,94,${(Math.random()*0.18+0.07).toFixed(2)})`;
-        field.appendChild(heart);
-        setTimeout(() => heart.remove(), (duration + 1) * 1000);
-    }
-    setInterval(createHeart, 800);
+// ── PHOTO STACK + LIGHTBOX ──
+const stackedPhotos = [
+"WhatsApp Image 2026-06-01 at 10.20.23 PM (1).jpeg",
+"WhatsApp Image 2026-06-01 at 10.20.23 PM (2).jpeg",
+"WhatsApp Image 2026-06-01 at 10.20.23 PM.jpeg"
+];
+let currentPhotoIndex = 0;
+let lightboxIsStack = false;
+let lastFocusedEl = null;
 
-    // ── CONFETTI ──
-    function launchConfetti() {
-        const canvas = document.getElementById('confetti-canvas');
-        const ctx    = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const colors = ['#f43f5e','#fb7185','#fda4af','#fce7f3','#fff1f2','#e11d48'];
-        const particles = Array.from({length:200}, () => ({
-            x: Math.random()*canvas.width, y: Math.random()*canvas.height - canvas.height,
-            r: Math.random()*6+3, d: Math.random()*200,
-            color: colors[Math.floor(Math.random()*colors.length)],
-            tiltAngle:0, tiltAngleIncrement: Math.random()*0.07+0.05
-        }));
-        let angle=0, frame;
-        function draw() {
-            ctx.clearRect(0,0,canvas.width,canvas.height); angle+=0.01;
-            particles.forEach(p => {
-                p.tiltAngle+=p.tiltAngleIncrement; p.y+=Math.cos(angle+p.d)+1.5; p.x+=Math.sin(angle);
-                const tilt=Math.sin(p.tiltAngle)*12;
-                ctx.beginPath(); ctx.lineWidth=p.r; ctx.strokeStyle=p.color;
-                ctx.moveTo(p.x+tilt+p.r/2,p.y); ctx.lineTo(p.x+tilt,p.y+tilt+p.r/2); ctx.stroke();
-                if(p.y>canvas.height){p.y=-10;p.x=Math.random()*canvas.width;}
-            });
-            frame=requestAnimationFrame(draw);
-        }
-        draw();
-        setTimeout(()=>{cancelAnimationFrame(frame);ctx.clearRect(0,0,canvas.width,canvas.height);},6000);
-    }
+function renderLightboxImage() {
+const img = document.getElementById('lightbox-img');
+const counter = document.getElementById('lightbox-counter');
+const prev = document.getElementById('lightbox-prev');
+const next = document.getElementById('lightbox-next');
+if (lightboxIsStack) {
+img.src = stackedPhotos[currentPhotoIndex];
+img.onerror = function(){ this.onerror=null; this.src='https://placehold.co/600x750/fdf2f8/9f1239?text=photo+'+(currentPhotoIndex+1); };
+counter.textContent = (currentPhotoIndex + 1) + ' / ' + stackedPhotos.length;
+prev.style.display = next.style.display = stackedPhotos.length > 1 ? 'flex' : 'none';
+counter.style.display = 'block';
+} else {
+counter.style.display = 'none';
+prev.style.display = next.style.display = 'none';
+}
+}
 
-    // ── REASONS I LOVE YOU ──
-    const reasons = [
-        "The way you make me feel like home, no matter the distance",
-        "Your laugh -- it's genuinely my favorite sound in the world",
-        "How smart and curious you are about everything",
-        "The way you care so deeply about the people you love",
-        "You make even the most ordinary moments feel special",
-        "How brave you are -- moving across the world takes guts",
-        "The way you look at me like I'm the only person in the room",
-        "You challenge me to be a better version of myself",
-        "How you can make me smile even on my hardest days",
-        "The little things you do that you don't even notice",
-        "Your kindness -- it radiates out of you naturally",
-        "The way you say my name",
-        "How you love so fully and without holding back",
-        "You are the most beautiful person in the whole world",
-        "The future I get to imagine when I think of you",
-        "Your feet",
-        "Your boobs",
-        "Your ass",
-        "Your smile"
-    ];
-    let lastReasonIndex = -1;
-    window.shuffleReason = function() {
-        const text = document.getElementById("reason-text");
-        text.style.opacity = "0";
-        setTimeout(() => {
-            let idx;
-            do { idx = Math.floor(Math.random() * reasons.length); } while (idx === lastReasonIndex);
-            lastReasonIndex = idx;
-            text.textContent = reasons[idx];
-            text.style.opacity = "1";
-        }, 350);
-    };
-    shuffleReason();
+window.stepPhoto = function(dir) {
+if (!lightboxIsStack) return;
+currentPhotoIndex = (currentPhotoIndex + dir + stackedPhotos.length) % stackedPhotos.length;
+renderLightboxImage();
+// keep the gallery thumbnail in sync
+const m1 = document.getElementById('memory-1-img');
+if (m1) m1.src = stackedPhotos[currentPhotoIndex];
+};
 
-    // ── SCROLL REVEAL ──
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);} });
-    }, {threshold:0.12});
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    </script>
+window.openLightbox = function(imgId, isStack) {
+lastFocusedEl = document.activeElement;
+lightboxIsStack = !!isStack;
+const lb  = document.getElementById('lightbox');
+if (lightboxIsStack) {
+renderLightboxImage();
+} else {
+document.getElementById('lightbox-img').src = document.getElementById(imgId).src;
+renderLightboxImage();
+}
+lb.classList.add('open');
+document.body.style.overflow = 'hidden';
+document.getElementById('lightbox-close').focus();
+};
+window.closeLightbox = function() {
+document.getElementById('lightbox').classList.remove('open');
+document.body.style.overflow = '';
+if (lastFocusedEl) lastFocusedEl.focus();
+};
+document.getElementById('lightbox').addEventListener('click', closeLightbox);
+
+// ── LETTERS ──
+const letterMessages = {
+'miss-me': {
+title: "Open when you miss me",
+body: "I miss you too. More than words can say. Look at the countdown up top, every single second that ticks by is one second closer to me holding you again. Close your eyes, think of our favorite memory together, and know I'm thinking of you too. One day, all this distance will be a fond memory of the past. I love you."
+},
+'bad-day': {
+title: "Open when you're having a bad day",
+body: "Take a deep breath. You are my incredibly strong baby, my love, my precious, my heart and soul. This day doesn't define you. Whatever is stressing you out, we will figure out together. Go get a sweet treat, put on some comfortable clothes, and remember I love you so much. I love you."
+},
+'cant-sleep': {
+title: "Open when you can't sleep",
+body: "I know it's late there in Maine and your mind is probably racing. Deep breath, relax your shoulders and take a sip of water. I'm probably awake here in Debrecen starting my day, so send me a text! If I don't reply right away, call me, and while you wait imagine my arms wrapped around you while I'm kissing your forehead. You're my love and you're always on my mind. I love you."
+},
+'proud': {
+title: "Open when you need to know how proud I am",
+body: "You are doing amazing things. Doing long distance isn't easy, but you handle it with such grace. And fuck that, everything you're doing is so magnificent I couldn't be prouder. Keep going, my love. You've got this. I love you."
+},
+'distance-too-much': {
+title: "Open when the distance feels like too much",
+body: "I know Maine feels a million miles away from Hungary right now, and sometimes the countdown timer feels like it's moving too slowly. But remember this: distance is just a test to see how far love can travel. Look out your window tonight, we are under the exact same sky. Go back and look at our photos, remember how my hand feels in yours, and know that every second that passes is a second closer to me coming home to you. I love you."
+},
+'argument': {
+title: "Open when we just had an argument",
+body: "Take a deep breath, my love. Being long-distance makes disagreements so much harder because I can't just pull you into a hug and kiss your forehead to make it better. But please know this; us being frustrated doesn't change a single thing about how much I love you. We are a team, always. And you are the love of my life. Read this, take a minute to breathe, and let's talk when we're both ready. I am always on your side. I love you."
+},
+'need-smile': {
+title: "Open when you need a smile",
+body: "Zeid: Tell me a joke.\nSarah: Your face."
+},
+'stressed-overwhelmed': {
+title: "Open when you're stressed and overwhelmed",
+body: "My smart, beautiful girl. You put so much pressure on yourself because you care so much, but please remember to take a break. Drink a glass of water, stretch your shoulders, and know that I believe in you 100%. I might seem so amazing, but you are the one doing all the incredible, hard work right now. I am so unconditionally proud of you. You've got this. I love you."
+},
+'bored': {
+title: "Open when you're bored out of your mind",
+body: "So, Maine is being completely boring today? Go look at our Google Photos album. Open up candle and play our games. Send me nudes; If I'm awake in Debrecen, I'll send one back. If I'm asleep, I'll wake up extremely happy. I love you, my beautiful weirdo."
+},
+'good-news': {
+title: "Open when you just got some good news",
+body: "YES! Whatever it is, I am cheering so loud for you right now. I always tell you how smart and capable you are, and this just proves it again. I wish I could spin you around and take you out for a celebratory sweet treat right now, but for now, just imagine me giving you the biggest, tightest hug. I am so unconditionally proud of you. You deserve this."
+},
+'feeling-beautiful': {
+title: "Open when you feel absolutely beautiful today",
+body: "Because you are. Honestly, you're the most gorgeous girl in the world every single day, whether you're dressed up or wearing sweatpants. Send me a selfie right now. I don't care what time it is or what I'm doing. I want to see my beautiful girl and show you off. I'm the luckiest guy ever. I love you."
+},
+'eating-good': {
+title: "Open when you are eating something really good",
+body: "Listen, long distance is hard enough, but you eating something delicious without me is the real tragedy here. Take a bite for me. Actually, take two. Enjoy every second of it, my precious girl, and remember we are going to have so many amazing dinners together when I see you in August. Save me a bite?"
+},
+'happy-us': {
+title: "Open when you are just happy and thinking of us",
+body: "I'm thinking of you too. Right this exact second, and every other second. These are my favorite moments, when nothing is wrong, the distance doesn't feel quite so heavy, and we just get to be happy that we found each other. You are my absolute heart and soul, Sarah. Keep smiling that beautiful smile. I love you."
+}
+};
+
+let lastFocusedBeforeLetter = null;
+window.openLetter = function(id) {
+lastFocusedBeforeLetter = document.activeElement;
+const modal = document.getElementById('letter-modal');
+const cont  = document.getElementById('letter-content');
+document.getElementById('modal-title').innerText = letterMessages[id].title;
+document.getElementById('modal-body').innerText  = letterMessages[id].body;
+modal.classList.remove('hidden'); modal.classList.add('flex');
+document.body.style.overflow = 'hidden';
+setTimeout(() => { modal.classList.remove('opacity-0'); cont.classList.remove('scale-95'); cont.classList.add('scale-100'); }, 10);
+cont.querySelector('button').focus();
+};
+window.closeLetter = function() {
+const modal = document.getElementById('letter-modal');
+const cont  = document.getElementById('letter-content');
+modal.classList.add('opacity-0'); cont.classList.remove('scale-100'); cont.classList.add('scale-95');
+document.body.style.overflow = '';
+setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
+if (lastFocusedBeforeLetter) lastFocusedBeforeLetter.focus();
+};
+// click outside the letter card closes it
+document.getElementById('letter-modal').addEventListener('click', e => { if (e.target.id === 'letter-modal') closeLetter(); });
+
+// ── KEYBOARD ──
+document.addEventListener('keydown', e => {
+if (e.key === 'Escape') {
+if (document.getElementById('lightbox').classList.contains('open')) closeLightbox();
+if (!document.getElementById('letter-modal').classList.contains('hidden')) closeLetter();
+}
+if (document.getElementById('lightbox').classList.contains('open') && lightboxIsStack) {
+if (e.key === 'ArrowLeft')  stepPhoto(-1);
+if (e.key === 'ArrowRight') stepPhoto(1);
+}
+});
+
+// ── FLOATING HEARTS (paused when tab hidden) ──
+let heartTimer = null;
+function createHeart() {
+const field = document.getElementById('heart-field');
+if (!field) return;
+const heart     = document.createElement('i');
+heart.className = 'fa-solid fa-heart floating-heart';
+const duration  = Math.random() * 6 + 7;
+heart.style.left              = (Math.random() * 100) + 'vw';
+heart.style.fontSize          = (Math.random() * 14 + 9) + 'px';
+heart.style.animationDuration = duration + 's';
+heart.style.color             = 'rgba(244,63,94,' + (Math.random()*0.18+0.07).toFixed(2) + ')';
+field.appendChild(heart);
+setTimeout(() => heart.remove(), (duration + 1) * 1000);
+}
+function startHearts() { if (!prefersReducedMotion && !heartTimer) heartTimer = setInterval(createHeart, 800); }
+function stopHearts()  { if (heartTimer) { clearInterval(heartTimer); heartTimer = null; } }
+document.addEventListener('visibilitychange', () => { document.hidden ? stopHearts() : startHearts(); });
+startHearts();
+
+// ── CONFETTI ──
+function launchConfetti() {
+if (prefersReducedMotion) return;
+const canvas = document.getElementById('confetti-canvas');
+const ctx    = canvas.getContext('2d');
+canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+const colors = ['#f43f5e','#fb7185','#fda4af','#fce7f3','#fff1f2','#e11d48'];
+const particles = Array.from({length:200}, () => ({
+x: Math.random()*canvas.width, y: Math.random()*canvas.height - canvas.height,
+r: Math.random()*6+3, d: Math.random()*200,
+color: colors[Math.floor(Math.random()*colors.length)],
+tiltAngle:0, tiltAngleIncrement: Math.random()*0.07+0.05
+}));
+let angle=0, frame;
+function draw() {
+ctx.clearRect(0,0,canvas.width,canvas.height); angle+=0.01;
+particles.forEach(p => {
+p.tiltAngle+=p.tiltAngleIncrement; p.y+=Math.cos(angle+p.d)+1.5; p.x+=Math.sin(angle);
+const tilt=Math.sin(p.tiltAngle)*12;
+ctx.beginPath(); ctx.lineWidth=p.r; ctx.strokeStyle=p.color;
+ctx.moveTo(p.x+tilt+p.r/2,p.y); ctx.lineTo(p.x+tilt,p.y+tilt+p.r/2); ctx.stroke();
+if(p.y>canvas.height){p.y=-10;p.x=Math.random()*canvas.width;}
+});
+frame=requestAnimationFrame(draw);
+}
+draw();
+setTimeout(()=>{cancelAnimationFrame(frame);ctx.clearRect(0,0,canvas.width,canvas.height);},6000);
+}
+
+// ── REASONS I LOVE YOU ──
+const reasons = [
+"The way you make me feel like home, no matter the distance",
+"Your laugh -- it's genuinely my favorite sound in the world",
+"How smart and curious you are about everything",
+"The way you care so deeply about the people you love",
+"You make even the most ordinary moments feel special",
+"How brave you are -- moving across the world takes guts",
+"The way you look at me like I'm the only person in the room",
+"You challenge me to be a better version of myself",
+"How you can make me smile even on my hardest days",
+"The little things you do that you don't even notice",
+"Your kindness -- it radiates out of you naturally",
+"The way you say my name",
+"How you love so fully and without holding back",
+"You are the most beautiful person in the whole world",
+"The future I get to imagine when I think of you",
+"Your feet",
+"Your boobs",
+"Your ass",
+"Your smile"
+];
+let lastReasonIndex = -1;
+window.shuffleReason = function() {
+const text = document.getElementById("reason-text");
+text.style.opacity = "0";
+setTimeout(() => {
+let idx;
+do { idx = Math.floor(Math.random() * reasons.length); } while (idx === lastReasonIndex && reasons.length > 1);
+lastReasonIndex = idx;
+text.textContent = reasons[idx];
+text.style.opacity = "1";
+}, prefersReducedMotion ? 0 : 350);
+};
+shuffleReason();
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver(entries => {
+entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);} });
+}, {threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+<!-- PWA service worker registration -->
+<script>
+if ('serviceWorker' in navigator) {
+window.addEventListener('load', () => {
+navigator.serviceWorker.register('sw.js').catch(e => console.warn('SW registration failed:', e));
+});
+}
+</script>
+
+<!-- Guestbook -->
+<script type="module">
+// To sync notes between devices, paste your Firebase web config below (see README.md).
+// Until then, notes are saved on this device only.
+const firebaseConfig = {
+apiKey: "PASTE_YOUR_API_KEY",
+authDomain: "PASTE_PROJECT.firebaseapp.com",
+projectId: "PASTE_PROJECT_ID",
+storageBucket: "PASTE_PROJECT.appspot.com",
+messagingSenderId: "PASTE_SENDER_ID",
+appId: "PASTE_APP_ID"
+};
+
+const form = document.getElementById('gb-form');
+const nameEl = document.getElementById('gb-name');
+const msgEl = document.getElementById('gb-message');
+const countEl = document.getElementById('gb-count');
+const wall = document.getElementById('gb-wall');
+const submitBtn = document.getElementById('gb-submit');
+const notice = document.getElementById('gb-notice');
+
+if (msgEl) msgEl.addEventListener('input', () => { countEl.textContent = msgEl.value.length + ' / 500'; });
+
+function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+function fmt(ms) { try { return new Intl.DateTimeFormat('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }).format(new Date(ms)); } catch (e) { return ''; } }
+function render(notes) {
+if (!notes.length) { wall.innerHTML = '<p class="gb-empty">No notes yet — be the first. ♡</p>'; return; }
+wall.innerHTML = notes.map(n => {
+const name = n.name && n.name.trim() ? esc(n.name.trim()) : 'Anonymous';
+return '<div class="gb-note"><p class="gb-note-msg">' + esc(n.message) + '</p><div class="gb-note-meta"><span class="gb-note-name">' + name + '</span><span>' + (n.createdAt ? fmt(n.createdAt) : '') + '</span></div></div>';
+}).join('');
+}
+
+const configured = firebaseConfig.apiKey && firebaseConfig.apiKey.indexOf('PASTE') !== 0;
+
+if (configured) {
+try {
+const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
+const { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+const db = getFirestore(initializeApp(firebaseConfig));
+const col = collection(db, 'guestbook');
+onSnapshot(query(col, orderBy('createdAt', 'desc'), limit(200)), snap => {
+render(snap.docs.map(d => { const v = d.data(); return { name: v.name, message: v.message, createdAt: v.createdAt && v.createdAt.toMillis ? v.createdAt.toMillis() : Date.now() }; }));
+}, err => { console.warn(err); });
+form.addEventListener('submit', async e => {
+e.preventDefault();
+const message = msgEl.value.trim(); if (!message) return;
+submitBtn.disabled = true;
+try { await addDoc(col, { name: nameEl.value.trim().slice(0,40), message: message.slice(0,500), createdAt: serverTimestamp() }); form.reset(); countEl.textContent = '0 / 500'; }
+catch (err) { console.warn(err); alert('That did not send. Please try again.'); }
+finally { submitBtn.disabled = false; }
+});
+} catch (err) { console.warn('Firebase failed to load:', err); }
+} else {
+notice.style.display = 'block';
+notice.innerHTML = 'These notes are saved on this device only. To sync them between both of you, add your Firebase keys (see README.md).';
+const KEY = 'guestbook-notes';
+const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; } };
+render(load());
+form.addEventListener('submit', e => {
+e.preventDefault();
+const message = msgEl.value.trim(); if (!message) return;
+const notes = load();
+notes.unshift({ name: nameEl.value.trim().slice(0,40), message: message.slice(0,500), createdAt: Date.now() });
+localStorage.setItem(KEY, JSON.stringify(notes));
+render(notes); form.reset(); countEl.textContent = '0 / 500';
+});
+}
+</script>
 </body>
 </html>
