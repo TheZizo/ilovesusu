@@ -827,16 +827,36 @@ navigator.serviceWorker.register('sw.js').catch(e => console.warn('SW registrati
 
 <!-- Guestbook -->
 <script type="module">
-// To sync notes between devices, paste your Firebase web config below (see README.md).
-// Until then, notes are saved on this device only.
+// Firebase keeps notes synced between both of your devices.
 const firebaseConfig = {
-  apiKey: "AIzaSyA39kmXAAOBL0DnaEHZMfA82MNn9ZeOgSM",
-  authDomain: "i-love-susu.firebaseapp.com",
-  projectId: "i-love-susu",
-  storageBucket: "i-love-susu.firebasestorage.app",
-  messagingSenderId: "1021610118233",
-  appId: "1:1021610118233:web:409c6eeb01360e010c7548"
+apiKey: "AIzaSyA39kmXAAOBL0DnaEHZMfA82MNn9ZeOgSM",
+authDomain: "i-love-susu.firebaseapp.com",
+projectId: "i-love-susu",
+storageBucket: "i-love-susu.firebasestorage.app",
+messagingSenderId: "1021610118233",
+appId: "1:1021610118233:web:409c6eeb01360e010c7548"
 };
+
+// ── EMAIL NOTIFICATIONS ──
+// Get a free access key at https://web3forms.com (enter your email; the key is emailed to you),
+// then paste it below. Until a real key is set, email notifications are simply skipped.
+const WEB3FORMS_ACCESS_KEY = "PASTE_YOUR_WEB3FORMS_ACCESS_KEY";
+async function notifyByEmail(name, message) {
+if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY.indexOf('PASTE') === 0) return; // not set up yet
+try {
+await fetch('https://api.web3forms.com/submit', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+body: JSON.stringify({
+access_key: WEB3FORMS_ACCESS_KEY,
+subject: '💌 New note from ' + (name && name.trim() ? name.trim() : 'Susu'),
+from_name: 'Our Memories guestbook',
+name: name && name.trim() ? name.trim() : 'Anonymous',
+message: message
+})
+});
+} catch (err) { console.warn('Email notify failed:', err); }
+}
 
 const form = document.getElementById('gb-form');
 const nameEl = document.getElementById('gb-name');
@@ -873,7 +893,7 @@ form.addEventListener('submit', async e => {
 e.preventDefault();
 const message = msgEl.value.trim(); if (!message) return;
 submitBtn.disabled = true;
-try { await addDoc(col, { name: nameEl.value.trim().slice(0,40), message: message.slice(0,500), createdAt: serverTimestamp() }); form.reset(); countEl.textContent = '0 / 500'; }
+try { const nm = nameEl.value.trim().slice(0,40); const mg = message.slice(0,500); await addDoc(col, { name: nm, message: mg, createdAt: serverTimestamp() }); notifyByEmail(nm, mg); form.reset(); countEl.textContent = '0 / 500'; }
 catch (err) { console.warn(err); alert('That did not send. Please try again.'); }
 finally { submitBtn.disabled = false; }
 });
@@ -888,8 +908,10 @@ form.addEventListener('submit', e => {
 e.preventDefault();
 const message = msgEl.value.trim(); if (!message) return;
 const notes = load();
-notes.unshift({ name: nameEl.value.trim().slice(0,40), message: message.slice(0,500), createdAt: Date.now() });
+const nm = nameEl.value.trim().slice(0,40); const mg = message.slice(0,500);
+notes.unshift({ name: nm, message: mg, createdAt: Date.now() });
 localStorage.setItem(KEY, JSON.stringify(notes));
+notifyByEmail(nm, mg);
 render(notes); form.reset(); countEl.textContent = '0 / 500';
 });
 }
