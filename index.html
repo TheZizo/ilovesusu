@@ -450,12 +450,11 @@ Another reason
 <h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-4 serif-font reveal">Leave Me a Note</h2>
 <p class="text-center text-rose-800/80 mb-10 font-light reveal" style="transition-delay:.1s">A little mailbox that's always open between Debrecen and Maine. 💗</p>
 <div class="gb-intro reveal" style="transition-delay:.12s">
-<p>Hi my love,<br><br>Whenever you miss me, think of me, or just have something silly to say; leave it right here! I read every single one (probably more than once), and on the days the distance feels heavy, this is the first place I come to feel close to you again.</p>
-<p class="gb-sign"> - always yours, Z ♡</p>
+<p>Hi my love,<br><br>Whenever you miss me, think of me, or just have something silly to say — leave it right here. I read every single one (probably more than once), and on the days the distance feels heavy, this is the first place I come to feel close to you again.</p>
+<p class="gb-sign">— always yours, Z ♡</p>
 </div>
 <div id="gb-notice" class="gb-notice reveal" style="display:none"></div>
 <form id="gb-form" class="gb-form reveal" style="transition-delay:.15s">
-<input id="gb-name" class="gb-input" type="text" maxlength="40" placeholder="Who's writing? (it's you, Susu 💗)" autocomplete="name" aria-label="Your name">
 <textarea id="gb-message" class="gb-textarea" maxlength="500" placeholder="Tell me anything, my love..." required aria-label="Your note"></textarea>
 <div class="gb-row">
 <span class="gb-count" id="gb-count">0 / 500</span>
@@ -871,7 +870,6 @@ message: message
 }
 
 const form = document.getElementById('gb-form');
-const nameEl = document.getElementById('gb-name');
 const msgEl = document.getElementById('gb-message');
 const countEl = document.getElementById('gb-count');
 const wall = document.getElementById('gb-wall');
@@ -905,7 +903,7 @@ form.addEventListener('submit', async e => {
 e.preventDefault();
 const message = msgEl.value.trim(); if (!message) return;
 submitBtn.disabled = true;
-try { const nm = nameEl.value.trim().slice(0,40); const mg = message.slice(0,500); await addDoc(col, { name: nm, message: mg, createdAt: serverTimestamp() }); notifyByEmail(nm, mg); form.reset(); countEl.textContent = '0 / 500'; }
+try { const nm = 'Susu'; const mg = message.slice(0,500); await addDoc(col, { name: nm, message: mg, createdAt: serverTimestamp() }); notifyByEmail(nm, mg); form.reset(); countEl.textContent = '0 / 500'; }
 catch (err) { console.warn(err); alert('That did not send. Please try again.'); }
 finally { submitBtn.disabled = false; }
 });
@@ -920,7 +918,7 @@ form.addEventListener('submit', e => {
 e.preventDefault();
 const message = msgEl.value.trim(); if (!message) return;
 const notes = load();
-const nm = nameEl.value.trim().slice(0,40); const mg = message.slice(0,500);
+const nm = 'Susu'; const mg = message.slice(0,500);
 notes.unshift({ name: nm, message: mg, createdAt: Date.now() });
 localStorage.setItem(KEY, JSON.stringify(notes));
 notifyByEmail(nm, mg);
