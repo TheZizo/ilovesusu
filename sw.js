@@ -1,5 +1,5 @@
 // Simple service worker for offline support + installability.
-const CACHE = 'our-memories-v12';
+const CACHE = 'our-memories-v13';
 const ASSETS = [
   './',
   'index.html',

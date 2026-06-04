@@ -184,6 +184,7 @@ body.dark .theme-toggle{background:linear-gradient(120deg,#6366f1,#a855f7 60%,#7
 /* ===== WEATHER SCENES ===== */
 .c-wx .wxa{position:relative;display:inline-block;width:30px;height:24px;margin-right:.5rem;vertical-align:middle;flex:none}
 .wx-skeleton{display:inline-block;width:74px;height:12px;border-radius:6px;background:linear-gradient(90deg,rgba(244,63,94,.12),rgba(244,63,94,.28),rgba(244,63,94,.12));background-size:200% 100%;animation:wx-shimmer 1.2s linear infinite}
+.wx-unavail{opacity:.62;font-style:italic}
 @keyframes wx-shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .wx-core{position:absolute;left:7px;top:4px;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffe49a,#ffb43d);box-shadow:0 0 8px rgba(255,180,61,.8)}
 .wx-core.sm{width:12px;height:12px;left:2px;top:2px}
@@ -285,11 +286,18 @@ body.dark .letter-card{background:linear-gradient(180deg,#241636,#2c1840);color:
 .gb-row{display:flex;align-items:center;justify-content:space-between;gap:1rem}
 .gb-count{font-size:.78rem;color:var(--ink-faint)}
 .gb-notice{padding:.8rem 1.1rem;border-radius:12px;font-size:.9rem;text-align:center;background:rgba(244,63,94,.12);color:var(--rose-deep)}
-.gb-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1rem;margin-top:1rem}
-.gb-note{padding:1.2rem 1.3rem;border-radius:16px;background:var(--panel-strong);border:1px solid var(--panel-border);box-shadow:var(--shadow-sm);animation:reason-in .4s ease;display:flex;flex-direction:column;gap:.5rem}
-.gb-note-msg{font-family:'Caveat',cursive;font-size:1.3rem;line-height:1.35;color:var(--ink)}
-.gb-note-meta{display:flex;align-items:center;justify-content:space-between;gap:.6rem;font-size:.74rem;color:var(--ink-faint);border-top:1px solid var(--line);padding-top:.5rem}
-.gb-note-name{font-weight:600;color:var(--rose-deep);font-family:'Inter',sans-serif}
+.gb-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:1.7rem 1.5rem;margin-top:1.8rem;padding-top:.6rem}
+.gb-note{position:relative;padding:1.95rem 1.35rem 1.2rem;border-radius:2px;background:#fff59d;color:#5a4632;box-shadow:0 12px 22px -10px rgba(60,30,10,.45);display:flex;flex-direction:column;gap:.4rem;animation:reason-in .45s ease;transform:rotate(-1.8deg);transition:transform .25s ease,box-shadow .25s ease}
+.gb-note::before{content:'';position:absolute;top:-10px;left:50%;width:74px;height:24px;transform:translateX(-50%) rotate(-3deg);background:rgba(255,255,255,.5);border:1px solid rgba(0,0,0,.04);box-shadow:0 3px 6px rgba(0,0,0,.12)}
+.gb-note:nth-child(4n+2){background:#ffc9dd;transform:rotate(1.6deg)}
+.gb-note:nth-child(4n+3){background:#c4ecd0;transform:rotate(-.7deg)}
+.gb-note:nth-child(4n+4){background:#c2e2ff;transform:rotate(1.1deg)}
+.gb-note:nth-child(4n+2)::before,.gb-note:nth-child(4n+4)::before{transform:translateX(-50%) rotate(3deg)}
+.gb-note:hover{transform:rotate(0) scale(1.04);box-shadow:0 18px 32px -10px rgba(60,30,10,.5);z-index:3}
+.gb-note-msg{font-family:'Caveat',cursive;font-size:1.5rem;line-height:1.28;color:#473827;word-break:break-word}
+.gb-note-meta{display:flex;align-items:center;justify-content:space-between;gap:.6rem;font-size:.72rem;color:rgba(71,56,39,.62);margin-top:.5rem}
+.gb-note-name{font-weight:700;color:#c2406d;font-family:'Caveat',cursive;font-size:1.12rem}
+body.dark .gb-note,body.dark .gb-note-msg{color:#473827}
 /* ===== FOOTER ===== */
 .site-footer{text-align:center;padding:4rem 1.5rem 3rem;color:var(--ink-faint);font-size:.92rem}
 .site-footer p{margin:0;display:inline-flex;align-items:center;gap:.5rem;flex-wrap:wrap;justify-content:center}
@@ -743,23 +751,32 @@ case 'storm': return '<span class="' + cls + '"><span class="wx-cloud"></span><s
 default: return '<span class="' + cls + '"><span class="wx-cloud"></span></span>';
 }
 }
-async function loadWeather(cfg, elId) {
+async function loadWeather(cfg, elId, attempt) {
 const el = document.getElementById(elId);
 if (!el || !cfg) return;
-el.innerHTML = '<span class="wx-skeleton"></span>';
+attempt = attempt || 1;
+if (attempt === 1) el.innerHTML = '<span class="wx-skeleton"></span>';
+const ctrl = new AbortController();
+const timer = setTimeout(function(){ ctrl.abort(); }, 8000);
 try {
 const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + cfg.lat + '&longitude=' + cfg.lon + '&current=temperature_2m,weather_code,is_day&temperature_unit=' + (cfg.unit || 'celsius');
-const res = await fetch(url);
+const res = await fetch(url, { signal: ctrl.signal });
+clearTimeout(timer);
+if (!res.ok) throw new Error('status ' + res.status);
 const data = await res.json();
 const c = data && data.current;
-if (!c) return;
+if (!c) throw new Error('no current data');
 const info = weatherInfo(c.weather_code);
 const unitLetter = (cfg.unit === 'fahrenheit') ? 'F' : 'C';
 const isDay = (c.is_day === undefined) ? true : c.is_day !== 0;
 el.innerHTML = weatherIconHTML(info.cat, isDay) + Math.round(c.temperature_2m) + '°' + unitLetter + (info.desc ? ' · ' + info.desc : '');
 const card = el.closest('.glass-panel');
 if (card) { card.classList.toggle('is-day', isDay); card.classList.toggle('is-night', !isDay); }
-} catch (e) { el.innerHTML = ''; }
+} catch (e) {
+clearTimeout(timer);
+if (attempt < 3) { setTimeout(function(){ loadWeather(cfg, elId, attempt + 1); }, 2500); return; }
+el.innerHTML = '<span class="wxa is-day"><span class="wx-cloud"></span></span><span class="wx-unavail">weather unavailable</span>';
+}
 }
 function refreshWeather() {
 loadWeather(CONFIG.homeWeather, 'weather-home');
