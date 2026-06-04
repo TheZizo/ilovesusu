@@ -121,7 +121,8 @@ body.dark #countdown-section::before{background:radial-gradient(circle,rgba(168,
 .hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.9rem,8.5vw,5.6rem);font-weight:600;line-height:1.02;margin:.4rem 0 1rem;background:linear-gradient(100deg,#9f1239,#e11d48,#fb7185,#e11d48,#9f1239);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:hero-shine 8s linear infinite;will-change:transform}
 @keyframes hero-shine{to{background-position:220% center}}
 body.dark .hero-title{background:linear-gradient(100deg,#fbcfe8,#fda4af,#f9a8d4,#fda4af,#fbcfe8);background-size:220% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.hero-sub{font-size:clamp(1.05rem,2.4vw,1.35rem);color:var(--ink-soft);max-width:36rem;margin:0 auto 2.6rem;font-weight:300}
+.hero-sub{font-size:clamp(1.05rem,2.4vw,1.35rem);color:var(--ink);max-width:34rem;margin:0 auto 2.6rem;font-weight:400;display:inline-block;padding:.6rem 1.4rem;border-radius:18px;background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(10px) saturate(130%);backdrop-filter:blur(10px) saturate(130%);border:1px solid rgba(255,255,255,.6);box-shadow:0 8px 24px rgba(31,38,76,.14)}
+body.dark .hero-sub{color:var(--ink);background:rgba(22,14,34,.5);border-color:rgba(255,255,255,.14);box-shadow:0 8px 24px rgba(0,0,0,.32)}
 .scroll-cue{margin-top:2.6rem;display:inline-flex;flex-direction:column;align-items:center;gap:.35rem;color:var(--ink-faint);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase}
 .scroll-cue i{font-size:1rem;color:var(--rose);animation:bob 2s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
