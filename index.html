@@ -151,6 +151,65 @@ body.dark .flip-face{background:rgba(255,255,255,.1);color:#fbe9ef;box-shadow:0 
 .clock .c-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-faint)}
 .clock .c-time{font-weight:600;color:var(--title);font-size:1.3rem;margin:.05rem 0 .25rem}
 .clock .c-wx{font-size:.78rem;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;gap:.1rem;min-height:24px}
+/* ===================== BREATHTAKING ===================== */
+.hero-title{font-size:clamp(3.1rem,9vw,6.3rem);letter-spacing:-.022em;line-height:.97;text-shadow:0 2px 24px rgba(255,255,255,.22)}
+body.dark .hero-title{text-shadow:0 2px 26px rgba(0,0,0,.4)}
+.sec-title{font-size:clamp(2.3rem,5.4vw,3.6rem);letter-spacing:-.018em}
+.sec-sub{font-size:1.08rem;line-height:1.72}
+.kicker{letter-spacing:.3em}
+#intro{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;background:radial-gradient(120% 100% at 50% 0,#fff,transparent 60%),linear-gradient(160deg,#fff7f3,#ffe6ef 55%,#ffd9e6);cursor:pointer;transition:opacity .9s ease,visibility .9s ease}
+body.dark #intro{background:radial-gradient(120% 100% at 50% 0,#2a1a4b,transparent 60%),linear-gradient(160deg,#160d20,#1d1230 55%,#241433)}
+#intro.done{opacity:0;visibility:hidden;pointer-events:none}
+.im-heart{width:clamp(96px,24vw,148px);height:auto;overflow:visible}
+.im-heart .im-stroke{fill:none;stroke:#f43f5e;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100;stroke-dashoffset:100;animation:im-draw 1.5s cubic-bezier(.65,0,.35,1) forwards .15s}
+.im-heart .im-fill{fill:#fb7185;opacity:0;animation:im-pop .7s ease forwards 1.3s;transform-origin:center;transform-box:fill-box}
+@keyframes im-draw{to{stroke-dashoffset:0}}
+@keyframes im-pop{0%{opacity:0;transform:scale(.4)}60%{opacity:.92;transform:scale(1.12)}100%{opacity:.92;transform:scale(1)}}
+.im-mono{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,7vw,2.9rem);font-weight:600;letter-spacing:.1em;color:transparent;background:var(--grad);-webkit-background-clip:text;background-clip:text;opacity:0;animation:im-rise 1s ease forwards 1s}
+.im-tag{font-family:'Caveat',cursive;font-size:clamp(1.1rem,4vw,1.5rem);color:var(--rose-deep);opacity:0;animation:im-rise 1s ease forwards 1.4s}
+@keyframes im-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.sky{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.sky-half{position:absolute;top:0;bottom:0;width:50.2%;transition:background 2.5s ease;background:linear-gradient(180deg,#bcdcff,#e9f4ff 70%,#f3f9ff)}
+.sky-home{left:0}.sky-away{right:0}
+.sky-half.s-dawn{background:linear-gradient(180deg,#ffc79b,#ffd9c0 45%,#ffe9da 80%,#fff2e9)}
+.sky-half.s-day{background:linear-gradient(180deg,#a9d4ff,#cfe9ff 65%,#eef7ff)}
+.sky-half.s-dusk{background:linear-gradient(180deg,#4d5fae,#c97a9a 48%,#ff9e7a 82%,#ffb98e)}
+.sky-half.s-night{background:linear-gradient(180deg,#0e1330,#1e2350 55%,#33265f)}
+.sky-seam{position:absolute;top:0;bottom:0;left:50%;width:1px;transform:translateX(-50%);background:linear-gradient(180deg,transparent,rgba(255,255,255,.45),transparent);z-index:4}
+.sky::after{content:'';position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(180deg,transparent,var(--cream));z-index:5}
+.celestial{position:absolute;width:clamp(34px,5vw,52px);height:clamp(34px,5vw,52px);border-radius:50%;top:42%;left:50%;transform:translate(-50%,-50%);transition:left 2s ease,top 2s ease,background 2s ease,box-shadow 2s ease}
+.celestial.sun{background:radial-gradient(circle at 38% 34%,#fff6c4,#ffd24d 58%,#ffb43d);box-shadow:0 0 38px 12px rgba(255,190,80,.55)}
+.celestial.moon{background:radial-gradient(circle at 66% 34%,#fdf7dc,#dee3f1);box-shadow:0 0 26px 7px rgba(220,225,255,.5),inset -9px -2px 0 -2px rgba(120,130,170,.4)}
+.sky-stars{position:absolute;inset:0;opacity:0;transition:opacity 2s ease}
+.sky-half.s-night .sky-stars{opacity:1}
+.sky-half.s-dusk .sky-stars{opacity:.5}
+.star{position:absolute;border-radius:50%;background:#fff;box-shadow:0 0 4px rgba(255,255,255,.8);animation:twinkle 3.4s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:.95}}
+.sky-clouds{position:absolute;inset:0;transition:opacity 2s ease}
+.sky-half.s-night .sky-clouds{opacity:.22}
+.cloudy{position:absolute;height:14px;background:rgba(255,255,255,.92);border-radius:14px;filter:blur(.3px);animation:cloud-move linear infinite}
+.cloudy::before{content:'';position:absolute;left:16%;top:-7px;width:36%;height:22px;background:inherit;border-radius:50%}
+.cloudy::after{content:'';position:absolute;right:14%;top:-11px;width:44%;height:28px;background:inherit;border-radius:50%}
+@keyframes cloud-move{from{transform:translateX(-70px)}to{transform:translateX(58vw)}}
+#countdown-card{position:relative}
+#countdown-card::after{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:conic-gradient(from 0deg,transparent 0 6%,rgba(251,113,133,.85) 14%,transparent 30%,transparent 56%,rgba(225,29,72,.7) 70%,transparent 90%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:ring-rot 7s linear infinite;pointer-events:none}
+@keyframes ring-rot{to{transform:rotate(360deg)}}
+.progress-ring-wrap{position:relative;width:132px;height:132px;margin:1.9rem auto .5rem}
+.progress-ring{width:132px;height:132px;transform:rotate(-90deg)}
+.progress-ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.pr-bg{stroke:rgba(244,63,94,.14)}
+body.dark .pr-bg{stroke:rgba(255,255,255,.12)}
+.pr-bar{stroke:url(#prgrad);stroke-dasharray:326.726;stroke-dashoffset:326.726;transition:stroke-dashoffset 1s ease;filter:drop-shadow(0 0 5px rgba(244,63,94,.5))}
+.pr-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.1rem}
+.pr-center span{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:600;color:var(--title);line-height:1}
+.pr-center small{font-size:.58rem;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-faint)}
+.cursor-heart{position:fixed;z-index:7;pointer-events:none;transform:translate(-50%,-50%);will-change:transform,opacity;animation:cursor-fade 1.2s ease-out forwards}
+@keyframes cursor-fade{0%{opacity:.85;transform:translate(-50%,-50%) scale(.5)}100%{opacity:0;transform:translate(-50%,-170%) scale(1)}}
+.polaroid .frame{overflow:hidden;border-radius:4px}
+.polaroid .frame img{animation:kenburns 18s ease-in-out infinite alternate;will-change:transform}
+@keyframes kenburns{0%{transform:scale(1.02)}100%{transform:scale(1.1) translate(1.5%,-1.8%)}}
+.glass-panel.clock{will-change:transform}
+@media(prefers-reduced-motion:reduce){.celestial,.cloudy,.star,.polaroid .frame img,#countdown-card::after{animation:none!important}.sky-half{transition:none}}
 </style>
 <style>
 /* ===== THEME TOGGLE ===== */
@@ -306,6 +365,11 @@ body.dark .gb-note,body.dark .gb-note-msg{color:#473827}
 </head>
 <body>
 <a href='#countdown-section' class='skip-link'>Skip to content</a>
+<div id='intro' aria-hidden='true'>
+<svg class='im-heart' viewBox='0 0 120 110' aria-hidden='true'><path class='im-fill' d='M60 100 C18 68 8 42 8 27 C8 14 19 6 31 6 C43 6 53 13 60 23 C67 13 77 6 89 6 C101 6 112 14 112 27 C112 42 102 68 60 100 Z'/><path class='im-stroke' pathLength='100' d='M60 100 C18 68 8 42 8 27 C8 14 19 6 31 6 C43 6 53 13 60 23 C67 13 77 6 89 6 C101 6 112 14 112 27 C112 42 102 68 60 100 Z'/></svg>
+<div class='im-mono'>Z &nbsp;&#9825;&nbsp; S</div>
+<div class='im-tag'>where the distance ends</div>
+</div>
 <div class='bg-cine' aria-hidden='true'><span class='orb o1'></span><span class='orb o2'></span><span class='orb o3'></span><span class='grain'></span></div>
 <div id='monthsary-banner' role='status' aria-live='polite'></div>
 <canvas id='confetti-canvas' aria-hidden='true'></canvas>
@@ -341,6 +405,11 @@ body.dark .gb-note,body.dark .gb-note-msg{color:#473827}
 </div>
 </nav>
 <header id='countdown-section' class='hero'>
+<div class='sky' aria-hidden='true'>
+<div class='sky-half sky-home s-day'><div class='sky-clouds'></div><div class='sky-stars'></div><div class='celestial sun'></div></div>
+<div class='sky-half sky-away s-day'><div class='sky-clouds'></div><div class='sky-stars'></div><div class='celestial sun'></div></div>
+<div class='sky-seam'></div>
+</div>
 <div class='wrap hero-inner'>
 <p id='greeting' class='greeting-float kicker reveal'></p>
 <h1 class='hero-title reveal'>Distance is temporary.</h1>
@@ -389,7 +458,10 @@ body.dark .gb-note,body.dark .gb-note-msg{color:#473827}
 </div>
 </div>
 <p id='milestone-msg'></p>
-<div class='progress-track'><div class='progress-fill' id='progress-fill' style='width:0%'></div></div>
+<div class='progress-ring-wrap'>
+<svg class='progress-ring' viewBox='0 0 120 120' aria-hidden='true'><defs><linearGradient id='prgrad' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#fb7185'/><stop offset='1' stop-color='#e11d48'/></linearGradient></defs><circle class='pr-bg' cx='60' cy='60' r='52'/><circle class='pr-bar' id='progress-ring-bar' cx='60' cy='60' r='52'/></svg>
+<div class='pr-center'><span id='progress-pct'>0%</span><small>of the wait</small></div>
+</div>
 <p class='progress-label' id='progress-label'></p>
 </div>
 <div class='clocks reveal' style='transition-delay:.3s'>
@@ -657,7 +729,7 @@ if (distance <= 0) {
 document.getElementById('countdown-display').innerHTML =
 "<span class='text-2xl serif-font text-rose-900' style='padding:1rem'>I'm right here. ♡</span>";
 document.getElementById('milestone-msg').textContent  = '';
-document.getElementById('progress-fill').style.width  = '100%';
+(function(){var b=document.getElementById('progress-ring-bar');if(b)b.style.strokeDashoffset='0';var p=document.getElementById('progress-pct');if(p)p.textContent='100%';})();
 document.getElementById('progress-label').textContent = '100% of the wait is over 🎉';
 if (!confettiFired) { confettiFired = true; launchConfetti(); }
 return;
@@ -672,7 +744,7 @@ flip('mins',  m.toString().padStart(2,'0'));
 flip('secs',  s.toString().padStart(2,'0'));
 document.getElementById('milestone-msg').textContent = getMilestone(d);
 const pct = Math.min(100, Math.max(0, ((now - startDate) / totalDuration) * 100));
-document.getElementById('progress-fill').style.width  = pct.toFixed(1) + '%';
+(function(){var C=326.726;var b=document.getElementById('progress-ring-bar');if(b)b.style.strokeDashoffset=(C*(1-pct/100)).toFixed(2);var p=document.getElementById('progress-pct');if(p)p.textContent=pct.toFixed(0)+'%';})();
 document.getElementById('progress-label').textContent = pct.toFixed(0) + '% of the way there 💗';
 }
 setInterval(tick, 1000);
@@ -1047,6 +1119,41 @@ const observer = new IntersectionObserver(entries => {
 entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);} });
 }, {threshold:0.12});
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── BREATHTAKING: intro, split-sky, cursor hearts, 3D tilt ──
+(function(){
+var fine = window.matchMedia && window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+var intro = document.getElementById('intro');
+if (intro){
+if (prefersReducedMotion){ if(intro.parentNode) intro.parentNode.removeChild(intro); }
+else {
+var gone=false;
+var dismiss=function(){ if(gone)return; gone=true; intro.classList.add('done'); setTimeout(function(){ if(intro&&intro.parentNode) intro.parentNode.removeChild(intro); },1000); };
+setTimeout(dismiss,2700);
+intro.addEventListener('click',dismiss);
+window.addEventListener('scroll',function(){dismiss();},{once:true,passive:true});
+}
+}
+function skyHour(tz){ try{ return parseInt(new Intl.DateTimeFormat('en-US',{hour:'2-digit',hour12:false,timeZone:tz}).format(new Date()),10)%24; }catch(e){ return new Date().getHours(); } }
+function phase(h){ if(h>=5&&h<8)return 'dawn'; if(h>=8&&h<17)return 'day'; if(h>=17&&h<20)return 'dusk'; return 'night'; }
+function paintHalf(half,tz){ if(!half)return; var h=skyHour(tz); var p=phase(h); half.classList.remove('s-dawn','s-day','s-dusk','s-night'); half.classList.add('s-'+p); var cel=half.querySelector('.celestial'); if(cel){ var night=(p==='night'); cel.className='celestial '+(night?'moon':'sun'); var frac=Math.min(1,Math.max(0,(h-6)/12)); if(night){ frac=(h<6)?((h+6)/12):((h-18)/12); } var left=10+frac*80; var top=66-Math.sin(Math.max(0,Math.min(1,frac))*Math.PI)*44; cel.style.left=left+'%'; cel.style.top=top+'%'; } }
+function paintSky(){ paintHalf(document.querySelector('.sky-home'),homeTimezone); paintHalf(document.querySelector('.sky-away'),awayTimezone); }
+function seedSky(){
+document.querySelectorAll('.sky-stars').forEach(function(layer){ for(var i=0;i<20;i++){ var s=document.createElement('span'); s.className='star'; s.style.left=(Math.random()*100)+'%'; s.style.top=(Math.random()*72)+'%'; var z=(Math.random()*1.6+1).toFixed(1); s.style.width=z+'px'; s.style.height=z+'px'; s.style.animationDelay=(Math.random()*3.4).toFixed(2)+'s'; layer.appendChild(s);} });
+document.querySelectorAll('.sky-clouds').forEach(function(layer){ for(var i=0;i<3;i++){ var c=document.createElement('span'); c.className='cloudy'; c.style.width=(Math.random()*46+50)+'px'; c.style.top=(Math.random()*40+8)+'%'; c.style.left=(Math.random()*40)+'%'; c.style.animationDuration=(Math.random()*40+55)+'s'; c.style.animationDelay=(-Math.random()*70).toFixed(1)+'s'; c.style.opacity=(Math.random()*0.3+0.55).toFixed(2); layer.appendChild(c);} });
+}
+if(document.querySelector('.sky')){ seedSky(); paintSky(); setInterval(paintSky,60000); }
+if(fine && !prefersReducedMotion){
+var last=0;
+window.addEventListener('mousemove',function(e){ var now=Date.now(); if(now-last<170)return; last=now; var field=document.getElementById('heart-field'); if(!field)return; var hh=document.createElement('i'); hh.className='fa-solid fa-heart cursor-heart'; hh.style.left=e.clientX+'px'; hh.style.top=e.clientY+'px'; hh.style.fontSize=(Math.random()*8+7)+'px'; hh.style.color='rgba(244,63,94,'+(Math.random()*0.25+0.22).toFixed(2)+')'; field.appendChild(hh); setTimeout(function(){ if(hh.parentNode)hh.parentNode.removeChild(hh); },1200); },{passive:true});
+}
+if(fine && !prefersReducedMotion){
+document.querySelectorAll('.letter-tile, #reason-card, .glass-panel.clock').forEach(function(card){
+card.addEventListener('mousemove',function(e){ var r=card.getBoundingClientRect(); var px=(e.clientX-r.left)/r.width-0.5; var py=(e.clientY-r.top)/r.height-0.5; card.style.transform='perspective(820px) rotateX('+(-py*6).toFixed(2)+'deg) rotateY('+(px*6).toFixed(2)+'deg) translateZ(0)'; });
+card.addEventListener('mouseleave',function(){ card.style.transform=''; });
+});
+}
+})();
 
 // ── Dark mode toggle ──
 (function() {
