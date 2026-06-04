@@ -1,5 +1,5 @@
 // Simple service worker for offline support + installability.
-const CACHE = 'our-memories-v13';
+const CACHE = 'our-memories-v14';
 const ASSETS = [
   './',
   'index.html',
@@ -25,8 +25,12 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
-  // Let Firebase / Google requests go straight to the network (live guestbook sync).
-  if (req.url.includes('firestore') || req.url.includes('googleapis') || req.url.includes('gstatic')) return;
+  // Only ever handle requests for OUR OWN files (same origin). Everything
+  // cross-origin -- the weather API (open-meteo), Firebase/Firestore, Google
+  // Fonts, Font Awesome, Spotify, Web3Forms, etc. -- goes straight to the
+  // network exactly as if there were no service worker. This is what was
+  // blocking the live weather from loading on the installed app.
+  if (new URL(req.url).origin !== self.location.origin) return;
 
   const isPageOrCode = req.mode === 'navigate' ||
     req.destination === 'document' ||
