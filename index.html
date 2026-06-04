@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 body { font-family: 'Inter', sans-serif; }
 .serif-font { font-family: 'Playfair Display', serif; }
@@ -141,13 +141,22 @@ padding-bottom: 1.5rem; align-self: center;
 .gb-submit { background:linear-gradient(90deg,#fb7185,#f43f5e); color:#fff; border:none; border-radius:9999px; padding:0.75rem 2rem; font-weight:600; cursor:pointer; transition:transform .2s, box-shadow .2s; box-shadow:0 6px 18px rgba(244,63,94,0.25); }
 .gb-submit:hover { transform:translateY(-1px); box-shadow:0 10px 24px rgba(244,63,94,0.32); }
 .gb-submit:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
-.gb-note { break-inside:avoid; background:rgba(255,255,255,0.7); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.6); border-radius:1.25rem; padding:1.2rem 1.4rem; margin:0 0 1.25rem; box-shadow:0 8px 22px rgba(159,18,57,0.07); }
-.gb-note-msg { color:#4c0519; line-height:1.6; white-space:pre-line; word-break:break-word; }
-.gb-note-meta { margin-top:0.75rem; font-size:0.78rem; color:rgba(159,18,57,0.6); display:flex; justify-content:space-between; gap:0.5rem; }
-.gb-note-name { font-weight:600; }
-.gb-empty { text-align:center; color:rgba(159,18,57,0.5); font-style:italic; padding:1.5rem 0; }
+.gb-note { position:relative; break-inside:avoid; background:#fffdf6; border:1px solid rgba(159,18,57,0.08); border-radius:0.35rem; padding:1.9rem 1.5rem 1.3rem; margin:0 0 1.6rem; box-shadow:0 12px 26px rgba(159,18,57,0.12); }
+.gb-note::before { content:""; position:absolute; top:-11px; left:50%; width:84px; height:24px; transform:translateX(-50%) rotate(-2.5deg); background:rgba(251,113,133,0.30); border:1px dashed rgba(244,63,94,0.30); border-radius:2px; }
+.gb-wall .gb-note:nth-child(4n+1) { transform:rotate(-1.4deg); }
+.gb-wall .gb-note:nth-child(4n+2) { transform:rotate(1deg); }
+.gb-wall .gb-note:nth-child(4n+3) { transform:rotate(0.6deg); }
+.gb-wall .gb-note:nth-child(4n)   { transform:rotate(-0.8deg); }
+.gb-note-msg { font-family:'Caveat',cursive; font-size:1.55rem; line-height:1.45; color:#4c0519; white-space:pre-line; word-break:break-word; }
+.gb-note-meta { margin-top:0.85rem; padding-top:0.6rem; border-top:1px dashed rgba(159,18,57,0.15); font-size:0.78rem; color:rgba(159,18,57,0.6); display:flex; justify-content:space-between; gap:0.5rem; align-items:center; }
+.gb-note-name { font-family:'Caveat',cursive; font-size:1.15rem; font-weight:700; color:#be123c; }
+.gb-empty { text-align:center; color:rgba(159,18,57,0.5); padding:1.5rem 0; font-family:'Caveat',cursive; font-size:1.4rem; }
 .gb-notice { text-align:center; font-size:0.8rem; color:rgba(159,18,57,0.7); background:rgba(255,228,230,0.55); border:1px solid rgba(251,113,133,0.3); border-radius:1rem; padding:0.75rem 1rem; margin:0 auto 1.5rem; max-width:36rem; }
-@media (min-width:640px) { .gb-wall { column-count:2; column-gap:1.25rem; } }
+.gb-intro { max-width:34rem; margin:0 auto 2.5rem; background:rgba(255,255,255,0.55); border:1px solid rgba(255,255,255,0.6); border-radius:1.25rem; padding:1.5rem 1.75rem; box-shadow:0 8px 22px rgba(159,18,57,0.06); }
+.gb-intro p { color:#4c0519; line-height:1.7; font-weight:300; }
+.gb-intro .gb-sign { font-family:'Caveat',cursive; font-size:1.7rem; font-weight:700; color:#be123c; text-align:right; margin-top:0.4rem; }
+.gb-textarea { font-family:'Caveat',cursive; font-size:1.3rem; }
+@media (min-width:640px) { .gb-wall { column-count:2; column-gap:1.5rem; } }
 .letter-tile, .reason-card-btn { border:none; font:inherit; width:100%; cursor:pointer; }
 .letter-tile:focus-visible, .reason-card-btn:focus-visible, .nav-link:focus-visible, #menu-toggle:focus-visible { outline:3px solid #f43f5e; outline-offset:3px; border-radius:0.5rem; }
 
@@ -439,11 +448,15 @@ Another reason
 <!-- Guestbook -->
 <section id="guestbook-section" class="max-w-3xl mx-auto px-4 py-24 border-t border-rose-100">
 <h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-4 serif-font reveal">Leave Me a Note</h2>
-<p class="text-center text-rose-800/80 mb-12 font-light reveal" style="transition-delay:.1s">Whenever you think of me, write it here. I will read every single one. 💗</p>
+<p class="text-center text-rose-800/80 mb-10 font-light reveal" style="transition-delay:.1s">A little mailbox that's always open between Debrecen and Maine. 💗</p>
+<div class="gb-intro reveal" style="transition-delay:.12s">
+<p>Hi my love,<br><br>Whenever you miss me, think of me, or just have something silly to say — leave it right here. I read every single one (probably more than once), and on the days the distance feels heavy, this is the first place I come to feel close to you again.</p>
+<p class="gb-sign">— always yours, Z ♡</p>
+</div>
 <div id="gb-notice" class="gb-notice reveal" style="display:none"></div>
 <form id="gb-form" class="gb-form reveal" style="transition-delay:.15s">
-<input id="gb-name" class="gb-input" type="text" maxlength="40" placeholder="Your name (optional)" autocomplete="name" aria-label="Your name">
-<textarea id="gb-message" class="gb-textarea" maxlength="500" placeholder="Write something sweet..." required aria-label="Your note"></textarea>
+<input id="gb-name" class="gb-input" type="text" maxlength="40" placeholder="Who's writing? (it's you, Susu 💗)" autocomplete="name" aria-label="Your name">
+<textarea id="gb-message" class="gb-textarea" maxlength="500" placeholder="Tell me anything, my love..." required aria-label="Your note"></textarea>
 <div class="gb-row">
 <span class="gb-count" id="gb-count">0 / 500</span>
 <button type="submit" class="gb-submit" id="gb-submit">Leave note 💌</button>
@@ -838,8 +851,7 @@ appId: "1:1021610118233:web:409c6eeb01360e010c7548"
 };
 
 // ── EMAIL NOTIFICATIONS ──
-// Get a free access key at https://web3forms.com (enter your email; the key is emailed to you),
-// then paste it below. Until a real key is set, email notifications are simply skipped.
+// Free access key from https://web3forms.com — emails you whenever Sarah leaves a new note.
 const WEB3FORMS_ACCESS_KEY = "74087dfe-4e10-4e8e-aec8-774eb3fe1657";
 async function notifyByEmail(name, message) {
 if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY.indexOf('PASTE') === 0) return; // not set up yet
