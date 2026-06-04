@@ -157,12 +157,81 @@ padding-bottom: 1.5rem; align-self: center;
 .gb-intro .gb-sign { font-family:'Caveat',cursive; font-size:1.7rem; font-weight:700; color:#be123c; text-align:right; margin-top:0.4rem; }
 .gb-textarea { font-family:'Caveat',cursive; font-size:1.3rem; }
 @media (min-width:640px) { .gb-wall { column-count:2; column-gap:1.5rem; } }
+/* Our Soundtrack */
+.pl-placeholder { text-align:center; color:rgba(159,18,57,0.7); background:rgba(255,228,230,0.5); border:1px dashed rgba(251,113,133,0.4); border-radius:1rem; padding:1.5rem; max-width:36rem; margin:0 auto; line-height:1.6; }
+.pl-placeholder code { background:rgba(255,255,255,0.7); padding:0.1rem 0.35rem; border-radius:0.3rem; font-size:0.9em; }
+/* Bucket list */
+.bl-form { display:flex; gap:0.75rem; max-width:36rem; margin:0 auto 2rem; }
+.bl-form .gb-input { flex:1; }
+.bl-list { list-style:none; max-width:36rem; margin:0 auto; padding:0; display:flex; flex-direction:column; gap:0.65rem; }
+.bl-item { display:flex; align-items:flex-start; gap:0.85rem; background:rgba(255,255,255,0.6); border:1px solid rgba(159,18,57,0.12); border-radius:1rem; padding:0.9rem 1.1rem; box-shadow:0 6px 16px rgba(159,18,57,0.06); transition:background .2s; }
+.bl-check { appearance:none; -webkit-appearance:none; flex-shrink:0; width:1.4rem; height:1.4rem; margin-top:0.1rem; border:2px solid #fb7185; border-radius:0.5rem; cursor:pointer; position:relative; transition:background .2s, border-color .2s; }
+.bl-check:checked { background:#f43f5e; border-color:#f43f5e; }
+.bl-check:checked::after { content:'\2713'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.95rem; }
+.bl-check:focus-visible { outline:3px solid #f43f5e; outline-offset:2px; }
+.bl-text { flex:1; color:#4c0519; line-height:1.5; word-break:break-word; }
+.bl-item.done .bl-text { text-decoration:line-through; color:rgba(159,18,57,0.45); }
+.bl-del { background:none; border:none; color:rgba(159,18,57,0.4); cursor:pointer; font-size:0.95rem; padding:0.15rem 0.4rem; border-radius:0.4rem; transition:color .2s, background .2s; line-height:1; }
+.bl-del:hover { color:#e11d48; background:rgba(244,63,94,0.08); }
+.bl-empty { text-align:center; color:rgba(159,18,57,0.5); padding:1.5rem 0; font-family:'Caveat',cursive; font-size:1.4rem; }
+/* Animated weather icons */
+.wx-icon { display:inline-block; margin-right:0.3rem; width:1.05em; text-align:center; transform-origin:center; }
+@keyframes wx-spin { to { transform: rotate(360deg); } }
+@keyframes wx-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+@keyframes wx-drift { 0%,100% { transform: translateX(-1.5px); } 50% { transform: translateX(1.5px); } }
+@keyframes wx-rainbob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(1.5px); } }
+@keyframes wx-flash { 0%,42%,58%,100% { opacity:1; } 50% { opacity:0.3; } }
+.wx-spin { animation: wx-spin 9s linear infinite; }
+.wx-spin-slow { animation: wx-spin 6s linear infinite; }
+.wx-bob { animation: wx-bob 3s ease-in-out infinite; }
+.wx-drift { animation: wx-drift 4.5s ease-in-out infinite; }
+.wx-rain { animation: wx-rainbob 1.7s ease-in-out infinite; }
+.wx-flash { animation: wx-flash 2.4s ease-in-out infinite; }
 .letter-tile, .reason-card-btn { border:none; font:inherit; width:100%; cursor:pointer; }
 .letter-tile:focus-visible, .reason-card-btn:focus-visible, .nav-link:focus-visible, #menu-toggle:focus-visible { outline:3px solid #f43f5e; outline-offset:3px; border-radius:0.5rem; }
 
 /* Mobile menu */
 #mobile-menu { max-height:0; overflow:hidden; transition:max-height 0.35s ease; }
 #mobile-menu.open { max-height:320px; }
+
+/* ── Dark mode ── */
+body.dark { background: linear-gradient(165deg,#1a1124 0%,#241433 60%,#2c1530 100%) !important; color:#e9def5 !important; }
+body.dark .glass-panel { background:rgba(42,27,60,0.55) !important; border-color:rgba(255,255,255,0.08) !important; }
+body.dark .polaroid { background:#241733 !important; box-shadow:0 12px 30px rgba(0,0,0,0.5) !important; }
+body.dark .bg-gray-100 { background-color:#2a1c3d !important; }
+body.dark #letter-content { background:#241733 !important; color:#ece3f5 !important; }
+body.dark .flip-face { background:rgba(255,255,255,0.10) !important; color:#fbe9ef !important; box-shadow:0 4px 16px rgba(0,0,0,0.35) !important; }
+body.dark .flip-label { color:rgba(251,191,205,0.7) !important; }
+body.dark .flip-separator { color:rgba(251,191,205,0.35) !important; }
+body.dark #milestone-msg { color:rgba(251,191,205,0.8) !important; }
+body.dark [class*='text-gray-'] { color:#cbb9e0 !important; }
+body.dark .text-rose-950, body.dark .text-rose-900 { color:#f9d5de !important; }
+body.dark [class*='text-rose-800'] { color:rgba(249,200,212,0.85) !important; }
+body.dark [class*='text-rose-700'] { color:#fbb6c4 !important; }
+body.dark .gb-input, body.dark .gb-textarea { background:rgba(255,255,255,0.07) !important; color:#f3e9fb !important; border-color:rgba(255,255,255,0.14) !important; }
+body.dark .gb-input::placeholder, body.dark .gb-textarea::placeholder { color:rgba(243,233,251,0.45) !important; }
+body.dark .bl-item { background:rgba(255,255,255,0.06) !important; border-color:rgba(255,255,255,0.12) !important; }
+body.dark .bl-text { color:#ece3f5 !important; }
+body.dark .bl-item.done .bl-text { color:rgba(236,227,245,0.4) !important; }
+body.dark .bl-del { color:rgba(236,227,245,0.4) !important; }
+body.dark .gb-notice { background:rgba(251,113,133,0.12) !important; color:#fbb6c4 !important; border-color:rgba(251,113,133,0.3) !important; }
+body.dark .pl-placeholder { background:rgba(251,113,133,0.10) !important; color:#fbb6c4 !important; border-color:rgba(251,113,133,0.4) !important; }
+body.dark .pl-placeholder code { background:rgba(255,255,255,0.12) !important; color:#fff !important; }
+body.dark .gb-intro { background:rgba(255,255,255,0.05) !important; border-color:rgba(255,255,255,0.08) !important; }
+body.dark .gb-intro p { color:#e3d6f0 !important; }
+body.dark .gb-empty, body.dark .bl-empty { color:rgba(251,182,196,0.6) !important; }
+/* Floating dark-mode toggle */
+.theme-toggle { position:fixed; bottom:1.4rem; right:1.4rem; z-index:250; width:3.3rem; height:3.3rem; border:none; border-radius:9999px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.2rem; color:#fff; background:linear-gradient(135deg,#fb7185,#f43f5e); box-shadow:0 10px 24px rgba(244,63,94,0.45); animation:tt-float 3.6s ease-in-out infinite; transition:transform .25s ease, box-shadow .25s ease, background .45s ease; }
+.theme-toggle:hover { transform:translateY(-4px) scale(1.08); box-shadow:0 16px 32px rgba(244,63,94,0.55); }
+.theme-toggle:active { transform:scale(0.94); }
+.theme-toggle:focus-visible { outline:3px solid #fff; outline-offset:3px; }
+.theme-toggle i { transition:transform .5s ease; }
+.theme-toggle:hover i { transform:rotate(25deg) scale(1.1); }
+@keyframes tt-float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-7px); } }
+.theme-toggle::after { content:""; position:absolute; inset:0; border-radius:9999px; box-shadow:0 0 0 0 rgba(244,63,94,0.5); animation:tt-pulse 2.8s ease-out infinite; pointer-events:none; }
+@keyframes tt-pulse { 0% { box-shadow:0 0 0 0 rgba(244,63,94,0.5); } 70% { box-shadow:0 0 0 16px rgba(244,63,94,0); } 100% { box-shadow:0 0 0 0 rgba(244,63,94,0); } }
+body.dark .theme-toggle { background:linear-gradient(135deg,#6366f1,#a855f7); box-shadow:0 10px 24px rgba(124,58,237,0.5); }
+body.dark .theme-toggle::after { animation:none; }
 
 /* Respect users who prefer less motion */
 @media (prefers-reduced-motion: reduce) {
@@ -181,6 +250,9 @@ scroll-behavior: auto !important;
 <body class="bg-rose-50 text-gray-800 antialiased selection:bg-rose-200 selection:text-rose-900 relative" style="scroll-behavior:smooth">
 
 <a href="#countdown-section" class="sr-only focus:not-sr-only focus:absolute focus:z-[300] focus:top-3 focus:left-3 focus:bg-white focus:text-rose-700 focus:px-4 focus:py-2 focus:rounded-full focus:shadow">Skip to content</a>
+<button id="theme-toggle" type="button" class="theme-toggle" aria-label="Switch to dark mode" title="Toggle dark mode">
+<i class="fa-solid fa-moon" id="theme-icon" aria-hidden="true"></i>
+</button>
 
 <canvas id="confetti-canvas" aria-hidden="true"></canvas>
 <div class="heart-field" id="heart-field" aria-hidden="true"></div>
@@ -196,6 +268,8 @@ scroll-behavior: auto !important;
 <a href="#gallery-section"   class="nav-link hover:text-rose-500 transition">Memories</a>
 <a href="#reasons-section"   class="nav-link hover:text-rose-500 transition">Reasons</a>
 <a href="#letters-section"   class="nav-link hover:text-rose-500 transition">Open When</a>
+<a href="#playlist-section"  class="nav-link hover:text-rose-500 transition">Our Song</a>
+<a href="#bucket-section"    class="nav-link hover:text-rose-500 transition">Someday</a>
 <a href="#guestbook-section" class="nav-link hover:text-rose-500 transition">Notes</a>
 </div>
 <button id="menu-toggle" class="md:hidden text-rose-800 text-xl w-9 h-9 flex items-center justify-center" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
@@ -208,6 +282,8 @@ scroll-behavior: auto !important;
 <a href="#gallery-section"   class="nav-link py-2 px-2 rounded-lg hover:bg-white/60 transition">Memories</a>
 <a href="#reasons-section"   class="nav-link py-2 px-2 rounded-lg hover:bg-white/60 transition">Reasons</a>
 <a href="#letters-section"   class="nav-link py-2 px-2 rounded-lg hover:bg-white/60 transition">Open When</a>
+<a href="#playlist-section"  class="nav-link py-2 px-2 rounded-lg hover:bg-white/60 transition">Our Song</a>
+<a href="#bucket-section"    class="nav-link py-2 px-2 rounded-lg hover:bg-white/60 transition">Someday</a>
 <a href="#guestbook-section" class="nav-link py-2 px-2 rounded-lg hover:bg-white/60 transition">Notes</a>
 </div>
 </div>
@@ -274,18 +350,20 @@ Time until I see you next
 </div>
 
 <div class="mt-12 flex flex-wrap justify-center gap-6 reveal" style="transition-delay:.3s">
-<div class="glass-panel px-6 py-3 rounded-full flex items-center gap-3 shadow-sm">
+<div class="glass-panel px-6 py-3 rounded-3xl flex items-center gap-3 shadow-sm">
 <i class="fa-regular fa-clock text-rose-500" aria-hidden="true"></i>
-<div>
+<div class="text-left">
 <p class="text-xs text-rose-800/70 uppercase tracking-wide">My Time (Home)</p>
 <p class="font-semibold text-rose-950" id="time-home">--:--</p>
+<p class="text-xs text-rose-700/80 mt-0.5" id="weather-home"></p>
 </div>
 </div>
-<div class="glass-panel px-6 py-3 rounded-full flex items-center gap-3 shadow-sm">
+<div class="glass-panel px-6 py-3 rounded-3xl flex items-center gap-3 shadow-sm">
 <i class="fa-solid fa-location-dot text-rose-500" aria-hidden="true"></i>
-<div>
+<div class="text-left">
 <p class="text-xs text-rose-800/70 uppercase tracking-wide">Her Time (Maine)</p>
 <p class="font-semibold text-rose-950" id="time-away">--:--</p>
+<p class="text-xs text-rose-700/80 mt-0.5" id="weather-away"></p>
 </div>
 </div>
 </div>
@@ -297,11 +375,11 @@ Time until I see you next
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8 px-4 md:px-10">
 
 <button type="button" class="polaroid transform rotate-[-3deg] reveal" style="transition-delay:.05s" onclick="openLightbox('memory-1-img', true)" aria-label="Open photo: The Day It All Started">
-<div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group relative">
+<div class="bg-gray-100 mb-4 overflow-hidden shadow-inner group relative">
 <div class="absolute top-3 right-3 bg-white/70 backdrop-blur-md rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-sm transition group-hover:scale-110">
 <i class="fa-solid fa-layer-group text-rose-600 text-sm" aria-hidden="true"></i>
 </div>
-<img id="memory-1-img" loading="lazy" src="WhatsApp Image 2026-06-01 at 10.20.23 PM (1).jpeg" onerror="this.onerror=null;this.src='https://placehold.co/600x750/fdf2f8/9f1239?text=Tap+to+cycle'" alt="The day it all started" class="w-full h-full object-cover transition-all duration-300 group-hover:scale-110">
+<img id="memory-1-img" loading="lazy" src="WhatsApp Image 2026-06-01 at 10.20.23 PM (1).jpeg" onerror="this.onerror=null;this.src='https://placehold.co/600x750/fdf2f8/9f1239?text=Tap+to+cycle'" alt="The day it all started" class="w-full h-auto object-cover transition-all duration-300 group-hover:scale-110">
 </div>
 <div class="absolute bottom-4 w-full left-0 px-4 text-center">
 <p class="serif-font text-xl text-gray-800 font-semibold">The Day It All Started</p>
@@ -310,8 +388,8 @@ Time until I see you next
 </button>
 
 <button type="button" class="polaroid transform rotate-[2deg] mt-8 lg:mt-12 reveal" style="transition-delay:.1s" onclick="openLightbox('memory-2-img')" aria-label="Open photo: The Math Homework">
-<div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
-<img id="memory-2-img" loading="lazy" src="photo2.jpg" onerror="this.onerror=null;this.src='https://placehold.co/600x750/fff1f2/9f1239?text=photo2.jpg'" alt="The math homework" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+<div class="bg-gray-100 mb-4 overflow-hidden shadow-inner group">
+<img id="memory-2-img" loading="lazy" src="photo2.jpg" onerror="this.onerror=null;this.src='https://placehold.co/600x750/fff1f2/9f1239?text=photo2.jpg'" alt="The math homework" class="w-full h-auto object-cover group-hover:scale-110 transition duration-700">
 </div>
 <div class="absolute bottom-4 w-full left-0 px-4 text-center">
 <p class="serif-font text-xl text-gray-800 font-semibold">The Math Homework</p>
@@ -320,8 +398,8 @@ Time until I see you next
 </button>
 
 <button type="button" class="polaroid transform rotate-[-1deg] reveal" style="transition-delay:.15s" onclick="openLightbox('memory-3-img')" aria-label="Open photo: First Video Call Together">
-<div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
-<img id="memory-3-img" loading="lazy" src="photo3.jpeg" onerror="this.onerror=null;this.src='https://placehold.co/600x750/ffe4e6/9f1239?text=photo3.jpeg'" alt="First video call together" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+<div class="bg-gray-100 mb-4 overflow-hidden shadow-inner group">
+<img id="memory-3-img" loading="lazy" src="photo3.jpeg" onerror="this.onerror=null;this.src='https://placehold.co/600x750/ffe4e6/9f1239?text=photo3.jpeg'" alt="First video call together" class="w-full h-auto object-cover group-hover:scale-110 transition duration-700">
 </div>
 <div class="absolute bottom-4 w-full left-0 px-4 text-center">
 <p class="serif-font text-xl text-gray-800 font-semibold">First Video Call Together</p>
@@ -330,8 +408,8 @@ Time until I see you next
 </button>
 
 <button type="button" class="polaroid transform rotate-[3deg] sm:mt-12 lg:mt-12 reveal" style="transition-delay:.2s" onclick="openLightbox('memory-4-img')" aria-label="Open photo: My First Among Equals">
-<div class="aspect-[4/5] bg-gray-100 mb-4 overflow-hidden shadow-inner group">
-<img id="memory-4-img" loading="lazy" src="photo4.jpg" onerror="this.onerror=null;this.src='https://placehold.co/600x750/fce7f3/9f1239?text=photo4.jpg'" alt="My first among equals" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+<div class="bg-gray-100 mb-4 overflow-hidden shadow-inner group">
+<img id="memory-4-img" loading="lazy" src="photo4.jpg" onerror="this.onerror=null;this.src='https://placehold.co/600x750/fce7f3/9f1239?text=photo4.jpg'" alt="My first among equals" class="w-full h-auto object-cover group-hover:scale-110 transition duration-700">
 </div>
 <div class="absolute bottom-4 w-full left-0 px-4 text-center">
 <p class="serif-font text-xl text-gray-800 font-semibold">My First Among Equals</p>
@@ -445,12 +523,31 @@ Another reason
 <span id="lightbox-counter"></span>
 </div>
 
+<!-- Our Soundtrack -->
+<section id="playlist-section" class="max-w-3xl mx-auto px-4 py-24 border-t border-rose-100">
+<h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-4 serif-font reveal">Our Soundtrack</h2>
+<p class="text-center text-rose-800/80 mb-12 font-light reveal" style="transition-delay:.1s">The songs that feel like us. Press play and pretend I'm right there next to you. 🎧</p>
+<div id="playlist-embed" class="reveal" style="transition-delay:.15s"></div>
+</section>
+
+<!-- Someday, Together (bucket list) -->
+<section id="bucket-section" class="max-w-3xl mx-auto px-4 py-24 border-t border-rose-100">
+<h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-4 serif-font reveal">Someday, Together</h2>
+<p class="text-center text-rose-800/80 mb-10 font-light reveal" style="transition-delay:.1s">All the things we're going to do when there's no distance left between us. Add yours too. 🤍</p>
+<div id="bl-notice" class="gb-notice reveal" style="display:none"></div>
+<form id="bl-form" class="bl-form reveal" style="transition-delay:.15s">
+<input id="bl-input" class="gb-input" maxlength="200" placeholder="Add something to look forward to..." required aria-label="New bucket list item">
+<button type="submit" class="gb-submit" id="bl-submit">Add 🤍</button>
+</form>
+<ul id="bl-list" class="bl-list reveal" style="transition-delay:.2s"></ul>
+</section>
+
 <!-- Guestbook -->
 <section id="guestbook-section" class="max-w-3xl mx-auto px-4 py-24 border-t border-rose-100">
 <h2 class="text-4xl md:text-5xl font-semibold text-center text-rose-950 mb-4 serif-font reveal">Leave Me a Note</h2>
 <p class="text-center text-rose-800/80 mb-10 font-light reveal" style="transition-delay:.1s">A little mailbox that's always open between Debrecen and Maine. 💗</p>
 <div class="gb-intro reveal" style="transition-delay:.12s">
-<p>Hi my love,<br><br>Whenever you miss me, think of me, or just have something silly to say, leave it right here. I read every single one (probably more than once), and on the days the distance feels heavy, this is the first place I come to feel close to you again. My sweetheart, I love you.</p>
+<p>Hi my love,<br><br>Whenever you miss me, think of me, or just have something silly to say — leave it right here. I read every single one (probably more than once), and on the days the distance feels heavy, this is the first place I come to feel close to you again.</p>
 <p class="gb-sign">— always yours, Z ♡</p>
 </div>
 <div id="gb-notice" class="gb-notice reveal" style="display:none"></div>
@@ -475,7 +572,12 @@ start:     { year: 2026, month: 6, day: 3 },                       // when the w
 homeTimezone: 'Europe/Budapest',
 awayTimezone: 'America/New_York',
 homeLabel: 'My Time (Home)',
-awayLabel: 'Her Time (Maine)'
+awayLabel: 'Her Time (Maine)',
+// Weather — look up coordinates at https://www.latlong.net (unit: 'celsius' or 'fahrenheit')
+homeWeather: { lat: 47.5316, lon: 21.6273, unit: 'celsius' },     // Debrecen, Hungary
+awayWeather: { lat: 43.6591, lon: -70.2568, unit: 'fahrenheit' }, // Portland, Maine — change to her city
+// Our playlist — paste a Spotify playlist link OR id ('' hides nothing, shows a setup hint)
+spotifyPlaylist: 'https://open.spotify.com/playlist/6FEeF3tM3TVkM3RCWAvdrm'
 };
 const reunionDate   = new Date(CONFIG.reunion.year, CONFIG.reunion.month - 1, CONFIG.reunion.day, CONFIG.reunion.hour, CONFIG.reunion.minute, 0);
 const startDate     = new Date(CONFIG.start.year, CONFIG.start.month - 1, CONFIG.start.day);
@@ -587,6 +689,35 @@ if (a) a.innerText = new Intl.DateTimeFormat('en-US',{...opts,timeZone:awayTimez
 }
 setInterval(updateTimes, 10000);
 updateTimes();
+
+// ── WEATHER (Open-Meteo: free, no API key needed) ──
+function weatherInfo(code) {
+const C = { sun:['fa-sun','wx-spin','#f59e0b'], partly:['fa-cloud-sun','wx-bob','#f59e0b'], cloud:['fa-cloud','wx-drift','#94a3b8'], fog:['fa-smog','wx-drift','#9ca3af'], rain:['fa-cloud-rain','wx-rain','#60a5fa'], snow:['fa-snowflake','wx-spin-slow','#93c5fd'], storm:['fa-cloud-bolt','wx-flash','#fbbf24'] };
+const map = { 0:['sun','Clear'],1:['sun','Mostly clear'],2:['partly','Partly cloudy'],3:['cloud','Overcast'],45:['fog','Foggy'],48:['fog','Foggy'],51:['rain','Light drizzle'],53:['rain','Drizzle'],55:['rain','Drizzle'],56:['rain','Freezing drizzle'],57:['rain','Freezing drizzle'],61:['rain','Light rain'],63:['rain','Rain'],65:['rain','Heavy rain'],66:['rain','Freezing rain'],67:['rain','Freezing rain'],71:['snow','Light snow'],73:['snow','Snow'],75:['snow','Heavy snow'],77:['snow','Snow'],80:['rain','Showers'],81:['rain','Showers'],82:['storm','Heavy showers'],85:['snow','Snow showers'],86:['snow','Snow showers'],95:['storm','Thunderstorm'],96:['storm','Thunderstorm'],99:['storm','Thunderstorm'] };
+const m = map[code] || ['cloud',''];
+const c = C[m[0]] || C.cloud;
+return { icon: c[0], anim: c[1], color: c[2], desc: m[1] };
+}
+async function loadWeather(cfg, elId) {
+const el = document.getElementById(elId);
+if (!el || !cfg) return;
+try {
+const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + cfg.lat + '&longitude=' + cfg.lon + '&current=temperature_2m,weather_code&temperature_unit=' + (cfg.unit || 'celsius');
+const res = await fetch(url);
+const data = await res.json();
+const c = data && data.current;
+if (!c) return;
+const info = weatherInfo(c.weather_code);
+const unitLetter = (cfg.unit === 'fahrenheit') ? 'F' : 'C';
+el.innerHTML = '<i class="fa-solid ' + info.icon + ' wx-icon ' + info.anim + '" style="color:' + info.color + '" aria-hidden="true"></i>' + Math.round(c.temperature_2m) + '°' + unitLetter + (info.desc ? ' · ' + info.desc : '');
+} catch (e) { /* offline or blocked — leave it blank */ }
+}
+function refreshWeather() {
+loadWeather(CONFIG.homeWeather, 'weather-home');
+loadWeather(CONFIG.awayWeather, 'weather-away');
+}
+refreshWeather();
+setInterval(refreshWeather, 900000); // refresh every 15 minutes
 
 // ── PHOTO STACK + LIGHTBOX ──
 const stackedPhotos = [
@@ -826,6 +957,50 @@ const observer = new IntersectionObserver(entries => {
 entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);} });
 }, {threshold:0.12});
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── Dark mode toggle ──
+(function() {
+const btn = document.getElementById('theme-toggle');
+const icon = document.getElementById('theme-icon');
+const body = document.body;
+function apply(dark) {
+body.classList.toggle('dark', dark);
+if (icon) icon.className = dark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+if (btn) btn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+}
+let saved = null;
+try { saved = localStorage.getItem('theme'); } catch (e) {}
+const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+apply(saved ? saved === 'dark' : prefersDark);
+if (btn) btn.addEventListener('click', function() {
+const dark = !body.classList.contains('dark');
+apply(dark);
+try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+});
+})();
+
+// ── OUR SOUNDTRACK (Spotify embed) ──
+(function () {
+const wrap = document.getElementById('playlist-embed');
+if (!wrap) return;
+const raw = (CONFIG.spotifyPlaylist || '').trim();
+const m = raw.match(/playlist[\/:]([a-zA-Z0-9]+)/);
+const id = m ? m[1] : (/^[a-zA-Z0-9]+$/.test(raw) ? raw : '');
+if (!id) {
+wrap.innerHTML = '<div class="pl-placeholder">🎵 Paste a Spotify playlist link into <code>spotifyPlaylist</code> near the top of the script to show your songs here.</div>';
+return;
+}
+const iframe = document.createElement('iframe');
+iframe.title = 'Our playlist';
+iframe.src = 'https://open.spotify.com/embed/playlist/' + id + '?utm_source=generator&theme=0';
+iframe.width = '100%';
+iframe.height = '420';
+iframe.style.borderRadius = '16px';
+iframe.style.border = '0';
+iframe.loading = 'lazy';
+iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+wrap.appendChild(iframe);
+})();
 </script>
 
 <!-- PWA service worker registration -->
@@ -888,12 +1063,80 @@ return '<div class="gb-note"><p class="gb-note-msg">' + esc(n.message) + '</p><d
 }).join('');
 }
 
+// ── BUCKET LIST ("Someday, Together") ──
+const blForm = document.getElementById('bl-form');
+const blInput = document.getElementById('bl-input');
+const blList = document.getElementById('bl-list');
+const blSubmit = document.getElementById('bl-submit');
+const blNotice = document.getElementById('bl-notice');
+
+function renderBucket(items, handlers) {
+if (!blList) return;
+if (!items.length) { blList.innerHTML = '<li class="bl-empty">Nothing here yet — add the first thing. 🤍</li>'; return; }
+blList.innerHTML = '';
+items.forEach(it => {
+const li = document.createElement('li');
+li.className = 'bl-item' + (it.done ? ' done' : '');
+const cb = document.createElement('input');
+cb.type = 'checkbox'; cb.className = 'bl-check'; cb.checked = !!it.done;
+cb.setAttribute('aria-label', 'Mark done');
+cb.addEventListener('change', () => handlers.toggle(it, cb.checked));
+const span = document.createElement('span');
+span.className = 'bl-text'; span.textContent = it.text;
+const del = document.createElement('button');
+del.type = 'button'; del.className = 'bl-del'; del.innerHTML = '<i class="fa-solid fa-xmark" aria-hidden="true"></i>';
+del.setAttribute('aria-label', 'Remove');
+del.addEventListener('click', () => handlers.remove(it));
+li.appendChild(cb); li.appendChild(span); li.appendChild(del);
+blList.appendChild(li);
+});
+}
+
+function setupBucketListFirebase(db, fb) {
+const col = fb.collection(db, 'bucketlist');
+fb.onSnapshot(fb.query(col, fb.orderBy('createdAt', 'desc')), snap => {
+const items = snap.docs.map(d => { const v = d.data(); return { id: d.id, text: v.text, done: !!v.done, createdAt: v.createdAt && v.createdAt.toMillis ? v.createdAt.toMillis() : 0 }; });
+renderBucket(items, {
+toggle: (it, done) => fb.updateDoc(fb.doc(db, 'bucketlist', it.id), { done: done }).catch(e => console.warn(e)),
+remove: (it) => fb.deleteDoc(fb.doc(db, 'bucketlist', it.id)).catch(e => console.warn(e))
+});
+}, err => console.warn(err));
+if (blForm) blForm.addEventListener('submit', async e => {
+e.preventDefault();
+const text = blInput.value.trim(); if (!text) return;
+blSubmit.disabled = true;
+try { await fb.addDoc(col, { text: text.slice(0,200), done: false, createdAt: fb.serverTimestamp() }); blForm.reset(); }
+catch (err) { console.warn(err); alert('Could not add that. Please try again.'); }
+finally { blSubmit.disabled = false; }
+});
+}
+
+function setupBucketListLocal() {
+const KEY = 'bucket-list';
+const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; } };
+const save = (items) => localStorage.setItem(KEY, JSON.stringify(items));
+function show() {
+renderBucket(load(), {
+toggle: (it, done) => { const items = load(); const t = items.find(x => x.id === it.id); if (t) { t.done = done; save(items); show(); } },
+remove: (it) => { save(load().filter(x => x.id !== it.id)); show(); }
+});
+}
+show();
+if (blForm) blForm.addEventListener('submit', e => {
+e.preventDefault();
+const text = blInput.value.trim(); if (!text) return;
+const items = load();
+items.unshift({ id: 'b' + Date.now(), text: text.slice(0,200), done: false, createdAt: Date.now() });
+save(items); blForm.reset(); show();
+});
+}
+
 const configured = firebaseConfig.apiKey && firebaseConfig.apiKey.indexOf('PASTE') !== 0;
 
 if (configured) {
 try {
 const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
-const { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+const { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, query, orderBy, limit, onSnapshot, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
 const db = getFirestore(initializeApp(firebaseConfig));
 const col = collection(db, 'guestbook');
 onSnapshot(query(col, orderBy('createdAt', 'desc'), limit(200)), snap => {
@@ -907,6 +1150,9 @@ try { const nm = 'Susu'; const mg = message.slice(0,500); await addDoc(col, { na
 catch (err) { console.warn(err); alert('That did not send. Please try again.'); }
 finally { submitBtn.disabled = false; }
 });
+
+// Bucket list shares the same synced database
+setupBucketListFirebase(db, { collection, addDoc, doc, updateDoc, deleteDoc, query, orderBy, onSnapshot, serverTimestamp });
 } catch (err) { console.warn('Firebase failed to load:', err); }
 } else {
 notice.style.display = 'block';
@@ -924,6 +1170,8 @@ localStorage.setItem(KEY, JSON.stringify(notes));
 notifyByEmail(nm, mg);
 render(notes); form.reset(); countEl.textContent = '0 / 500';
 });
+if (blNotice) { blNotice.style.display = 'block'; blNotice.innerHTML = 'This list is saved on this device only. Add your Firebase keys (see README.md) to share it between both of you.'; }
+setupBucketListLocal();
 }
 </script>
 </body>

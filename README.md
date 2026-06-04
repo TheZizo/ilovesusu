@@ -57,16 +57,6 @@ That's it — notes now appear live for both of you. 💕
 
 > Note: these rules allow anyone with the page to read/post notes (no login). For a private gift that's usually fine. If you ever want it locked down, add Firebase Anonymous Auth or a shared passphrase check.
 
-## 📧 Email me when she leaves a note
-
-Want an email every time she posts a note? This uses **Web3Forms** (free, no backend required):
-
-1. Go to <https://web3forms.com>, enter the email address where you want notifications, and they email you an **access key**.
-2. In `index.html`, find `WEB3FORMS_ACCESS_KEY` near the top of the guestbook script and paste your key over the placeholder.
-3. Re-upload `index.html`. Done — every new note now triggers an email to you.
-
-> The free tier covers 250 emails/month, and the access key is safe to ship in the page. If you'd ever prefer a fully server-side option, Firebase's **Trigger Email** extension also works, but it requires upgrading to the Blaze (pay-as-you-go) plan.
-
 ## A couple of tips
 - Keep the site link private (it's set to `noindex`, so search engines skip it, but anyone with the URL can open it).
 - The reunion/start dates and timezones live in a clearly-marked `CONFIG` block at the top of the script in `index.html`.
