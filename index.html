@@ -191,8 +191,11 @@ padding-bottom: 1.5rem; align-self: center;
 .wx-cloud::before { content:""; position:absolute; left:3px; top:-4px; width:8px; height:8px; background:#cbd5e1; border-radius:50%; }
 .wx-cloud::after { content:""; position:absolute; left:8px; top:-6px; width:10px; height:10px; background:#cbd5e1; border-radius:50%; }
 .wxa-partly .wx-cloud, .wxa-partly .wx-cloud::before, .wxa-partly .wx-cloud::after { background:#e2e8f0; }
-.wxa.is-day { background:radial-gradient(circle at 50% 40%, rgba(254,243,199,0.85), rgba(253,186,116,0.32)); border-radius:7px; }
-.wxa.is-night { background:linear-gradient(165deg, rgba(79,70,160,0.55), rgba(30,27,75,0.6)); border-radius:7px; }
+.glass-panel.is-day { background:linear-gradient(135deg, rgba(254,240,200,0.78), rgba(253,200,150,0.48)) !important; border-color:rgba(253,200,120,0.5) !important; }
+.glass-panel.is-night { background:linear-gradient(150deg, rgba(99,102,241,0.30), rgba(49,46,129,0.34)) !important; border-color:rgba(129,140,248,0.4) !important; }
+body.dark .glass-panel.is-day { background:linear-gradient(135deg, rgba(180,130,60,0.42), rgba(120,80,40,0.44)) !important; border-color:rgba(253,200,120,0.28) !important; }
+body.dark .glass-panel.is-night { background:linear-gradient(150deg, rgba(79,70,160,0.58), rgba(30,27,75,0.62)) !important; border-color:rgba(129,140,248,0.3) !important; }
+.glass-panel.is-day, .glass-panel.is-night { transition: background .8s ease, border-color .8s ease; }
 .wx-moon { position:absolute; left:50%; top:50%; width:13px; height:13px; margin:-6.5px 0 0 -6.5px; border-radius:50%; background:radial-gradient(circle at 38% 35%, #fffbeb, #fde68a); box-shadow:0 0 6px rgba(254,243,199,0.65); animation:wx-pulse 3.5s ease-in-out infinite; }
 .wx-moon.sm { width:9px; height:9px; margin:-8px 0 0 -10px; }
 .wx-drop { position:absolute; bottom:0; width:2px; height:5px; background:#60a5fa; border-radius:2px; animation:wx-fall 1.1s linear infinite; }
@@ -745,6 +748,8 @@ const info = weatherInfo(c.weather_code);
 const unitLetter = (cfg.unit === 'fahrenheit') ? 'F' : 'C';
 const isDay = (c.is_day === undefined) ? true : c.is_day !== 0;
 el.innerHTML = weatherIconHTML(info.cat, isDay) + Math.round(c.temperature_2m) + '°' + unitLetter + (info.desc ? ' · ' + info.desc : '');
+const card = el.closest('.glass-panel');
+if (card) { card.classList.toggle('is-day', isDay); card.classList.toggle('is-night', !isDay); }
 } catch (e) { /* offline or blocked — leave it blank */ }
 }
 function refreshWeather() {
