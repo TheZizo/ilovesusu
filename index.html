@@ -4,7 +4,7 @@
 <meta charset='UTF-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover'>
 <title>Our Memories</title>
-<meta name='description' content='A little corner of the internet for us — counting down the days until I see you again.'>
+<meta name='description' content='A little corner of the internet for us, counting down the days until I see you again.'>
 <meta name='robots' content='noindex, nofollow'>
 <meta property='og:title' content='Our Memories'>
 <meta property='og:description' content='Distance is temporary. These moments keep us together.'>
@@ -194,6 +194,55 @@ body.dark #intro{background:radial-gradient(120% 100% at 50% 0,#2a1a4b,transpare
 #countdown-card{position:relative}
 #countdown-card::after{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:conic-gradient(from 140deg,rgba(251,113,133,.15),rgba(251,113,133,.9) 20%,rgba(225,29,72,.85) 50%,rgba(251,113,133,.9) 80%,rgba(251,113,133,.15));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:border-glow 4.5s ease-in-out infinite;pointer-events:none}
 @keyframes border-glow{0%,100%{opacity:.4}50%{opacity:.9}}
+/* ===== DISTANCE MAP ===== */
+.map-card{padding:1.5rem 1.3rem 1.8rem;border-radius:var(--radius);max-width:40rem;margin:0 auto}
+.dmap{width:100%;height:auto;display:block;overflow:visible}
+.dmap-bg{fill:none;stroke:var(--line);stroke-width:2}
+.dmap-arc{fill:none;stroke:url(#dmapGrad);stroke-width:3;stroke-linecap:round;stroke-dasharray:6 9;animation:dash-flow 1.4s linear infinite}
+@keyframes dash-flow{to{stroke-dashoffset:-30}}
+.pin-home{fill:#fb7185}.pin-away{fill:#e11d48}
+.dmap-pin{stroke:#fff;stroke-width:2.5}
+body.dark .dmap-pin{stroke:#241433}
+.dmap-label{fill:var(--ink-soft);font-family:'Inter',sans-serif;font-size:14px;font-weight:600}
+.dmap-traveler{filter:drop-shadow(0 0 5px rgba(244,63,94,.7))}
+.dmap-stat{margin-top:1.5rem}
+.dmap-stat .big{font-family:'Playfair Display',serif;font-size:clamp(2rem,8vw,2.9rem);font-weight:600;color:var(--title);line-height:1;display:block}
+.dmap-stat small{display:block;margin-top:.35rem;font-size:.85rem;letter-spacing:.04em;color:var(--ink-faint)}
+.dmap-foot{margin-top:1.1rem;font-family:'Caveat',cursive;font-size:1.5rem;color:var(--rose-deep)}
+@media(prefers-reduced-motion:reduce){.dmap-arc{animation:none}}
+/* ===== SAME MOON ===== */
+.moon-stage{display:flex;justify-content:center;margin:.6rem 0 1.5rem}
+.moon-orb{width:clamp(124px,42vw,168px);height:clamp(124px,42vw,168px)}
+.moon-svg{width:100%;height:100%;filter:drop-shadow(0 0 28px rgba(214,222,255,.5))}
+body.dark .moon-svg{filter:drop-shadow(0 0 34px rgba(188,200,255,.4))}
+.moon-dark{fill:#2b3158}
+body.dark .moon-dark{fill:#161a31}
+.moon-lit{fill:url(#moonGrad)}
+.moon-phase{font-family:'Inter',sans-serif;font-weight:700;letter-spacing:.14em;color:var(--kicker);font-size:.8rem;text-transform:uppercase;margin-bottom:.45rem}
+/* ===== STORY TIMELINE ===== */
+.timeline{position:relative;max-width:48rem;margin:0 auto;padding:.5rem 0}
+.tl-line{position:absolute;top:.5rem;bottom:.5rem;left:50%;width:3px;transform:translateX(-50%);background:var(--line);border-radius:3px;overflow:hidden}
+.tl-progress{position:absolute;top:0;left:0;width:100%;height:0;background:var(--grad);border-radius:3px}
+.tl-item{position:relative;width:50%;padding:0 2.6rem 2.4rem;box-sizing:border-box}
+.tl-item.left{left:0;text-align:right}
+.tl-item.right{left:50%;text-align:left}
+.tl-card{display:inline-block;text-align:left;background:var(--panel);border:1px solid var(--panel-border);border-radius:18px;padding:1.05rem 1.25rem;box-shadow:var(--shadow-sm);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);max-width:21rem}
+.tl-node{position:absolute;top:.2rem;width:18px;height:18px;border-radius:50%;background:var(--grad);box-shadow:0 0 0 4px var(--cream),0 0 12px rgba(244,63,94,.5);z-index:2}
+.tl-item.left .tl-node{right:-9px}
+.tl-item.right .tl-node{left:-9px}
+.tl-date{font-family:'Caveat',cursive;font-size:1.35rem;color:var(--rose-deep);margin-bottom:.15rem;line-height:1}
+.tl-title{font-family:'Playfair Display',serif;font-size:1.18rem;color:var(--title);margin-bottom:.3rem}
+.tl-text{font-size:.94rem;color:var(--ink-soft);line-height:1.55}
+.tl-item.final .tl-card{background:var(--grad);border:none}
+.tl-item.final .tl-date,.tl-item.final .tl-title,.tl-item.final .tl-text{color:#fff}
+.tl-item.final .tl-node{background:#fff;box-shadow:0 0 0 4px var(--rose),0 0 16px rgba(244,63,94,.7)}
+@media(max-width:680px){
+.tl-line{left:9px}
+.tl-item{width:100%;left:0!important;text-align:left;padding:0 0 2.2rem 2.6rem}
+.tl-item.left{text-align:left}
+.tl-item .tl-node{left:0!important;right:auto!important}
+.tl-card{max-width:100%}
+}
 .progress-ring-wrap{position:relative;width:132px;height:132px;margin:1.9rem auto .5rem}
 .progress-ring{width:132px;height:132px;transform:rotate(-90deg)}
 .progress-ring circle{fill:none;stroke-width:9;stroke-linecap:round}
@@ -383,6 +432,7 @@ body.dark .gb-note,body.dark .gb-note-msg{color:#473827}
 <div class='nav-links'>
 <a class='nav-link' href='#countdown-section'>The Countdown</a>
 <a class='nav-link' href='#gallery-section'>Memories</a>
+<a class='nav-link' href='#story-section'>Our Story</a>
 <a class='nav-link' href='#reasons-section'>Reasons</a>
 <a class='nav-link' href='#letters-section'>Open When</a>
 <a class='nav-link' href='#playlist-section'>Our Song</a>
@@ -395,6 +445,7 @@ body.dark .gb-note,body.dark .gb-note-msg{color:#473827}
 <div class='mobile-links'>
 <a class='nav-link' href='#countdown-section'>The Countdown</a>
 <a class='nav-link' href='#gallery-section'>Memories</a>
+<a class='nav-link' href='#story-section'>Our Story</a>
 <a class='nav-link' href='#reasons-section'>Reasons</a>
 <a class='nav-link' href='#letters-section'>Open When</a>
 <a class='nav-link' href='#playlist-section'>Our Song</a>
@@ -485,6 +536,49 @@ body.dark .gb-note,body.dark .gb-note-msg{color:#473827}
 <a href='#kiss-section' class='scroll-cue'><span>Scroll</span><i class='fa-solid fa-chevron-down' aria-hidden='true'></i></a>
 </div>
 </header>
+<section id='distance-section' class='section alt'>
+<div class='wrap narrow' style='text-align:center'>
+<span class='kicker reveal'>The space between us</span>
+<h2 class='sec-title reveal'>Miles Apart, Never Apart</h2>
+<p class='sec-sub reveal' style='transition-delay:.1s;margin-bottom:2.2rem'>Two little dots, one glowing line, and a heart that keeps crossing it.</p>
+<div class='map-card glass-panel reveal' style='transition-delay:.15s'>
+<svg class='dmap' viewBox='0 0 600 250' role='img' aria-label='A glowing arc connecting Debrecen and Maine'>
+<defs><linearGradient id='dmapGrad' x1='0' y1='0' x2='1' y2='0'><stop offset='0' stop-color='#fb7185'/><stop offset='1' stop-color='#e11d48'/></linearGradient></defs>
+<path class='dmap-bg' d='M110,175 Q300,25 490,150'/>
+<path class='dmap-arc' d='M110,175 Q300,25 490,150'/>
+<circle class='dmap-pin pin-home' cx='110' cy='175' r='7'/>
+<circle class='dmap-pin pin-away' cx='490' cy='150' r='7'/>
+<circle cx='110' cy='175' r='7' fill='none' stroke='#fb7185' stroke-width='2'><animate attributeName='r' values='7;24' dur='2.6s' repeatCount='indefinite'/><animate attributeName='opacity' values='.7;0' dur='2.6s' repeatCount='indefinite'/></circle>
+<circle cx='490' cy='150' r='7' fill='none' stroke='#e11d48' stroke-width='2'><animate attributeName='r' values='7;24' dur='2.6s' begin='1.3s' repeatCount='indefinite'/><animate attributeName='opacity' values='.7;0' dur='2.6s' begin='1.3s' repeatCount='indefinite'/></circle>
+<g class='dmap-traveler'><circle r='5.5' fill='url(#dmapGrad)'/><animateMotion dur='6s' repeatCount='indefinite' path='M110,175 Q300,25 490,150'/></g>
+<text class='dmap-label' x='110' y='205' text-anchor='middle'>Debrecen</text>
+<text class='dmap-label' x='490' y='180' text-anchor='middle'>Maine</text>
+</svg>
+<div class='dmap-stat'><span class='big'><span id='dmap-km'>0</span> km</span><small id='dmap-km-sub'>the space between us</small></div>
+<p class='dmap-foot'>…but only a heartbeat away 💗</p>
+</div>
+</div>
+</section>
+<section id='moon-section' class='section'>
+<div class='wrap narrow' style='text-align:center'>
+<span class='kicker reveal'>Right now, together</span>
+<h2 class='sec-title reveal'>The Same Moon</h2>
+<div class='moon-stage reveal' style='transition-delay:.1s'>
+<div class='moon-orb'>
+<svg class='moon-svg' viewBox='-50 -50 100 100' role='img' aria-label='The current moon phase'>
+<defs><radialGradient id='moonGrad' cx='40%' cy='38%' r='72%'><stop offset='0' stop-color='#fffef7'/><stop offset='1' stop-color='#dee3f1'/></radialGradient></defs>
+<circle class='moon-dark' cx='0' cy='0' r='48'/>
+<path class='moon-lit' id='moon-lit' d=''/>
+<circle cx='-15' cy='-12' r='6' fill='rgba(110,120,160,.16)'/>
+<circle cx='11' cy='15' r='8' fill='rgba(110,120,160,.13)'/>
+<circle cx='19' cy='-15' r='4' fill='rgba(110,120,160,.15)'/>
+</svg>
+</div>
+</div>
+<p class='moon-phase reveal' id='moon-phase-name' style='transition-delay:.15s'></p>
+<p class='sec-sub reveal' id='moon-line' style='transition-delay:.2s;max-width:30rem;margin-left:auto;margin-right:auto'>Wherever you are tonight, look up. I'm looking at the very same moon. 🌙</p>
+</div>
+</section>
 <section id='kiss-section' class='section alt'>
 <div class='wrap narrow' style='text-align:center'>
 <span class='kicker reveal'>For you</span>
@@ -532,6 +626,23 @@ body.dark .gb-note,body.dark .gb-note-msg{color:#473827}
 <div class='reveal' style='text-align:center;margin-top:3.6rem'>
 <a href='https://photos.google.com/share/AF1QipPadUiELdGCeHs3ID9ZLcJHwK7pIcyUVaV6nIZYuODB0REOB0Mj47hOj92Fyfw_lw' target='_blank' rel='noopener noreferrer' class='btn'><i class='fa-regular fa-images' aria-hidden='true'></i><span>View our full Google Album</span><i class='fa-solid fa-arrow-right' aria-hidden='true' style='font-size:.8rem'></i></a>
 </div>
+</div>
+</section>
+<section id='story-section' class='section'>
+<div class='wrap'>
+<div class='sec-head'>
+<span class='kicker reveal'>How we happened</span>
+<h2 class='sec-title reveal'>Our Story, So Far</h2>
+</div>
+<div class='timeline'>
+<div class='tl-line'><div class='tl-progress' id='tl-progress'></div></div>
+<div class='tl-item left reveal'><div class='tl-node'></div><div class='tl-card'><p class='tl-date'>Day one</p><p class='tl-title'>The Day It All Started</p><p class='tl-text'>not bad for a morrisson's hookup hehe</p></div></div>
+<div class='tl-item right reveal'><div class='tl-node'></div><div class='tl-card'><p class='tl-date'>That first week</p><p class='tl-title'>The Math Homework</p><p class='tl-text'>gemini is the best wingman ever istg</p></div></div>
+<div class='tl-item left reveal'><div class='tl-node'></div><div class='tl-card'><p class='tl-date'>Three days in</p><p class='tl-title'>First Video Call</p><p class='tl-text'>the first screenshot i have lmao, literally days after we met</p></div></div>
+<div class='tl-item right reveal'><div class='tl-node'></div><div class='tl-card'><p class='tl-date'>And then, properly</p><p class='tl-title'>My First Among Equals</p><p class='tl-text'>out of all your photos, this is the one that stops me every time</p></div></div>
+<div class='tl-item left final reveal'><div class='tl-node'></div><div class='tl-card'><p class='tl-date'>August 4, 2026</p><p class='tl-title'>Together Again</p><p class='tl-text'>the day the countdown hits zero and the distance finally ends. 💗</p></div></div>
+</div>
+<p class='reveal' style='text-align:center;margin-top:2.6rem;font-family:"Caveat",cursive;font-size:1.5rem;color:var(--rose-deep)'>…and the best chapters are still unwritten.</p>
 </div>
 </section>
 <section id='reasons-section' class='section alt'>
@@ -621,7 +732,7 @@ body.dark .gb-note,body.dark .gb-note-msg{color:#473827}
 </div>
 <div class='gb-intro glass-panel reveal' style='transition-delay:.12s'>
 <p>Hi my love,<br><br>Whenever you miss me, think of me, or just have something silly to say, leave it right here! I read every single one (probably more than once), and on the days the distance feels heavy, this is the first place I come to feel close to you again.</p>
-<p class='gb-sign'>— always yours, Z ♡</p>
+<p class='gb-sign'>always yours, Z ♡</p>
 </div>
 <div id='gb-notice' class='gb-notice reveal' style='display:none'></div>
 <form id='gb-form' class='gb-form reveal' style='transition-delay:.15s'>
@@ -645,10 +756,10 @@ homeTimezone: 'Europe/Budapest',
 awayTimezone: 'America/New_York',
 homeLabel: 'My Time (Home)',
 awayLabel: 'Her Time (Maine)',
-// Weather — look up coordinates at https://www.latlong.net (unit: 'celsius' or 'fahrenheit')
+// Weather: look up coordinates at https://www.latlong.net (unit: 'celsius' or 'fahrenheit')
 homeWeather: { lat: 47.5316, lon: 21.6273, unit: 'celsius' },     // Debrecen, Hungary
-awayWeather: { lat: 43.6591, lon: -70.2568, unit: 'celsius' }, // Portland, Maine — change to her city
-// Our playlist — paste a Spotify playlist link OR id ('' hides nothing, shows a setup hint)
+awayWeather: { lat: 43.6591, lon: -70.2568, unit: 'celsius' }, // Portland, Maine (change to her city)
+// Our playlist: paste a Spotify playlist link OR id ('' hides nothing, shows a setup hint)
 spotifyPlaylist: 'https://open.spotify.com/playlist/6FEeF3tM3TVkM3RCWAvdrm'
 };
 const reunionDate   = new Date(CONFIG.reunion.year, CONFIG.reunion.month - 1, CONFIG.reunion.day, CONFIG.reunion.hour, CONFIG.reunion.minute, 0);
@@ -658,7 +769,7 @@ const awayTimezone  = CONFIG.awayTimezone;
 const totalDuration = reunionDate - startDate;
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// ── MOBILE MENU ──
+// ��─ MOBILE MENU ──
 (function () {
 const toggle = document.getElementById('menu-toggle');
 const menu   = document.getElementById('mobile-menu');
@@ -1290,6 +1401,60 @@ navigator.serviceWorker.register('sw.js').catch(e => console.warn('SW registrati
 }
 </script>
 
+<script>
+(function(){
+var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ----- DISTANCE (Haversine) ----- */
+(function(){
+  var A={lat:47.5316,lon:21.6273}, B={lat:43.6591,lon:-70.2568};
+  function rad(d){return d*Math.PI/180;}
+  var R=6371;
+  var dLat=rad(B.lat-A.lat), dLon=rad(B.lon-A.lon);
+  var h=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(rad(A.lat))*Math.cos(rad(B.lat))*Math.sin(dLon/2)*Math.sin(dLon/2);
+  var km=Math.round(2*R*Math.asin(Math.min(1,Math.sqrt(h))));
+  var mi=Math.round(km*0.621371);
+  var el=document.getElementById('dmap-km'); if(!el) return;
+  function fmt(n){return n.toLocaleString('en-US');}
+  var sub=document.getElementById('dmap-km-sub'); if(sub) sub.textContent='\u2248 '+fmt(mi)+' miles apart';
+  if(rm){ el.textContent=fmt(km); return; }
+  var done=false;
+  function run(){ if(done)return; done=true; var dur=1500,t0=null;
+    function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/dur); var e=1-Math.pow(1-p,3); el.textContent=fmt(Math.round(km*e)); if(p<1)requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){run();io.disconnect();}});},{threshold:.4});
+  io.observe(el);
+})();
+
+/* ----- MOON phase ----- */
+(function(){
+  var lit=document.getElementById('moon-lit'); if(!lit) return;
+  var R=48;
+  function frac(date){ var syn=29.530588853; var kn=Date.UTC(2000,0,6,18,14,0)/86400000; var d=date.getTime()/86400000; var p=((d-kn)%syn)/syn; if(p<0)p+=1; return p; }
+  function pname(p){ if(p<0.03||p>0.97)return 'New Moon'; if(p<0.22)return 'Waxing Crescent'; if(p<0.28)return 'First Quarter'; if(p<0.47)return 'Waxing Gibbous'; if(p<0.53)return 'Full Moon'; if(p<0.72)return 'Waning Gibbous'; if(p<0.78)return 'Last Quarter'; return 'Waning Crescent'; }
+  function pathFor(p){ var x=Math.cos(p*2*Math.PI); var rx=Math.abs(R*x); var sLimb,sTerm; if(p<=0.5){ sLimb=1; sTerm=(p<0.25)?1:0; } else { sLimb=0; sTerm=(p<0.75)?0:1; } return 'M0,'+(-R)+' A '+R+','+R+' 0 0 '+sLimb+' 0,'+R+' A '+rx.toFixed(2)+','+R+' 0 0 '+sTerm+' 0,'+(-R)+' Z'; }
+  var p=frac(new Date());
+  lit.setAttribute('d', pathFor(p));
+  var illum=Math.round((1-Math.cos(p*2*Math.PI))/2*100);
+  var nm=document.getElementById('moon-phase-name'); if(nm) nm.textContent=pname(p)+' \u00b7 '+illum+'% lit tonight';
+})();
+
+/* ----- TIMELINE progress line ----- */
+(function(){
+  var tl=document.querySelector('.timeline'); var pr=document.getElementById('tl-progress'); if(!tl||!pr) return;
+  if(rm){ pr.style.height='100%'; return; }
+  var ticking=false;
+  function update(){ ticking=false; var r=tl.getBoundingClientRect(); var vh=window.innerHeight||document.documentElement.clientHeight; var anchor=vh*0.55; var passed=anchor-r.top; var pct=Math.max(0,Math.min(1, r.height? passed/r.height : 0)); pr.style.height=(pct*100).toFixed(1)+'%'; }
+  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll,{passive:true});
+  update();
+})();
+
+})();
+</script>
+
 <!-- Guestbook -->
 <script type="module">
 // Firebase keeps notes synced between both of your devices.
@@ -1303,7 +1468,7 @@ appId: "1:1021610118233:web:409c6eeb01360e010c7548"
 };
 
 // ── EMAIL NOTIFICATIONS ──
-// Free access key from https://web3forms.com — emails you whenever Sarah leaves a new note.
+// Free access key from https://web3forms.com (emails you whenever Sarah leaves a new note).
 const WEB3FORMS_ACCESS_KEY = "74087dfe-4e10-4e8e-aec8-774eb3fe1657";
 async function notifyByEmail(name, message) {
 if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY.indexOf('PASTE') === 0) return; // not set up yet
@@ -1334,7 +1499,7 @@ if (msgEl) msgEl.addEventListener('input', () => { countEl.textContent = msgEl.v
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
 function fmt(ms) { try { return new Intl.DateTimeFormat('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }).format(new Date(ms)); } catch (e) { return ''; } }
 function render(notes) {
-if (!notes.length) { wall.innerHTML = '<p class="gb-empty">No notes yet — be the first. ♡</p>'; return; }
+if (!notes.length) { wall.innerHTML = '<p class="gb-empty">No notes yet, be the first. ♡</p>'; return; }
 wall.innerHTML = notes.map(n => {
 const name = n.name && n.name.trim() ? esc(n.name.trim()) : 'Anonymous';
 return '<div class="gb-note"><p class="gb-note-msg">' + esc(n.message) + '</p><div class="gb-note-meta"><span class="gb-note-name">' + name + '</span><span>' + (n.createdAt ? fmt(n.createdAt) : '') + '</span></div></div>';
