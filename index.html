@@ -43,7 +43,7 @@ body.dark{
 }
 /* ===================== BASE ===================== */
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
 body{margin:0;font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;min-height:100vh;overflow-x:hidden;
 background:radial-gradient(115% 80% at 12% -6%,#ffe1ec 0%,transparent 55%),radial-gradient(95% 72% at 92% 4%,#ffe7d6 0%,transparent 50%),radial-gradient(125% 95% at 50% 112%,#ffd3e4 0%,transparent 56%),linear-gradient(180deg,#fff7f3 0%,#ffeef4 45%,#ffe6ef 100%);
 background-attachment:fixed;transition:color .6s ease;}
@@ -192,8 +192,8 @@ body.dark #intro{background:radial-gradient(120% 100% at 50% 0,#2a1a4b,transpare
 .cloudy::after{content:'';position:absolute;right:14%;top:-11px;width:44%;height:28px;background:inherit;border-radius:50%}
 @keyframes cloud-move{from{transform:translateX(-70px)}to{transform:translateX(58vw)}}
 #countdown-card{position:relative}
-#countdown-card::after{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:conic-gradient(from 0deg,transparent 0 6%,rgba(251,113,133,.85) 14%,transparent 30%,transparent 56%,rgba(225,29,72,.7) 70%,transparent 90%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:ring-rot 7s linear infinite;pointer-events:none}
-@keyframes ring-rot{to{transform:rotate(360deg)}}
+#countdown-card::after{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:conic-gradient(from 140deg,rgba(251,113,133,.15),rgba(251,113,133,.9) 20%,rgba(225,29,72,.85) 50%,rgba(251,113,133,.9) 80%,rgba(251,113,133,.15));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:border-glow 4.5s ease-in-out infinite;pointer-events:none}
+@keyframes border-glow{0%,100%{opacity:.4}50%{opacity:.9}}
 .progress-ring-wrap{position:relative;width:132px;height:132px;margin:1.9rem auto .5rem}
 .progress-ring{width:132px;height:132px;transform:rotate(-90deg)}
 .progress-ring circle{fill:none;stroke-width:9;stroke-linecap:round}
