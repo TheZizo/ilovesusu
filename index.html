@@ -409,7 +409,7 @@ body.dark .letter-card{background:linear-gradient(180deg,#241636,#2c1840);color:
 <div class='wrap narrow' style='text-align:center'>
 <span class='kicker reveal'>For you</span>
 <h2 class='sec-title reveal'>A Kiss Across the Miles</h2>
-<p class='sec-sub reveal' style='transition-delay:.1s;margin-bottom:2.6rem'>Press and hold the heart — and you'll feel me, wherever you are. 💋</p>
+<p class='sec-sub reveal' style='transition-delay:.1s;margin-bottom:2.6rem'>Press and hold the heart and you'll feel me, wherever you are. 💋</p>
 <button type='button' id='kiss-btn' class='kiss-btn reveal' style='transition-delay:.15s' aria-label='Press and hold to feel a kiss'>
 <span class='kiss-emoji' aria-hidden='true'>💋</span>
 <span class='kiss-hint' id='kiss-hint'>Hold me</span>
@@ -522,7 +522,7 @@ body.dark .letter-card{background:linear-gradient(180deg,#241636,#2c1840);color:
 <div class='sec-head'>
 <span class='kicker reveal'>The future</span>
 <h2 class='sec-title reveal'>Someday, Together</h2>
-<p class='sec-sub reveal' style='transition-delay:.1s'>All the things we're going to do when there's no distance left between us. Add yours too. 🤍</p>
+<p class='sec-sub reveal' style='transition-delay:.1s'>All the things we're going to do when there's no distance left between us. Add yours too, love.</p>
 </div>
 <div id='bl-notice' class='gb-notice reveal' style='display:none'></div>
 <form id='bl-form' class='bl-form reveal' style='transition-delay:.15s'>
@@ -540,7 +540,7 @@ body.dark .letter-card{background:linear-gradient(180deg,#241636,#2c1840);color:
 <p class='sec-sub reveal' style='transition-delay:.1s'>A little mailbox that's always open between Debrecen and Maine. 💗</p>
 </div>
 <div class='gb-intro glass-panel reveal' style='transition-delay:.12s'>
-<p>Hi my love,<br><br>Whenever you miss me, think of me, or just have something silly to say — leave it right here. I read every single one (probably more than once), and on the days the distance feels heavy, this is the first place I come to feel close to you again.</p>
+<p>Hi my love,<br><br>Whenever you miss me, think of me, or just have something silly to say, leave it right here! I read every single one (probably more than once), and on the days the distance feels heavy, this is the first place I come to feel close to you again.</p>
 <p class='gb-sign'>— always yours, Z ♡</p>
 </div>
 <div id='gb-notice' class='gb-notice reveal' style='display:none'></div>
@@ -1202,7 +1202,7 @@ const blNotice = document.getElementById('bl-notice');
 
 function renderBucket(items, handlers) {
 if (!blList) return;
-if (!items.length) { blList.innerHTML = '<li class="bl-empty">Nothing here yet — add the first thing. 🤍</li>'; return; }
+if (!items.length) { blList.innerHTML = '<li class="bl-empty">Nothing here yet, add the first thing. ❤️</li>'; return; }
 blList.innerHTML = '';
 items.forEach(it => {
 const li = document.createElement('li');
