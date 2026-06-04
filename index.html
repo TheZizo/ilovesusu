@@ -145,12 +145,12 @@ body.dark .flip-face{background:rgba(255,255,255,.1);color:#fbe9ef;box-shadow:0 
 .progress-track{width:100%;height:7px;background:rgba(244,63,94,.13);border-radius:999px;overflow:hidden;margin-top:1.4rem}
 .progress-fill{height:100%;border-radius:999px;background:var(--grad);transition:width 1s linear}
 .progress-label{font-size:.72rem;color:var(--ink-faint);margin-top:.55rem;text-align:center}
-.clocks{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;margin-top:2.2rem}
-.clock{display:flex;align-items:center;gap:.85rem;padding:.85rem 1.4rem;border-radius:18px;text-align:left}
-.clock i{color:var(--rose);font-size:1.05rem}
+.clocks{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:1.1rem;margin-top:2.2rem}
+.clock{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;gap:.2rem;padding:1.3rem 1.7rem;border-radius:18px;min-width:180px}
+.clock > i{color:var(--rose);font-size:1.15rem;margin-bottom:.35rem}
 .clock .c-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-faint)}
-.clock .c-time{font-weight:600;color:var(--title);font-size:1.02rem}
-.clock .c-wx{font-size:.74rem;color:var(--ink-soft);margin-top:.1rem;display:flex;align-items:center}
+.clock .c-time{font-weight:600;color:var(--title);font-size:1.3rem;margin:.05rem 0 .25rem}
+.clock .c-wx{font-size:.78rem;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;gap:.1rem;min-height:24px}
 </style>
 <style>
 /* ===== THEME TOGGLE ===== */
@@ -751,36 +751,60 @@ case 'storm': return '<span class="' + cls + '"><span class="wx-cloud"></span><s
 default: return '<span class="' + cls + '"><span class="wx-cloud"></span></span>';
 }
 }
-async function loadWeather(cfg, elId, attempt) {
+function wxRender(el, cat, desc, temp, unitLetter, isDay) {
+el.innerHTML = weatherIconHTML(cat, isDay) + temp + '°' + unitLetter + (desc ? ' · ' + desc : '');
+const card = el.closest('.glass-panel');
+if (card) { card.classList.toggle('is-day', isDay); card.classList.toggle('is-night', !isDay); }
+}
+function wxIsDay(tz) {
+try { const h = parseInt(new Intl.DateTimeFormat('en-US',{hour:'2-digit',hour12:false,timeZone:tz}).format(new Date()),10); return h >= 6 && h < 19; }
+catch (e) { return true; }
+}
+async function wxFetch(url, ms) {
+const ctrl = new AbortController();
+const timer = setTimeout(function(){ ctrl.abort(); }, ms || 8000);
+try {
+const res = await fetch(url, { signal: ctrl.signal, cache: 'no-store' });
+if (!res.ok) throw new Error('status ' + res.status);
+return await res.json();
+} finally { clearTimeout(timer); }
+}
+// Primary provider: Open-Meteo (free, no key).
+async function wxOpenMeteo(cfg) {
+const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + cfg.lat + '&longitude=' + cfg.lon + '&current=temperature_2m,weather_code,is_day&temperature_unit=' + (cfg.unit || 'celsius');
+const data = await wxFetch(url, 8000);
+const c = data && data.current;
+if (!c || c.temperature_2m === undefined) throw new Error('no data');
+const info = weatherInfo(c.weather_code);
+return { cat: info.cat, desc: info.desc, temp: Math.round(c.temperature_2m), unit: (cfg.unit === 'fahrenheit') ? 'F' : 'C', isDay: (c.is_day === undefined) ? true : c.is_day !== 0 };
+}
+// Backup provider: wttr.in (free, no key). Used only if Open-Meteo can't be reached.
+const WX_WWO = { '113':'sun','116':'partly','119':'cloud','122':'cloud','143':'fog','248':'fog','260':'fog','176':'rain','185':'rain','263':'rain','266':'rain','281':'rain','284':'rain','293':'rain','296':'rain','299':'rain','302':'rain','305':'rain','308':'rain','311':'rain','314':'rain','353':'rain','356':'rain','359':'rain','179':'snow','182':'snow','227':'snow','230':'snow','317':'snow','320':'snow','323':'snow','326':'snow','329':'snow','332':'snow','335':'snow','338':'snow','350':'snow','362':'snow','365':'snow','368':'snow','371':'snow','374':'snow','377':'snow','200':'storm','386':'storm','389':'storm','392':'storm','395':'storm' };
+async function wxWttr(cfg, tz) {
+const url = 'https://wttr.in/' + cfg.lat + ',' + cfg.lon + '?format=j1';
+const data = await wxFetch(url, 9000);
+const c = data && data.current_condition && data.current_condition[0];
+if (!c) throw new Error('no data');
+const fahrenheit = (cfg.unit === 'fahrenheit');
+const temp = parseInt(fahrenheit ? c.temp_F : c.temp_C, 10);
+const desc = (c.weatherDesc && c.weatherDesc[0] && c.weatherDesc[0].value) ? c.weatherDesc[0].value.trim() : '';
+return { cat: WX_WWO[c.weatherCode] || 'cloud', desc: desc, temp: temp, unit: fahrenheit ? 'F' : 'C', isDay: wxIsDay(tz) };
+}
+async function loadWeather(cfg, elId, attempt, tz) {
 const el = document.getElementById(elId);
 if (!el || !cfg) return;
 attempt = attempt || 1;
 if (attempt === 1) el.innerHTML = '<span class="wx-skeleton"></span>';
-const ctrl = new AbortController();
-const timer = setTimeout(function(){ ctrl.abort(); }, 8000);
-try {
-const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + cfg.lat + '&longitude=' + cfg.lon + '&current=temperature_2m,weather_code,is_day&temperature_unit=' + (cfg.unit || 'celsius');
-const res = await fetch(url, { signal: ctrl.signal });
-clearTimeout(timer);
-if (!res.ok) throw new Error('status ' + res.status);
-const data = await res.json();
-const c = data && data.current;
-if (!c) throw new Error('no current data');
-const info = weatherInfo(c.weather_code);
-const unitLetter = (cfg.unit === 'fahrenheit') ? 'F' : 'C';
-const isDay = (c.is_day === undefined) ? true : c.is_day !== 0;
-el.innerHTML = weatherIconHTML(info.cat, isDay) + Math.round(c.temperature_2m) + '°' + unitLetter + (info.desc ? ' · ' + info.desc : '');
-const card = el.closest('.glass-panel');
-if (card) { card.classList.toggle('is-day', isDay); card.classList.toggle('is-night', !isDay); }
-} catch (e) {
-clearTimeout(timer);
-if (attempt < 3) { setTimeout(function(){ loadWeather(cfg, elId, attempt + 1); }, 2500); return; }
+let r = null;
+try { r = await wxOpenMeteo(cfg); }
+catch (e1) { try { r = await wxWttr(cfg, tz); } catch (e2) { r = null; } }
+if (r && !isNaN(r.temp)) { wxRender(el, r.cat, r.desc, r.temp, r.unit, r.isDay); return; }
+if (attempt < 3) { setTimeout(function(){ loadWeather(cfg, elId, attempt + 1, tz); }, 2500); return; }
 el.innerHTML = '<span class="wxa is-day"><span class="wx-cloud"></span></span><span class="wx-unavail">weather unavailable</span>';
 }
-}
 function refreshWeather() {
-loadWeather(CONFIG.homeWeather, 'weather-home');
-loadWeather(CONFIG.awayWeather, 'weather-away');
+loadWeather(CONFIG.homeWeather, 'weather-home', 1, homeTimezone);
+loadWeather(CONFIG.awayWeather, 'weather-away', 1, awayTimezone);
 }
 refreshWeather();
 setInterval(refreshWeather, 900000); // refresh every 15 minutes
