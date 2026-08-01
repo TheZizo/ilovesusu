@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover'>
+<title>I Would Find You Again</title>
+<meta name='description' content='A quiet letter for Sarah. In every version of my life, I would find you again.'>
+<meta name='robots' content='noindex, nofollow'>
+<meta property='og:title' content='I Would Find You Again'>
+<meta property='og:description' content='In every version of my life, I would find you again.'>
+<link rel='icon' href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128150;</text></svg>">
+<meta name='theme-color' content='#170F2A'>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=Caveat:wght@500;600;700&display=swap' rel='stylesheet'>
+<style>
+:root{
+--night:#170F2A;--night-2:#241433;--plum:#2c1530;
+--wine:#6B102D;--rose:#fb7185;--rose-mid:#f43f5e;--rose-deep:#e11d48;
+--dawn:#FFD8E2;--gold:#F2C879;
+--ink:#f6ecf7;--ink-soft:rgba(246,236,247,.82);--ink-faint:rgba(246,236,247,.55);
+--title:#fbd2de;--kicker:#fb9bb1;
+--panel:rgba(60,42,90,.42);--panel-strong:rgba(60,42,90,.62);--panel-border:rgba(255,255,255,.12);
+--line:rgba(255,255,255,.10);
+--grad:linear-gradient(120deg,#fb7185,#f43f5e 55%,#e11d48);
+--gold-grad:linear-gradient(120deg,#ffe6ad,#f2c879 55%,#e0a94e);
+--shadow:0 30px 80px -30px rgba(0,0,0,.75);--shadow-sm:0 16px 40px -22px rgba(0,0,0,.7);
+--radius:24px;--maxw:60rem;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
+body{margin:0;font-family:'Inter',system-ui,-apple-system,sans-serif;font-weight:300;line-height:1.7;color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden;
+background:radial-gradient(120% 90% at 20% -10%,#2a1a4b 0%,transparent 55%),radial-gradient(100% 80% at 88% 6%,#3a1742 0%,transparent 52%),radial-gradient(140% 110% at 50% 118%,#241046 0%,transparent 58%),linear-gradient(180deg,#140b1f 0%,#1a1029 48%,#221334 100%);
+background-attachment:fixed;min-height:100vh}
+h1,h2,h3{margin:0;font-weight:600;line-height:1.08;letter-spacing:-.01em}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.serif{font-family:'Playfair Display',serif}
+.script{font-family:'Caveat',cursive}
+::selection{background:rgba(251,113,133,.3);color:#fff}
+:focus-visible{outline:3px solid var(--rose-mid);outline-offset:3px;border-radius:.5rem}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ---- starfield + ambience ---- */
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.veil{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(130% 100% at 50% 36%,transparent 46%,rgba(10,5,20,.55) 100%)}
+.content{position:relative;z-index:2}
+
+/* ---- intro ---- */
+#intro{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.6rem;cursor:pointer;
+background:radial-gradient(120% 100% at 50% 0,#2a1a4b,transparent 60%),linear-gradient(160deg,#160d20,#1d1230 55%,#241433);
+transition:opacity 1.1s ease,visibility 1.1s ease}
+#intro.done{opacity:0;visibility:hidden;pointer-events:none}
+.im-heart{width:clamp(92px,22vw,140px);height:auto;overflow:visible}
+.im-heart .st{fill:none;stroke:#f43f5e;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100;stroke-dashoffset:100;animation:draw 1.6s cubic-bezier(.65,0,.35,1) forwards .2s}
+.im-heart .fl{fill:#fb7185;opacity:0;transform-box:fill-box;transform-origin:center;animation:pop .8s ease forwards 1.4s}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{0%{opacity:0;transform:scale(.4)}60%{opacity:.95;transform:scale(1.12)}100%{opacity:.9;transform:scale(1)}}
+.im-for{font-family:'Caveat',cursive;font-size:clamp(1.5rem,6vw,2.1rem);color:var(--rose);opacity:0;animation:rise 1s ease forwards 1.1s}
+.im-name{font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(2.4rem,10vw,4rem);letter-spacing:.02em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:0;animation:rise 1s ease forwards 1.5s}
+.im-cta{margin-top:.4rem;display:inline-flex;align-items:center;gap:.6rem;padding:.85rem 1.9rem;border-radius:999px;font-weight:600;font-size:.95rem;color:#fff;background:var(--grad);border:none;box-shadow:0 18px 46px -18px rgba(244,63,94,.8);opacity:0;animation:rise 1s ease forwards 2s,glow 2.8s ease-in-out infinite 2.4s}
+.im-hint{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-faint);opacity:0;animation:rise 1s ease forwards 2.3s}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes glow{0%,100%{box-shadow:0 18px 46px -20px rgba(244,63,94,.6)}50%{box-shadow:0 18px 60px -12px rgba(244,63,94,.95)}}
+
+/* ---- progress + controls ---- */
+#prog{position:fixed;top:0;left:0;height:3px;width:0;z-index:55;background:var(--grad);box-shadow:0 0 12px rgba(244,63,94,.7);transition:width .15s linear}
+.controls{position:fixed;top:14px;right:14px;z-index:56;display:flex;gap:.5rem;opacity:0;transition:opacity .8s ease}
+.controls.show{opacity:1}
+.ctl{width:2.7rem;height:2.7rem;border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer;
+background:var(--panel-strong);border:1px solid var(--panel-border);color:var(--title);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);font-size:1rem;transition:transform .2s ease,background .2s ease}
+.ctl:hover{transform:translateY(-2px);background:rgba(80,56,120,.75)}
+.ctl svg{width:1.05rem;height:1.05rem;fill:currentColor}
+
+/* ---- scene shell ---- */
+.scene{min-height:100svh;display:flex;align-items:center;justify-content:center;padding:5.5rem 1.5rem;position:relative}
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;text-align:center}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 1.1s cubic-bezier(.22,.61,.36,1),transform 1.1s cubic-bezier(.22,.61,.36,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.15s}.d2{transition-delay:.35s}.d3{transition-delay:.55s}.d4{transition-delay:.75s}.d5{transition-delay:.95s}.d6{transition-delay:1.15s}
+.kicker{display:inline-block;font-size:.72rem;text-transform:uppercase;letter-spacing:.3em;font-weight:600;color:var(--kicker);margin-bottom:1.3rem}
+.line{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,4.6vw,2.5rem);color:var(--ink);line-height:1.28;margin:.55rem 0}
+.line.soft{color:var(--ink-soft);font-weight:400}
+.sub{font-size:clamp(1rem,2.4vw,1.15rem);color:var(--ink-soft);font-weight:300;max-width:34rem;margin:1.1rem auto 0}
+.big{font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(2.4rem,8.5vw,5rem);line-height:1.02;letter-spacing:-.02em;
+background:linear-gradient(100deg,#fbcfe8,#fda4af,#f9a8d4,#fda4af,#fbcfe8);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:shine 9s linear infinite;text-shadow:0 2px 30px rgba(0,0,0,.3)}
+@keyframes shine{to{background-position:220% center}}
+.scroll-cue{position:absolute;left:50%;bottom:2.2rem;transform:translateX(-50%);display:inline-flex;flex-direction:column;align-items:center;gap:.4rem;color:var(--ink-faint);font-size:.66rem;letter-spacing:.24em;text-transform:uppercase}
+.scroll-cue svg{width:1rem;height:1rem;fill:var(--rose);animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* ---- scene 2 : map of possibilities ---- */
+.mapwrap{max-width:40rem;margin:2.2rem auto 0;position:relative}
+.dmap{width:100%;height:auto;display:block;overflow:visible}
+.dmap-arc{fill:none;stroke:url(#g1);stroke-width:3;stroke-linecap:round;stroke-dasharray:7 10;animation:flow 1.6s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-34}}
+.pin{stroke:#fff;stroke-width:2.5}
+.pin.home{fill:var(--rose)}.pin.away{fill:var(--rose-deep)}
+.dlabel{fill:var(--ink-soft);font-family:'Inter',sans-serif;font-size:14px;font-weight:600}
+.trav{filter:drop-shadow(0 0 6px rgba(244,63,94,.8))}
+
+/* ---- scene 3 : photos ---- */
+.photo-row{display:flex;flex-wrap:wrap;justify-content:center;gap:1.4rem;margin:2.4rem auto 0}
+.polaroid{position:relative;background:linear-gradient(180deg,#fdfbff,#f3ecfa);padding:.7rem .7rem 2.6rem;border-radius:8px;box-shadow:var(--shadow);width:clamp(200px,74vw,258px)}
+.polaroid:nth-child(1){transform:rotate(-3deg)}
+.polaroid:nth-child(2){transform:rotate(1.5deg)}
+.polaroid:nth-child(3){transform:rotate(2.5deg)}
+.ph{aspect-ratio:4/5;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;
+background:radial-gradient(120% 120% at 30% 20%,#ffe4ee,#ffd0e0 60%,#f6b8ce);color:var(--wine)}
+.ph svg{width:2.4rem;height:2.4rem;fill:rgba(107,15,45,.5)}
+.ph span{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(107,15,45,.6);font-weight:600}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.pcap{position:absolute;left:0;right:0;bottom:.7rem;text-align:center;font-family:'Caveat',cursive;font-size:1.25rem;color:var(--wine)}
+.photo-line{margin-top:2.2rem}
+
+/* ---- scene 4 : if we met ---- */
+.stack .line{margin:1.15rem auto;max-width:40rem}
+
+/* ---- scene 6 : convergence ---- */
+.conv{position:relative;width:min(40rem,92vw);height:210px;margin:1.6rem auto .4rem}
+.sun{position:absolute;left:50%;bottom:34px;width:120px;height:120px;border-radius:50%;transform:translate(-50%,40px) scale(.4);opacity:0;
+background:radial-gradient(circle at 50% 45%,#fff3cf,#f2c879 55%,#e78f5a);box-shadow:0 0 70px 26px rgba(242,200,121,.45);transition:opacity 2.2s ease,transform 2.4s cubic-bezier(.22,.61,.36,1)}
+.conv.go .sun{opacity:1;transform:translate(-50%,0) scale(1)}
+.cpt{position:absolute;top:70px;width:20px;height:20px;border-radius:50%;background:var(--grad);box-shadow:0 0 0 5px rgba(251,113,133,.18),0 0 20px rgba(244,63,94,.7);transition:left 2.4s cubic-bezier(.22,.61,.36,1),right 2.4s cubic-bezier(.22,.61,.36,1)}
+.cpt.l{left:4%}.cpt.r{right:4%}
+.conv.go .cpt.l{left:calc(50% - 34px)}
+.conv.go .cpt.r{right:calc(50% - 34px)}
+.cbar{position:absolute;top:79px;left:calc(4% + 20px);right:calc(4% + 20px);height:3px;border-radius:3px;background:linear-gradient(90deg,var(--rose),var(--rose-deep));transition:left 2.4s cubic-bezier(.22,.61,.36,1),right 2.4s cubic-bezier(.22,.61,.36,1),opacity 1.4s ease}
+.conv.go .cbar{left:calc(50% - 10px);right:calc(50% - 10px);opacity:0}
+.cplace{position:absolute;top:96px;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);font-weight:600}
+.cplace.l{left:4%;transform:translateX(-30%)}.cplace.r{right:4%;transform:translateX(30%)}
+.reunion-date{font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(2rem,7vw,3.2rem);letter-spacing:.14em;color:var(--gold);margin-top:.4rem;text-shadow:0 0 26px rgba(242,200,121,.35)}
+.count-mini{font-size:.86rem;color:var(--ink-faint);letter-spacing:.06em;margin-top:.5rem}
+
+/* ---- scene 7 : letter ---- */
+.letter{max-width:44rem;margin:0 auto;text-align:left;background:var(--panel-strong);border:1px solid var(--panel-border);border-radius:var(--radius);padding:clamp(1.6rem,5vw,3rem);box-shadow:var(--shadow);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);position:relative;overflow:hidden}
+.letter::after{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:conic-gradient(from 140deg,rgba(251,113,133,.1),rgba(251,113,133,.75) 22%,rgba(242,200,121,.7) 52%,rgba(251,113,133,.75) 82%,rgba(251,113,133,.1));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:bglow 6s ease-in-out infinite;pointer-events:none}
+@keyframes bglow{0%,100%{opacity:.4}50%{opacity:.85}}
+.letter h2{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,4.5vw,2.1rem);color:var(--title);margin-bottom:1.2rem;text-align:center}
+.letter p{color:var(--ink-soft);font-size:clamp(1rem,2.5vw,1.1rem);margin:0 0 1.05rem;line-height:1.85}
+.letter .close{font-family:'Playfair Display',serif;color:var(--ink);font-weight:500}
+.letter .promise{margin:1.4rem 0 .3rem}
+.letter .promise span{display:block;font-family:'Playfair Display',serif;color:var(--title);font-size:clamp(1.1rem,3vw,1.4rem);line-height:1.5}
+.sign{font-family:'Caveat',cursive;font-size:1.9rem;color:var(--rose);margin-top:.4rem}
+
+/* ---- keepsake ---- */
+.keepsake{max-width:34rem;margin:2.6rem auto 0;text-align:center}
+.card{display:inline-block;padding:1.5rem 1.8rem;border-radius:20px;background:linear-gradient(160deg,rgba(60,42,90,.6),rgba(43,21,48,.6));border:1px solid var(--panel-border);box-shadow:var(--shadow-sm);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.card .t{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--title);margin-bottom:.5rem}
+.card .m{font-size:.86rem;color:var(--ink-faint);line-height:1.7}
+.card .arrow{color:var(--rose)}
+.always{margin-top:1.3rem;font-family:'Caveat',cursive;font-size:1.5rem;color:var(--gold)}
+.actions{margin-top:1.8rem;display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center}
+.btn{display:inline-flex;align-items:center;gap:.6rem;padding:.82rem 1.7rem;border-radius:999px;font-weight:600;font-size:.92rem;cursor:pointer;border:1px solid var(--panel-border);background:var(--panel-strong);color:var(--title);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transition:transform .22s ease,box-shadow .22s ease}
+.btn:hover{transform:translateY(-3px);box-shadow:var(--shadow-sm)}
+.btn svg{width:1rem;height:1rem;fill:currentColor}
+.btn-grad{background:var(--grad);color:#fff;border:none;box-shadow:0 16px 40px -18px rgba(244,63,94,.7)}
+.homelink{display:block;margin-top:2.4rem;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint)}
+.homelink:hover{color:var(--rose)}
+
+.floaty{position:fixed;z-index:3;pointer-events:none;color:var(--rose);opacity:.0}
+
+@media (prefers-reduced-motion:reduce){
+.reveal{transition-duration:.35s}
+.dmap-arc,.big,.im-heart .st,.im-heart .fl,.im-cta{animation:none!important}
+.im-heart .fl{opacity:.9}
+.im-cta,.im-for,.im-name,.im-hint{opacity:1;animation:none!important}
+}
+@media(max-width:560px){
+.polaroid:nth-child(n){transform:none}
+.photo-row{gap:1rem}
+}
+</style>
+</head>
+<body>
+<canvas id='stars' aria-hidden='true'></canvas>
+<div class='veil' aria-hidden='true'></div>
+<div id='prog' aria-hidden='true'></div>
+
+<!-- INTRO -->
+<div id='intro' role='button' tabindex='0' aria-label='Begin'>
+<svg class='im-heart' viewBox='0 0 100 92' aria-hidden='true'>
+<path class='st' d='M50 84 C22 64 8 48 8 30 A20 20 0 0 1 50 22 A20 20 0 0 1 92 30 C92 48 78 64 50 84 Z'/>
+<path class='fl' d='M50 84 C22 64 8 48 8 30 A20 20 0 0 1 50 22 A20 20 0 0 1 92 30 C92 48 78 64 50 84 Z'/>
+</svg>
+<div class='im-for script'>for</div>
+<div class='im-name serif'>Sarah</div>
+<button class='im-cta' id='begin' type='button'>Open this <span aria-hidden='true'>&#128150;</span></button>
+<div class='im-hint'>a minute, just for you</div>
+</div>
+
+<!-- CONTROLS -->
+<div class='controls' id='controls'>
+<button class='ctl' id='sound' type='button' aria-label='Turn ambient sound on' aria-pressed='false'>
+<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M4 9v6h4l5 5V4L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z'/></svg>
+</button>
+<a class='ctl' id='jump' href='#letter' aria-label='Jump to the letter'>
+<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M4 4h16v16H4z' fill='none'/><path d='M4 6h16v12H4zM4 6l8 6 8-6'/></svg>
+</a>
+</div>
+
+<main class='content'>
+
+<!-- SCENE 1 -->
+<section class='scene' data-scene='1'>
+<div class='wrap'>
+<h1 class='line reveal'>Sarah, you don't have to do anything.</h1>
+<p class='line soft reveal d2'>Just stay here with me for a minute.</p>
+<p class='sub reveal d4'>Before the world gets loud again, I wanted to give you something quiet. Something that asks for nothing except one moment of your attention.</p>
+<p class='sub reveal d5' style='margin-top:.8rem'>So put everything down for a minute. This one is just for you.</p>
+</div>
+<div class='scroll-cue reveal d6'><span>scroll</span><svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 16l-6-6h12z'/></svg></div>
+</section>
+
+<!-- SCENE 2 -->
+<section class='scene' data-scene='2'>
+<div class='wrap'>
+<span class='kicker reveal'>of all the places</span>
+<p class='line reveal d1'>There are eight billion people in the world.</p>
+<p class='line soft reveal d2'>Thousands of cities. Millions of moments that could have happened differently.</p>
+<div class='mapwrap reveal d3'>
+<svg class='dmap' viewBox='0 0 600 230' role='img' aria-label='A glowing line connecting Debrecen and Maine'>
+<defs><linearGradient id='g1' x1='0' y1='0' x2='1' y2='0'><stop offset='0' stop-color='#fb7185'/><stop offset='1' stop-color='#e11d48'/></linearGradient></defs>
+<path class='dmap-arc' d='M110 150 Q300 20 490 150'/>
+<circle class='pin home' cx='110' cy='150' r='9'/>
+<circle class='pin away' cx='490' cy='150' r='9'/>
+<text class='dlabel' x='110' y='182' text-anchor='middle'>Debrecen</text>
+<text class='dlabel' x='490' y='182' text-anchor='middle'>Maine</text>
+<g class='trav'><circle cx='300' cy='63' r='6' fill='#ffe1ec'/></g>
+</svg>
+</div>
+<p class='line reveal d4' style='margin-top:1.6rem'>And somehow, in all that noise, there was you.</p>
+</div>
+</section>
+
+<!-- SCENE 3 -->
+<section class='scene' data-scene='3'>
+<div class='wrap'>
+<span class='kicker reveal'>how it happened</span>
+<div class='photo-row'>
+<figure class='polaroid reveal d1'><div class='ph'><img src='memory1.jpg' alt='A photo of us' loading='lazy'></div><figcaption class='pcap'>us, the beginning</figcaption></figure>
+<figure class='polaroid reveal d2'><div class='ph'><img src='memory2.jpg' alt='A photo of us' loading='lazy'></div><figcaption class='pcap'>somewhere in between</figcaption></figure>
+<figure class='polaroid reveal d3'><div class='ph'><img src='memory3.jpg' alt='A photo of us' loading='lazy'></div><figcaption class='pcap'>you, and home</figcaption></figure>
+</div>
+<p class='line photo-line reveal d4'>First, you became someone I wanted to keep talking to.</p>
+<p class='line soft reveal d5'>Then you became the person I wanted to tell everything.</p>
+<p class='line reveal d6'>And somewhere between the calls, the screenshots, the jokes, and missing you, you became home.</p>
+</div>
+</section>
+
+<!-- SCENE 4 -->
+<section class='scene' data-scene='4'>
+<div class='wrap stack'>
+<span class='kicker reveal'>if the world reset</span>
+<p class='line reveal d1'>If we met in another city, I would find a reason to speak to you.</p>
+<p class='line soft reveal d2'>If we met at another time, I would still stay up too late learning everything about you.</p>
+<p class='line reveal d3'>If we started as strangers again, I think some part of me would recognize you.</p>
+<h2 class='big reveal d5' style='margin-top:2rem'>I would find you again.</h2>
+</div>
+</section>
+
+<!-- SCENE 5 -->
+<section class='scene' data-scene='5'>
+<div class='wrap'>
+<span class='kicker reveal'>august 1</span>
+<p class='line reveal d1'>Today is International Girlfriend's Day.</p>
+<p class='line soft reveal d2'>But I don't love you because a calendar reminded me to.</p>
+<p class='sub reveal d3' style='margin-top:1.4rem'>I love you in the ordinary hours. In the calls that go nowhere. In the difficult conversations. In every countdown. In every good morning sent from tomorrow.</p>
+<p class='line reveal d5' style='margin-top:1.6rem'>Today simply gave me another reason to make sure you know.</p>
+</div>
+</section>
+
+<!-- SCENE 6 -->
+<section class='scene' data-scene='6'>
+<div class='wrap'>
+<span class='kicker reveal'>and very soon</span>
+<div class='conv reveal d1' id='conv'>
+<div class='sun'></div>
+<div class='cbar'></div>
+<div class='cpt l'></div><div class='cpt r'></div>
+<div class='cplace l'>Debrecen</div><div class='cplace r'>Maine</div>
+</div>
+<p class='line reveal d2'>In three days, the countdown reaches zero.</p>
+<p class='line soft reveal d3'>No time difference. No screen between us. No imagining how it will feel to hold you again. Just us.</p>
+<div class='reunion-date reveal d4'>04 &middot; 08 &middot; 2026</div>
+<div class='count-mini reveal d5' id='mini'></div>
+</div>
+</section>
+
+<!-- SCENE 7 : LETTER -->
+<section class='scene' id='letter' data-scene='7'>
+<div class='wrap'>
+<div class='letter reveal'>
+<h2>To Sarah, on Girlfriend's Day 2026</h2>
+<p>My love,</p>
+<p>You are not only the person I miss. You are the person who makes the waiting worthwhile. You have become part of how I experience every day. You are the first person I want to tell, the voice I want to hear, and the future my mind reaches for without being asked.</p>
+<p>Loving you from this far away has taught me that closeness is not measured only in kilometres. It lives in being known, in being chosen, and in continuing to show up for one another even when showing up has to happen through a screen.</p>
+<p>I hope you never wonder whether you are loved deeply. You are. In the exciting moments, in the ordinary ones, and even in the difficult ones. Not as an idea, not as a perfect version of you, but exactly as you are.</p>
+<p>And if life somehow reset, if the calls, photographs, jokes, and memories disappeared, I believe I would still be drawn toward you.</p>
+<div class='promise'><span>I would find you again.</span><span>I would choose you again.</span><span>And I would fall in love with you again.</span></div>
+<p class='close' style='margin-top:1.4rem'>Always yours,</p>
+<div class='sign'>Zeid</div>
+</div>
+
+<div class='keepsake reveal d2'>
+<div class='card'>
+<div class='t serif'>I Would Find You Again</div>
+<div class='m'>Made for Sarah by Zeid<br>International Girlfriend's Day &middot; August 1, 2026<br>Debrecen <span class='arrow'>&harr;</span> Maine</div>
+</div>
+<div class='always'>This page will always be here.</div>
+<div class='actions'>
+<button class='btn btn-grad' id='keep' type='button'><svg viewBox='0 0 24 24' aria-hidden='true'><path d='M5 20h14v-2H5v2zM12 4l-5 5h3v4h4V9h3l-5-5z' transform='rotate(180 12 12)'/></svg>Keep a copy</button>
+<button class='btn' id='replay' type='button'><svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 5V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z'/></svg>Watch again</button>
+</div>
+<a class='homelink' href='index.html'>back to our world</a>
+</div>
+</div>
+</section>
+
+</main>
+
+<script>
+(function(){
+var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+/* ---- starfield ---- */
+var cv=document.getElementById('stars'),cx=cv.getContext('2d'),W,H,stars=[],dpr=Math.min(window.devicePixelRatio||1,2);
+function resize(){W=cv.width=innerWidth*dpr;H=cv.height=innerHeight*dpr;cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';build();}
+function build(){stars=[];var n=Math.round((innerWidth*innerHeight)/9000);n=Math.max(60,Math.min(190,n));for(var i=0;i<n;i++){stars.push({x:Math.random()*W,y:Math.random()*H,r:(Math.random()*1.4+.3)*dpr,b:Math.random(),s:Math.random()*.02+.004,d:Math.random()<.5?1:-1});}}
+function tick(){cx.clearRect(0,0,W,H);for(var i=0;i<stars.length;i++){var st=stars[i];st.b+=st.s*st.d;if(st.b>1){st.b=1;st.d=-1;}if(st.b<.15){st.b=.15;st.d=1;}var a=st.b*.9;cx.beginPath();cx.arc(st.x,st.y,st.r,0,6.2832);cx.fillStyle='rgba(255,236,246,'+a+')';cx.shadowBlur=6*dpr;cx.shadowColor='rgba(255,210,235,'+(a*.7)+')';cx.fill();}requestAnimationFrame(tick);}
+resize();window.addEventListener('resize',resize);
+if(!reduce){tick();}else{cx.clearRect(0,0,W,H);for(var i=0;i<stars.length;i++){var st=stars[i];cx.beginPath();cx.arc(st.x,st.y,st.r,0,6.2832);cx.fillStyle='rgba(255,236,246,.6)';cx.fill();}}
+
+/* ---- intro ---- */
+var intro=document.getElementById('intro'),controls=document.getElementById('controls'),started=false;
+function begin(){if(started)return;started=true;intro.classList.add('done');controls.classList.add('show');document.body.style.overflow='';setTimeout(function(){revealScan();},60);}
+document.getElementById('begin').addEventListener('click',begin);
+intro.addEventListener('click',function(e){if(e.target.id==='intro')begin();});
+intro.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' ')begin();});
+document.body.style.overflow='hidden';
+
+/* ---- reveal on scroll ---- */
+var io=new IntersectionObserver(function(ents){ents.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');if(en.target.id==='conv'){setTimeout(function(){en.target.classList.add('go');},500);}io.unobserve(en.target);}});},{threshold:.18,rootMargin:'0px 0px -8% 0px'});
+var reveals=[].slice.call(document.querySelectorAll('.reveal'));
+reveals.forEach(function(r){io.observe(r);});
+function revealScan(){reveals.forEach(function(r){var rt=r.getBoundingClientRect();if(rt.top<innerHeight*.9){r.classList.add('in');}});}
+
+/* ---- progress bar ---- */
+var prog=document.getElementById('prog');
+function onScroll(){var h=document.documentElement,max=h.scrollHeight-h.clientHeight,p=max>0?(h.scrollTop||document.body.scrollTop)/max:0;prog.style.width=(p*100)+'%';}
+document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* ---- mini countdown to Aug 4 2026 12:00 (home time) ---- */
+var mini=document.getElementById('mini');
+function upd(){var target=new Date(2026,7,4,12,0,0),now=new Date(),diff=target-now;if(diff<=0){mini.textContent='The countdown has reached zero. You are together.';return;}var d=Math.floor(diff/86400000),hh=Math.floor(diff%86400000/3600000),mm=Math.floor(diff%3600000/60000);mini.textContent=d+' days, '+hh+' hours, '+mm+' minutes until I hold you again.';}
+upd();setInterval(upd,30000);
+
+/* ---- replay ---- */
+document.getElementById('replay').addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+
+/* ---- optional ambient sound (off by default) ---- */
+var audioOn=false,actx=null,nodes=null,sBtn=document.getElementById('sound');
+function startAudio(){if(actx)return;var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;actx=new AC();var master=actx.createGain();master.gain.value=0;master.connect(actx.destination);var freqs=[164.81,220.00,261.63];var oscs=[];freqs.forEach(function(f,i){var o=actx.createOscillator();o.type='sine';o.frequency.value=f;var g=actx.createGain();g.gain.value=i===0?.5:.28;o.connect(g);g.connect(master);o.start();oscs.push(o);});var lfo=actx.createOscillator();lfo.frequency.value=.07;var lg=actx.createGain();lg.gain.value=.012;lfo.connect(lg);lg.connect(master.gain);lfo.start();nodes={master:master};}
+function setAudio(on){audioOn=on;if(on){startAudio();if(actx&&actx.state==='suspended')actx.resume();if(nodes)nodes.master.gain.linearRampToValueAtTime(.05,actx.currentTime+1.2);sBtn.setAttribute('aria-pressed','true');sBtn.setAttribute('aria-label','Turn ambient sound off');sBtn.style.color='#F2C879';}else{if(nodes&&actx)nodes.master.gain.linearRampToValueAtTime(0,actx.currentTime+.6);sBtn.setAttribute('aria-pressed','false');sBtn.setAttribute('aria-label','Turn ambient sound on');sBtn.style.color='';}}
+sBtn.addEventListener('click',function(){setAudio(!audioOn);});
+
+/* ---- keep a copy (canvas keepsake) ---- */
+document.getElementById('keep').addEventListener('click',function(){makeCard();});
+function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();}
+function makeCard(){var w=1080,h=1350,c=document.createElement('canvas');c.width=w;c.height=h;var g=c.getContext('2d');
+var bg=g.createLinearGradient(0,0,w,h);bg.addColorStop(0,'#241433');bg.addColorStop(.55,'#2c1530');bg.addColorStop(1,'#160d20');g.fillStyle=bg;g.fillRect(0,0,w,h);
+for(var i=0;i<160;i++){var sx=Math.random()*w,sy=Math.random()*h*.7,sr=Math.random()*1.7+.3;g.globalAlpha=Math.random()*.7+.2;g.beginPath();g.arc(sx,sy,sr,0,6.2832);g.fillStyle='#ffe9f3';g.fill();}g.globalAlpha=1;
+var gl=g.createRadialGradient(w/2,h*.9,40,w/2,h*.9,520);gl.addColorStop(0,'rgba(242,200,121,.22)');gl.addColorStop(1,'rgba(242,200,121,0)');g.fillStyle=gl;g.fillRect(0,0,w,h);
+g.strokeStyle='rgba(242,200,121,.5)';g.lineWidth=2;rr(g,60,60,w-120,h-120,34);g.stroke();
+g.textAlign='center';
+g.fillStyle='#fb9bb1';g.font='600 34px Inter, sans-serif';g.fillText('INTERNATIONAL GIRLFRIEND\u2019S DAY',w/2,180);
+g.fillStyle='#fbd2de';g.font='600 96px "Playfair Display", Georgia, serif';g.fillText('I Would Find',w/2,340);g.fillText('You Again',w/2,450);
+/* heart */
+g.save();g.translate(w/2,560);g.scale(1.5,1.5);g.beginPath();g.moveTo(0,26);g.bezierCurveTo(-30,4,-42,-8,-42,-22);g.bezierCurveTo(-42,-38,-22,-42,0,-20);g.bezierCurveTo(22,-42,42,-38,42,-22);g.bezierCurveTo(42,-8,30,4,0,26);g.closePath();var hg=g.createLinearGradient(-42,-42,42,26);hg.addColorStop(0,'#fb7185');hg.addColorStop(1,'#e11d48');g.fillStyle=hg;g.fill();g.restore();
+g.fillStyle='#f6ecf7';g.font='400 44px "Playfair Display", Georgia, serif';
+g.fillText('I would find you again.',w/2,760);g.fillText('I would choose you again.',w/2,830);g.fillText('And I would fall in love with you again.',w/2,900);
+g.fillStyle='#F2C879';g.font='600 60px "Playfair Display", Georgia, serif';g.fillText('04 \u00b7 08 \u00b7 2026',w/2,1030);
+g.fillStyle='rgba(246,236,247,.7)';g.font='400 34px Inter, sans-serif';g.fillText('Debrecen  \u2194  Maine',w/2,1090);
+g.fillStyle='#fb7185';g.font='600 56px "Caveat", cursive';g.fillText('Always yours, Zeid',w/2,1210);
+function dl(){c.toBlob(function(b){var u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='for-sarah-girlfriends-day.png';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u);},1500);},'image/png');}
+if(document.fonts&&document.fonts.ready){document.fonts.ready.then(dl);}else{dl();}}
+
+/* ---- floating hearts on final scene ---- */
+if(!reduce){
+var last=document.querySelector('[data-scene="7"]'),hearts=false;
+var io2=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting)hearts=true;else hearts=false;});},{threshold:.2});
+io2.observe(last);
+setInterval(function(){if(!hearts||document.hidden)return;var el=document.createElement('div');el.className='floaty';el.textContent='\u{1F497}';el.style.left=(Math.random()*90+5)+'%';el.style.bottom='-30px';el.style.fontSize=(Math.random()*16+14)+'px';document.body.appendChild(el);var dur=Math.random()*3000+4000;el.animate([{transform:'translateY(0) scale(.8)',opacity:0},{transform:'translateY(-30px) scale(1)',opacity:.8,offset:.15},{transform:'translateY(-'+(innerHeight*.7)+'px) scale(1)',opacity:0}],{duration:dur,easing:'ease-out'}).onfinish=function(){el.remove();};},1400);
+}
+})();
+</script>
+</body>
+</html>

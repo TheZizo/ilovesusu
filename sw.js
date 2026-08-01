@@ -1,8 +1,12 @@
 // Simple service worker for offline support + installability.
-const CACHE = 'our-memories-v25';
+const CACHE = 'our-memories-v27';
 const ASSETS = [
   './',
   'index.html',
+  'for-you.html',
+  'memory1.jpg',
+  'memory2.jpg',
+  'memory3.jpg',
   'styles.css',
   'manifest.webmanifest',
   'icon-192.png',
